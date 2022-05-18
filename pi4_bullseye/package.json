@@ -1,6 +1,6 @@
 {
-  "name": "node-red-project",
-  "description": "initially created for you by Node-RED 1.2.9 ",
+  "name": "Pekaway VanPi",
+  "description": "initially created for you by Node-RED 2.2.2 ",
   "version": "0.0.1",
   "private": true,
   "dependencies": {
