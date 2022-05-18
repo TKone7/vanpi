@@ -18,6 +18,10 @@ echo -e "${Cyan}Enabling I2C and 1-Wire Bus${NC}"
 sudo raspi-config nonint do_i2c 0
 echo -e "dtoverlay=w1-gpio\ndtoverlay=uart5\nenable_uart=1" | sudo tee -a /boot/config.txt
 
+# Set hostname to vanpi
+echo -e "${Cyan}Set hostname to vanpi${NC}"
+echo "hostname" | sudo tee /etc/hostname
+
 # saving needed resources to ~/pekaway
 echo -e "${Cyan}saving needed resources to ~/pekaway${NC}"
 mkdir ~/pekaway
