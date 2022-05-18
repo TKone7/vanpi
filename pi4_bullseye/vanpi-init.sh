@@ -4,14 +4,13 @@ Server='https://git.pekaway.de/Vincent/vanpi/-/raw/main/pi4_bullseye/'
 
 # define color variables
 Cyan='\033[0;36m'
-LGrey='\033[0;37m'
 NC='\033[0m' #No Color
 
 # get latest updates
 echo -e "${Cyan}updating packages list${NC}"
 sudo apt update
 echo -e "${Cyan}upgrading packages${NC}"
-sudo apt upgrade
+sudo apt upgrade -y
 
 # Enable I2C and 1-Wire
 echo -e "${Cyan}Enabling I2C and 1-Wire Bus${NC}"
@@ -42,7 +41,7 @@ sudo pip3 install adafruit-ads1x15 bottle
 # install Node-Red including Node and npm
 echo -e "${Cyan}Installing/updating Node-Red, Node and npm${NC}"
 cd ~
-echo -e "${LGrey}Please press y tp continue!${NC}"
+echo -e "${Cyan}Please press y to continue!${NC}"
 bash <(curl -sL https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered)
 sudo systemctl enable nodered.service
 echo -e "${Cyan}Starting Node-Red for initial setup...${NC}"
@@ -60,7 +59,7 @@ cd ~/.node-red
 rm package.json
 rm package-lock.json
 wget ${Server}package.json
-echo -e "${Red}Please stand by! This may take a while!${NC}"
+echo -e "${Cyan}Please stand by! This may take a while!${NC}"
 npm install
 
 #install Node-Red Pekaway VanPi flows
@@ -126,11 +125,19 @@ echo -e "${Cyan}Restarting services...${NC}"
 sudo systemctl restart nginx.service homebridge.service mosquitto.service nodered.service
 
 # Reboot Raspberry Pi
-echo -e "${Cyan} Rebooting Raspberry Pi, please enter y/n to continue!${NC}"
-echo "Installation done, reboot needed! Do you want to reboot now?"
-select yn in "y" "n"; do
-  case $yn in
-    Yes ) sudo reboot;;
-    No ) exit;;
-  esac
-done
+echo "Installation done, reboot needed!"
+read -r -p "Do you want to reboot now? [Y/n] " input
+ 
+case $input in
+      [yY][eE][sS]|[yY])
+            sudo reboot
+            ;;
+      [nN][oO]|[nN])
+            echo "Aborting, please remember too reboot for the VanPi system to work properly!"
+            exit 0
+            ;;
+      *)
+            echo "Invalid input... please type 'sudo reboot' to reboot"
+            exit 0
+            ;;
+esac
