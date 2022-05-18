@@ -115,6 +115,7 @@ sudo apt install mosquitto mosquitto-clients -y
 echo -e "${Cyan}Installing and configuring Homebridge for Apple Homekit${NC}"
 sudo npm install -g --unsafe-perm homebridge homebridge-config-ui-x
 sudo hb-service install --user homebridge
+echo -e "${Cyan}Installing Mqttthing for Homebridge${NC}"
 sudo -E -n npm install -g homebridge-mqttthing@latest
 cd ~/pekaway
 wget ${Server}config.json
