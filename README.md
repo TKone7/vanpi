@@ -2,7 +2,7 @@
 
 - Get a clean install of Raspberry Pi OS Lite (Debian 11 bullseye!)  on a MicroSD-card - ([click here](https://www.raspberrypi.com/software/operating-systems/))
  - Using the Raspberry Pi Imager ([click here](https://www.raspberrypi.com/software/)), set the following options
-    - Hostname: vanpi.local
+    - Hostname: pekaway.local
     - activate ssh
     - username: vanpi
     - password: pekawayfetzt
