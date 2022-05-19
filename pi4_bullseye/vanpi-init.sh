@@ -78,7 +78,7 @@ rm package.json
 rm package-lock.json
 wget ${Server}package.json
 echo -e "${Cyan}Please stand by! This may take a while!${NC}"
-echo -e "${Red}It may look frozen, but please leave it running and wait patiently!${NC}"
+echo -e "${Red}It may look frozen, but it is not! Please leave it running and wait patiently.${NC}"
 echo -e "${Red}Go grab a coffee and relax for a while, I'll take care of the rest :)${NC}"
 npm install
 
