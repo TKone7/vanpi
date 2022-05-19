@@ -31,6 +31,6 @@
 
 
 - Confirm all inputs with y + enter
-- sit back and enjoy
+- sit back and relax
 
 Once done, the RPI will power up in Access Point Mode, connect to it and proceed from there
