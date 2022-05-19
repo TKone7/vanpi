@@ -1,5 +1,6 @@
 #!/bin/bash
 
+#define startdate
 start=`date +%s`
 startdate = `date`
 
