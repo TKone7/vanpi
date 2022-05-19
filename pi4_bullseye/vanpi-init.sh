@@ -1,7 +1,7 @@
 #!/bin/bash
 
 start=`date +%s`
-startdate=`date`
+startdate = `date`
 
 # define server address
 Server='https://git.pekaway.de/Vincent/vanpi/-/raw/main/pi4_bullseye/'
@@ -54,20 +54,20 @@ sudo apt install $(cat ~/pekaway/packages.txt) -y
 sudo apt install python3-pip -y
 sudo pip3 install adafruit-ads1x15 bottle
 
+#install git
+echo -e "${Cyan}Installing git${NC}"
+sudo apt install git make build-essential
+
 # install Node-Red including Node and npm
 echo -e "${Cyan}Installing/updating Node-Red, Node and npm${NC}"
 cd ~
 echo -e "${Cyan}Please press y to continue!${NC}"
-bash <(curl -sL https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered)
+bash <(curl -sL https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered) --node16
 sudo systemctl enable nodered.service
 echo -e "${Cyan}Starting Node-Red for initial setup...${NC}"
 sudo systemctl start nodered.service
 echo -e "${Cyan}Stopping Node-Red${NC}"
 sudo systemctl stop nodered.service
-
-#install git
-echo -e "${Cyan}Installing git${NC}"
-sudo apt install git make build-essential
 
 #install Node-Red modules
 echo -e "${Cyan}Installing/updating Node-Red modules...${NC}"
