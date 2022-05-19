@@ -34,3 +34,5 @@
 - Sit back and relax
 
 Once done, the RPI will power up in Access Point Mode, connect to it and proceed from there
+
+(Homebridge needs to be setup, you can do that under RPI-IP:8581 or pekaway.local:8581 - set vanpi:pekawayfetzt and continue from there, config should already be there, not further tested due to lack of iPhones)
