@@ -29,8 +29,8 @@
     bash vanpi-init.sh
 ```
 
-
-- Confirm all inputs with y + enter
-- sit back and relax
+- The script will take about 10-15min to run through
+- Confirm if inputs are needed
+- Sit back and relax
 
 Once done, the RPI will power up in Access Point Mode, connect to it and proceed from there
