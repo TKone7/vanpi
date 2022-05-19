@@ -2,7 +2,7 @@
 
 #define startdate
 start=`date +%s`
-startdate = `date`
+startdate=`date`
 
 # define server address
 Server='https://git.pekaway.de/Vincent/vanpi/-/raw/main/pi4_bullseye/'
@@ -149,6 +149,7 @@ sudo systemctl restart nodered.service
 end=`date +%s`
 enddate=`date`
 runtime=$((end-start))
+echo -e "-----------------------------------------"
 echo -e "${Cyan}Script started: ${NC}${startdate}"
 echo -e "${Cyan}Script ended: ${NC}${enddate}"
 echo -e "${Red}Script runtime in Seconds: ${NC}${runtime}"
