@@ -26,7 +26,7 @@
     cd ~/ &&
     wget https://git.pekaway.de/Vincent/vanpi/-/raw/main/pi4_bullseye/vanpi-init.sh &&
     chmod +x vanpi-init.sh &&
-    bash vanpi-inith.sh
+    bash vanpi-init.sh
 ```
 
 
