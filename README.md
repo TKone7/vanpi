@@ -34,5 +34,6 @@
 - Sit back and relax
 
 Once done, the RPI will power up in Access Point Mode, connect to it and proceed from there
+(You can just turn off the Access Point because we already configured wifi during the flashing process)
 
 (Homebridge needs to be setup, you can do that under RPI-IP:8581 or pekaway.local:8581 - set vanpi:pekawayfetzt and continue from there, config should already be there, not further tested due to lack of iPhones)
