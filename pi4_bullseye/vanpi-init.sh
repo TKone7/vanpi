@@ -11,8 +11,6 @@ Cyan='\033[0;36m'
 Red='\033[0;31m'
 NC='\033[0m' #No Color
 
-echo -e "${Cyan}Script started: ${NC}${startdate}"
-
 # get latest updates
 echo -e "${Cyan}updating packages list${NC}"
 sudo apt update
@@ -23,6 +21,10 @@ sudo apt upgrade -y
 echo -e "${Cyan}Enabling I2C and 1-Wire Bus${NC}"
 sudo raspi-config nonint do_i2c 0
 echo -e "dtoverlay=w1-gpio\ndtoverlay=uart5\nenable_uart=1" | sudo tee -a /boot/config.txt
+sudo debconf-set-selections <<EOF
+iptables-persistent iptables-persistent/autosave_v4 boolean true
+iptables-persistent iptables-persistent/autosave_v6 boolean true
+EOF
 
 # Set hostname to vanpi
 echo -e "${Cyan}Set hostname to vanpi${NC}"
@@ -145,8 +147,9 @@ sudo systemctl restart nodered.service
 
 end=`date +%s`
 enddate=`date`
-echo -e "${Cyan}Script ended: ${NC}${enddate}"
 runtime=$((end-start))
+echo -e "${Cyan}Script started: ${NC}${startdate}"
+echo -e "${Cyan}Script ended: ${NC}${enddate}"
 echo -e "${Red}Script runtime in Seconds: ${NC}${runtime}"
 
 # Reboot Raspberry Pi
