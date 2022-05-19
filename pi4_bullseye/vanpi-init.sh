@@ -1,7 +1,7 @@
 #!/bin/bash
 
 start=`date +%s`
-startdate = `date`
+startdate=`date`
 
 # define server address
 Server='https://git.pekaway.de/Vincent/vanpi/-/raw/main/pi4_bullseye/'
