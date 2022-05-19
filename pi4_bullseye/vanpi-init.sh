@@ -1,10 +1,17 @@
 #!/bin/bash
+
+start=`date +%s`
+startdate = `date`
+
 # define server address
 Server='https://git.pekaway.de/Vincent/vanpi/-/raw/main/pi4_bullseye/'
 
 # define color variables
 Cyan='\033[0;36m'
+Red='\033[0;31m'
 NC='\033[0m' #No Color
+
+echo -e "${Cyan}Script started: ${NC}${startdate}"
 
 # get latest updates
 echo -e "${Cyan}updating packages list${NC}"
@@ -26,16 +33,25 @@ echo -e "${Cyan}saving needed resources to ~/pekaway${NC}"
 mkdir ~/pekaway
 cd pekaway
 wget ${Server}home_pi_pekaway_files.zip
-unzip home_pi_pekaway.files
+unzip ~/pekaway/home_pi_pekaway_files.zip
 echo -e "${Cyan}making scripts executable${NC}"
 find ~/pekaway/ -type f -iname "*.sh" -exec chmod +x {} \;
 chmod 0744 ~/pekaway/availableWifi.txt
+echo "yes" > ~/pekaway/firstboot
+
+#install wiringpi
+echo -e "${Cyan}Installing/updating wiringpi...${NC}"
+cd /tmp
+wget https://project-downloads.drogon.net/wiringpi-latest.deb
+sudo dpkg -i wiringpi-latest.deb
 
 # get and install needed packages list
 echo -e "${Cyan}Saving list with needed packages${NC}"
+cd ~/pekaway
 wget ${Server}packages.txt
 echo -e "${Cyan}Installing needed packages${NC}"
 sudo apt install $(cat ~/pekaway/packages.txt) -y
+sudo apt install python3-pip -y
 sudo pip3 install adafruit-ads1x15 bottle
 
 # install Node-Red including Node and npm
@@ -60,6 +76,8 @@ rm package.json
 rm package-lock.json
 wget ${Server}package.json
 echo -e "${Cyan}Please stand by! This may take a while!${NC}"
+echo -e "${Red}It may look frozen, but please leave it running and wait patiently!${NC}"
+echo -e "${Red}Go grab a coffee and relax for a while, I'll take care of the rest :)${NC}"
 npm install
 
 #install Node-Red Pekaway VanPi flows
@@ -69,17 +87,10 @@ wget ${Server}flows.json
 cp flows.json ~/.node-red/flows_pekaway.json
 cd ~/.node-red/node_modules/node-red-dashboard/dist
 wget ${Server}icons.zip
-mv icon64x64.png icon64x64_old.png
-mv icon120x120.png icon120x120_old.png
-mv icon196x196.png icon196x196_old.png
+mv ~/.node-red/node_modules/node-red-dashboard/dist/icon64x64.png ~/.node-red/node_modules/node-red-dashboard/dist/icon64x64_old.png
+mv ~/.node-red/node_modules/node-red-dashboard/dist/icon120x120.png ~/.node-red/node_modules/node-red-dashboard/dist/icon120x120_old.png
+mv ~/.node-red/node_modules/node-red-dashboard/dist/icon192x192.png ~/.node-red/node_modules/node-red-dashboard/dist/icon192x192_old.png
 unzip icons.zip
-sed -i 's/flows.json/flows_pekaway.json/g' ~/.node-red/settings.js
-
-#install wiringpi
-echo -e "${Cyan}Installing/updating wiringpi...${NC}"
-cd /tmp
-wget https://project-downloads.drogon.net/wiringpi-latest.deb
-sudo dpkg -i wiringpi-latest.deb
 
 # Install and configure Access Point
 echo -e "${Cyan}Installing and configuring Access Point mode...${NC}"
@@ -101,7 +112,7 @@ echo -e "country_code=DE\ninterface=wlan0\n\nssid=PeKaWayControl\nhw_mode=g\ncha
 # Install and configure Nginx
 echo -e "${Cyan}Installing and configuring Nginx${NC}"
 sudo apt update && sudo apt install nginx -y
-echo -e "server {\n   listen 80;\n   server_name peka.way pekaway.local vanpi.local van.pi;\n   location / {\n      proxy_pass http://127.0.0.1:1880/ui/;\n   }\n}\nserver {\n   listen 80;\n   server_namehomebridge.peka.way hb.peka.way homebridge.van.pi hb.van.pi;\n   location / {\n      proxy_pass http://127.0.0.1:8581/;\n   }\n}" | sudo tee /etc/nginx/sites-available/pekaway1
+echo -e "server {\n   listen 80;\n   server_name peka.way pekaway.local vanpi.local van.pi;\n   location / {\n      proxy_pass http://127.0.0.1:1880/ui/;\n   }\n}\nserver {\n   listen 80;\n   server_name homebridge.peka.way hb.peka.way homebridge.van.pi hb.van.pi;\n   location / {\n      proxy_pass http://127.0.0.1:8581/;\n   }\n}" | sudo tee /etc/nginx/sites-available/pekaway1
 sudo ln -s /etc/nginx/sites-available/pekaway1 /etc/nginx/sites-enabled/
 sudo systemctl reload nginx
 sudo systemctl enable nginx
@@ -121,9 +132,22 @@ cd ~/pekaway
 wget ${Server}config.json
 sudo \cp -r ~/pekaway/config.json /var/lib/homebridge/config.json
 
+# Clear files
+echo -e "${Cyan}Clearing folders and files...${NC}"
+sudo rm /tmp/wiringpi-latest.deb
+sudo rm ~/pekaway/home_pi_pekaway_files.zip
+
 # Restart Services
 echo -e "${Cyan}Restarting services...${NC}"
 sudo systemctl restart nginx.service homebridge.service mosquitto.service nodered.service
+sed -i 's/flows.json/flows_pekaway.json/g' ~/.node-red/settings.js
+sudo systemctl restart nodered.service
+
+end=`date +%s`
+enddate=`date`
+echo -e "${Cyan}Script ended: ${NC}${enddate}"
+runtime=$((end-start))
+echo -e "${Red}Script runtime in Seconds: ${NC}${runtime}"
 
 # Reboot Raspberry Pi
 echo "Installation done, reboot needed!"
@@ -134,7 +158,7 @@ case $input in
             sudo reboot
             ;;
       [nN][oO]|[nN])
-            echo "Aborting, please remember too reboot for the VanPi system to work properly!"
+            echo "Aborting, please remember to reboot for the VanPi system to work properly!"
             exit 0
             ;;
       *)
