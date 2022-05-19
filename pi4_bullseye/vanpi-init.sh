@@ -64,7 +64,7 @@ sudo apt install git make build-essential
 echo -e "${Cyan}Installing/updating Node-Red, Node and npm${NC}"
 cd ~
 echo -e "${Cyan}Please press y to continue!${NC}"
-bash <(curl -sL https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered) --node16
+bash <(curl -sL https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered) --node16 --confirm-install --confirm-pi
 sudo systemctl enable nodered.service
 echo -e "${Cyan}Starting Node-Red for initial setup...${NC}"
 sudo systemctl start nodered.service
