@@ -1,7 +1,10 @@
 #!/bin/bash
 
-# Set logging file
-LOG_FILE=~/pekaway-install.log
+# Create logfile and make it writable
+LOG_FILE=/var/log/pekaway-install.log
+sudo touch ${LOG_FILE}
+sudo chmod 0666 ${LOG_FILE}
+
 exec 3<&1
 coproc mytee { tee ${LOG_FILE} >&3;  }
 exec >&${mytee[1]} 2>&1
