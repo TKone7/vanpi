@@ -171,8 +171,10 @@ echo -e "${Cyan}Script ended: ${NC}${enddate}"
 echo -e "${Red}Script runtime in Seconds: ${NC}${runtime}"
 
 # Reboot Raspberry Pi
-echo "Installation done, reboot needed!"
-read -r -p "Do you want to reboot now? [y/n] " input
+echo "${Yellow}Installation done, reboot needed!${NC}"
+echo -e "${Red}If connection is lost, RPI will reboot into Access Point Mode automatically, \nPlease connect to that access point and proceed from there${NC}"
+echo "${Red}logfile is saved at ${LOG_FILE}${NC}"
+read -r -p "${Yellow}Do you want to reboot now? [y/n] ${NC}" input
  
 case $input in
       [yY][eE][sS]|[yY])
