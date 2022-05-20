@@ -10,6 +10,7 @@ Server='https://git.pekaway.de/Vincent/vanpi/-/raw/main/pi4_bullseye/'
 # define color variables
 Cyan='\033[0;36m'
 Red='\033[0;31m'
+Yellow='\033[0;33m'
 NC='\033[0m' #No Color
 
 # get latest updates
@@ -80,8 +81,8 @@ rm package.json
 rm package-lock.json
 wget ${Server}package.json
 echo -e "${Cyan}Please stand by! This may take a while!${NC}"
-echo -e "${Red}It may look frozen, but it is not! Please leave it running and wait patiently.${NC}"
-echo -e "${Red}Go grab a coffee and relax for a while, I'll take care of the rest :)${NC}"
+echo -e "${Yellow}It may look frozen, but it is not! Please leave it running and wait patiently.${NC}"
+echo -e "${Yellow}Go grab a coffee and relax for a while, I'll take care of the rest :)${NC}"
 npm install
 
 #install Node-Red Pekaway VanPi flows
