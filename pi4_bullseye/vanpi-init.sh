@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Set logging file
+LOG_FILE=~/pekaway-install.log
+exec 3<&1
+coproc mytee { tee ${LOG_FILE} >&3;  }
+exec >&${mytee[1]} 2>&1
+
 #define startdate
 start=`date +%s`
 startdate=`date`
@@ -13,6 +19,7 @@ Red='\033[0;31m'
 Yellow='\033[0;33m'
 NC='\033[0m' #No Color
 
+echo -e "${Yellow}Logfile will be ${LOG_FILE}${NC}"
 # get latest updates
 echo -e "${Cyan}updating packages list${NC}"
 sudo apt update
@@ -55,6 +62,7 @@ cd ~/pekaway
 wget ${Server}packages.txt
 echo -e "${Cyan}Installing needed packages${NC}"
 sudo apt install $(cat ~/pekaway/packages.txt) -y
+sudo apt install iotop -y
 wget ${Server}pip3list.txt
 sudo apt install python3-pip -y
 sudo pip3 install -r ~/pekaway/pip3list.txt
@@ -66,7 +74,6 @@ sudo apt install git make build-essential
 # install Node-Red including Node and npm
 echo -e "${Cyan}Installing/updating Node-Red, Node and npm${NC}"
 cd ~
-echo -e "${Cyan}Please press y to continue!${NC}"
 bash <(curl -sL https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered) --node16 --confirm-install --confirm-pi
 sudo systemctl enable nodered.service
 echo -e "${Cyan}Starting Node-Red for initial setup...${NC}"
@@ -162,14 +169,14 @@ echo -e "${Red}Script runtime in Seconds: ${NC}${runtime}"
 
 # Reboot Raspberry Pi
 echo "Installation done, reboot needed!"
-read -r -p "Do you want to reboot now? [Y/n] " input
+read -r -p "Do you want to reboot now? [y/n] " input
  
 case $input in
       [yY][eE][sS]|[yY])
             sudo reboot
             ;;
       [nN][oO]|[nN])
-            echo "Aborting, please remember to reboot for the VanPi system to work properly!"
+            echo "Reboot cancelled, please remember to reboot for the VanPi system to work properly!"
             exit 0
             ;;
       *)
