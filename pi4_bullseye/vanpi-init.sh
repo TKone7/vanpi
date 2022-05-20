@@ -54,8 +54,9 @@ cd ~/pekaway
 wget ${Server}packages.txt
 echo -e "${Cyan}Installing needed packages${NC}"
 sudo apt install $(cat ~/pekaway/packages.txt) -y
+wget ${Server}pip3list.txt
 sudo apt install python3-pip -y
-sudo pip3 install adafruit-ads1x15 bottle
+sudo pip3 install -r ~/pekaway/pip3list.txt
 
 #install git
 echo -e "${Cyan}Installing git${NC}"
@@ -142,7 +143,8 @@ sudo rm ~/pekaway/home_pi_pekaway_files.zip
 
 # Restart Services
 echo -e "${Cyan}Restarting services...${NC}"
-sudo systemctl restart nginx.service homebridge.service mosquitto.service nodered.service
+sudo systemctl restart nginx.service homebridge.service mosquitto.service nodered.service bluetooth
+sudo systemctl enable bluetooth
 sed -i 's/flows.json/flows_pekaway.json/g' ~/.node-red/settings.js
 sudo systemctl restart nodered.service
 
