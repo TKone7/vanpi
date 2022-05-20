@@ -14,10 +14,6 @@
 
 - Flash the operating system to your sd card
 
-- when flash is done:
-    - open the boot partition and in cmdline.txt delete everything in front of "root=PARTUUID=..."
-    - file should look like this:
-        - root=PARTUUID=7d5a2870-02 rootfstype=ext4 fsck.repair=yes rootwait quiet init=/usr/lib/raspi-config/init_resize.sh systemd.run=/boot/firstrun.sh systemd.run_success_action=reboot systemd.unit=kernel-command-line.target
 
 - Put the SD-card into the RPI4 and power it on (first boot may take up to a few minutes)
 - Wait until it shows up in your network and login via SSH with the credentials you just set
