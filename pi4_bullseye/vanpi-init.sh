@@ -146,7 +146,7 @@ sudo rm ~/pekaway/home_pi_pekaway_files.zip
 echo -e "${Cyan}Restarting services...${NC}"
 sudo systemctl restart nginx.service homebridge.service mosquitto.service nodered.service bluetooth
 sudo systemctl enable bluetooth
-sudo sed -i 's/^.*root=/root=/' /boot/cmdline.txt
+sudo sed -i 's/^.*root=PARTUUID/root=PARTUUID/' /boot/cmdline.txt
 sed -i 's/flows.json/flows_pekaway.json/g' ~/.node-red/settings.js
 sudo systemctl restart nodered.service
 
