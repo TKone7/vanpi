@@ -15,7 +15,7 @@
 - Flash the operating system to your sd card
 
 
-- Put the SD-card into the RPI4 and power it on (first boot may take up to a few minutes)
+- Put the SD-card into the RPI4 and power it on (first boot may take a few minutes)
 - Wait until it shows up in your network and login via SSH with the credentials you just set
 - Once logged in do
 ```
