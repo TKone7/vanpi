@@ -39,7 +39,7 @@ iptables-persistent iptables-persistent/autosave_v6 boolean true
 EOF
 
 # Set hostname to vanpi
-echo -e "${Cyan}Set hostname to vanpi${NC}"
+echo -e "${Cyan}Set hostname to pekaway${NC}"
 echo "pekaway" | sudo tee /etc/hostname
 
 # saving needed resources to ~/pekaway
@@ -132,10 +132,9 @@ sudo ln -s /etc/nginx/sites-available/pekaway1 /etc/nginx/sites-enabled/
 sudo systemctl reload nginx
 sudo systemctl enable nginx
 
-# Install Mosquitto MQTT Server
+# Install Mosquitto MQTT Server (probably already installed from packages.txt)
 echo -e "${Cyan}Installing Mosquitto MQTT Server${NC}"
 sudo apt install mosquitto mosquitto-clients -y
-
 
 # Install Homebridge
 echo -e "${Cyan}Installing and configuring Homebridge for Apple Homekit${NC}"
