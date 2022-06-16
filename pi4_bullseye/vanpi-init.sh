@@ -107,6 +107,13 @@ mv ~/.node-red/node_modules/node-red-dashboard/dist/icon120x120.png ~/.node-red/
 mv ~/.node-red/node_modules/node-red-dashboard/dist/icon192x192.png ~/.node-red/node_modules/node-red-dashboard/dist/icon192x192_old.png
 unzip icons.zip
 
+#install usbreset.c
+echo -e "${Cyan}Installing and compiling usbreset.c...${NC}"
+cd ~/
+wget ${Server}usbreset.c
+sudo gcc usbreset.c -o usbreset
+mv usbreset /usr/local/sbin/
+
 # Install and configure Access Point
 echo -e "${Cyan}Installing and configuring Access Point mode...${NC}"
 cd ~/
