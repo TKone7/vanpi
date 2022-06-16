@@ -39,8 +39,8 @@ iptables-persistent iptables-persistent/autosave_v6 boolean true
 EOF
 
 # Set hostname to vanpi
-echo -e "${Cyan}Set hostname to pekaway${NC}"
-echo "pekaway" | sudo tee /etc/hostname
+echo -e "${Cyan}Set hostname to vanpi${NC}"
+echo "vanpi" | sudo tee /etc/hostname
 
 # saving needed resources to ~/pekaway
 echo -e "${Cyan}saving needed resources to ~/pekaway${NC}"
