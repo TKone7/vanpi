@@ -112,7 +112,7 @@ echo -e "${Cyan}Installing and compiling usbreset.c...${NC}"
 cd ~/
 wget ${Server}usbreset.c
 sudo gcc usbreset.c -o usbreset
-mv usbreset /usr/local/sbin/
+sudo mv usbreset /usr/local/sbin/
 
 # Install and configure Access Point
 echo -e "${Cyan}Installing and configuring Access Point mode...${NC}"
