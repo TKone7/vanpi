@@ -22,6 +22,9 @@ Red='\033[0;31m'
 Yellow='\033[0;33m'
 NC='\033[0m' #No Color
 
+# define os-release version
+OSRELEASE=`cat /etc/os-release`
+
 echo -e "${Yellow}Logfile will be ${LOG_FILE}${NC}"
 # get latest updates
 echo -e "${Cyan}updating packages list${NC}"
@@ -63,9 +66,19 @@ sudo dpkg -i wiringpi-latest.deb
 echo -e "${Cyan}Saving list with needed packages${NC}"
 cd ~/pekaway
 wget ${Server}packages.txt
+wget ${Server}packages_buster.txt
 echo -e "${Cyan}Installing needed packages${NC}"
-sudo apt install $(cat ~/pekaway/packages.txt) -y
-sudo apt install iotop -y
+
+if grep -q "buster" <<< "$OSRELEASE"; then
+  echo -e "Installing packages for buster"
+  sudo apt-get update
+  sudo apt-get upgrade -y
+  sudo apt-get install $(cat ~/pekaway/packages_buster.txt) -y
+else
+  echo -e "Installing packages for bullseye"
+  sudo apt install $(cat ~/pekaway/packages.txt) -y
+  sudo apt install iotop -y
+fi
 wget ${Server}pip3list.txt
 sudo apt install python3-pip -y
 sudo pip3 install -r ~/pekaway/pip3list.txt
@@ -163,6 +176,8 @@ sudo \cp -r ~/pekaway/config.json /var/lib/homebridge/config.json
 echo -e "${Cyan}Clearing folders and files...${NC}"
 sudo rm /tmp/wiringpi-latest.deb
 sudo rm ~/pekaway/home_pi_pekaway_files.zip
+sudo rm ~/pekaway/packages.txt
+sudo rm ~/pekaway/packages_buster.txt
 
 # Restart Services
 echo -e "${Cyan}Restarting services...${NC}"
