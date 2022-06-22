@@ -83,11 +83,11 @@ else
 fi
 wget ${Server}pip3list.txt
 sudo apt install python3-pip -y
-# Install python modules locally (user vanpi)
-
+# Install python modules locally (user vanpi) and globally (root)
+sudo pip3 install -r ~/pekaway/pip3list.txt
+sudo pip3 install bottle
 pip3 install -r ~/pekaway/pip3list.txt
 pip3 install bottle
-
 
 #install git
 echo -e "${Cyan}Installing git${NC}"
