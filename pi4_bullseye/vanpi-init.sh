@@ -197,6 +197,7 @@ sudo systemctl enable bluetooth
 echo -e "${Cyan}Configuring cmdline.txt...${NC}"
 sudo sed -i 's/^.*root=PARTUUID/root=PARTUUID/' /boot/cmdline.txt
 sed -i 's/flows.json/flows_pekaway.json/g' ~/.node-red/settings.js
+sed -i 's/theme: "",/theme: "",\n        header: {\n            title: "Pekaway VAN PI Campercontrol",\n        },/g' ~/.node-red/settings.js
 sudo systemctl restart nodered.service
 
 end=`date +%s`
