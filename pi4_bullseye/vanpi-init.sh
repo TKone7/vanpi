@@ -54,6 +54,8 @@ unzip ~/pekaway/home_pi_pekaway_files.zip
 echo -e "${Cyan}making scripts executable${NC}"
 find ~/pekaway/ -type f -iname "*.sh" -exec chmod +x {} \;
 chmod 0744 ~/pekaway/availableWifi.txt
+chmod 0755 ~/pekaway/pythonsqlite.db
+chmod 0755 ~/pekaway/raspi-blinka.py
 echo "yes" > ~/pekaway/firstboot
 
 #install wiringpi
@@ -81,7 +83,11 @@ else
 fi
 wget ${Server}pip3list.txt
 sudo apt install python3-pip -y
-sudo pip3 install -r ~/pekaway/pip3list.txt
+# Install python modules locally (user vanpi)
+
+pip3 install -r ~/pekaway/pip3list.txt
+pip3 install bottle
+
 
 #install git
 echo -e "${Cyan}Installing git${NC}"
@@ -94,6 +100,8 @@ bash <(curl -sL https://raw.githubusercontent.com/node-red/linux-installers/mast
 sudo systemctl enable nodered.service
 echo -e "${Cyan}Starting Node-Red for initial setup...${NC}"
 sudo systemctl start nodered.service
+echo -e "${Cyan}Sleeping for 20s to let Node-Red do it's thing...${NC}"
+sleep 20
 echo -e "${Cyan}Stopping Node-Red${NC}"
 sudo systemctl stop nodered.service
 
@@ -140,7 +148,7 @@ sudo cp /etc/dhcpcd.conf /etc/dhcpcd_ap.conf
 echo -e "# https://www.raspberrypi.org/documentation/configuration/wireless/access-point-routed.md \n# Enable IPv4 routing \nnet.ipv4.ip_forward=1" | sudo tee /etc/sysctl.d/routed-ap.conf
 sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 sudo netfilter-persistent save
-echo -e "# Listening interface\ninterface=wlan0\n# Pool of IP addresses served via DHCP\ndhcp-range=192.168.4.2,192.168.4.20,255.255.255.0,24h\n# Local wireless DNS domain\ndomain=wlan\n# Alias for this router\naddress=/peka.way/192.168.4.1" | sudo tee /etc/dnsmasq.conf
+echo -e "# Listening interface\ninterface=wlan0\n# Pool of IP addresses served via DHCP\ndhcp-range=192.168.4.2,192.168.4.20,255.255.255.0,24h\n# Local wireless DNS domain\ndomain=wlan\n# Alias for this router\naddress=/van.pi/192.168.4.1\naddress=/peka.way/192.168.4.1" | sudo tee /etc/dnsmasq.conf
 sudo rfkill unblock wlan
 echo -e "country_code=DE\ninterface=wlan0\n\nssid=PeKaWayControl\nhw_mode=g\nchannel=6\nmacaddr_acl=0\nauth_algs=1\nwpa=2\nwpa_passphrase=pekawayfetzt\nwpa_key_mgmt=WPA-PSK\nwpa_pairwise=TKIP\nrsn_pairwise=CCMP\n" | sudo tee /etc/hostapd/hostapd.conf
 
@@ -178,6 +186,8 @@ sudo rm /tmp/wiringpi-latest.deb
 sudo rm ~/pekaway/home_pi_pekaway_files.zip
 sudo rm ~/pekaway/packages.txt
 sudo rm ~/pekaway/packages_buster.txt
+sudo rm ~/pekaway/pip3list.txt
+sudo rm ~/pekaway/flows.json
 
 # Restart Services
 echo -e "${Cyan}Restarting services...${NC}"
