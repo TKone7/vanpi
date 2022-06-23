@@ -164,10 +164,11 @@ sudo systemctl enable nginx
 echo -e "${Cyan}Installing Mosquitto MQTT Server${NC}"
 sudo apt install mosquitto mosquitto-clients -y
 
-# Implementing new udev rules and restarting uded service
+# Implementing new udev rules and restarting udev service
 echo -e "${Cyan}Implementing udev rules for serial connections{NC}"
 sudo touch /etc/udev/rules.d/98-pekaway-tty.rules
-echo -e '"KERNEL=="ttyUSB*", KERNELS=="1-1.1", SYMLINK+=ttyPKW1"\n"KERNEL=="ttyUSB*", KERNELS=="1-1.2", SYMLINK+=ttyPKW2"\n"KERNEL=="ttyUSB*", KERNELS=="1-1.3", SYMLINK+=ttyPKW3"\n"KERNEL=="ttyUSB*", KERNELS=="1-1.4", SYMLINK+=ttyPKW4"' | sudo tee /etc/udev/rules.d/98-pekaway-tty.rules
+echo -e 'KERNEL=="ttyUSB*", KERNELS=="1-1.1", SYMLINK+="ttyPKW1"\nKERNEL=="ttyUSB*", KERNELS=="1-1.2", SYMLINK+="ttyPKW2"\nKERNEL=="ttyUSB*", KERNELS=="1-1.3", SYMLINK+="ttyPKW3"\nKERNEL=="ttyUSB*", KERNELS=="1-1.4", SYMLINK+="ttyPKW4"' | sudo tee /etc/udev/rules.d/98-pekaway-tty.rules
+sudo cp /etc/udev/rules.d/98-pekaway-tty.rules /lib/udev/rules.d/98-pekaway-tty.rules
 sudo udevadm control --reload-rules & sudo systemctl restart udev.service
 
 # Install Homebridge
