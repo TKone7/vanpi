@@ -1,6 +1,9 @@
 # Manually installing the VanPi system
 
-- Get a clean install of Raspberry Pi OS Lite (Debian 11 bullseye)  on a MicroSD-card - ([click here](https://www.raspberrypi.com/software/operating-systems/))
+- Get a clean install of Raspberry Pi OS Lite (Debian 11)  on a MicroSD-card - ([click here](https://www.raspberrypi.com/software/operating-systems/)) 
+
+**_On bullseye the ads script is not working out of the box! Use buster instead! (the installation script works on both versions)_**
+
  - Using the Raspberry Pi Imager ([click here](https://www.raspberrypi.com/software/)), set the following options
     - Hostname: pekaway.local
     - activate ssh
@@ -25,7 +28,7 @@
     bash vanpi-init.sh
 ```
 
-- The script will take about 10-20min to run through, depending on bandwith
+- The script will take about 10-20min to run through, depending on bandwith and hardware
 - Confirm if inputs are needed (none on bullseye, one on buster -> script works for both)
 - Sit back and relax
 
