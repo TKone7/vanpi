@@ -23,7 +23,7 @@
 - Once logged in do
 ```
     cd ~/ &&
-    wget https://git.pekaway.de/Vincent/vanpi/-/raw/main/pi4_bullseye/vanpi-init.sh &&
+    wget https://git.pekaway.de/Vincent/vanpi/-/raw/main/pi4/vanpi-init.sh &&
     chmod +x vanpi-init.sh &&
     bash vanpi-init.sh
 ```
