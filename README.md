@@ -22,10 +22,10 @@
 - Wait until it shows up in your network and login via SSH with the credentials you just set
 - Once logged in do
 ```
-    cd ~/ &&
-    wget https://git.pekaway.de/Vincent/vanpi/-/raw/main/pi4/vanpi-init.sh &&
-    chmod +x vanpi-init.sh &&
-    bash vanpi-init.sh
+cd ~/ &&
+wget https://git.pekaway.de/Vincent/vanpi/-/raw/main/pi4/vanpi-init.sh &&
+chmod +x vanpi-init.sh &&
+bash vanpi-init.sh
 ```
 
 - The script will take about 10-20min to run through, depending on bandwith and hardware
