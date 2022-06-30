@@ -78,7 +78,7 @@ if grep -q "buster" <<< "$OSRELEASE"; then
   sudo apt-get install $(cat ~/pekaway/packages_buster.txt) -y
 else
   echo -e "Installing packages for bullseye"
-  sudo apt install $(cat ~/pekaway/packages.txt) -y
+  sudo apt install $(cat ~/pekaway/packages_bullseye.txt) -y
   sudo apt install iotop -y
 fi
 wget ${Server}pip3list.txt
