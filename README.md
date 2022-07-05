@@ -46,5 +46,5 @@ On your RPI open ~/.node-red/flows_pekaway.json and manually replace its content
 
 Alternatively, go into the Node-Red backend and replace non-formatted characters by hand:
  - flow Sensor-Dashboard, on the very top there are 4 text nodes displaying the temp sensors
- - flow Monit, aghain there are 4 nodes for the temp sensors and 1 gauge node for the CPU-temp
+ - flow Monit, again there are 4 nodes for the temp sensors and 1 gauge node for the CPU-temp
  - flow Config, at "system settings" 4 text nodes for the four temp sensors
