@@ -1,10 +1,10 @@
 # Manually installing the VanPi system
 
-- Get a clean install of Raspberry Pi OS Lite (Debian 11)  on a MicroSD-card - ([click here](https://www.raspberrypi.com/software/operating-systems/)) 
+- Get a clean install of Raspberry Pi OS Lite (Debian 11)  on a MicroSD-card - ([download here](https://www.raspberrypi.com/software/operating-systems/)) 
 
 **_On bullseye the ads script is not working out of the box! Use buster instead! (the installation script works on both versions)_**
 
- - Using the Raspberry Pi Imager ([click here](https://www.raspberrypi.com/software/)), set the following options
+ - Using the Raspberry Pi Imager ([download here](https://www.raspberrypi.com/software/)), set the following options
     - Hostname: pekaway.local
     - activate ssh
     - username: vanpi
@@ -35,4 +35,4 @@ bash vanpi-init.sh
 Once done, the RPI will power up in Access Point Mode, connect to it and proceed from there
 (You can just turn off the Access Point because we already configured wifi during the flashing process)
 
-(Homebridge needs to be setup, you can do that when accessing RPI-IP:8581 or pekaway.local:8581 - set vanpi:pekawayfetzt and continue from there, config should already be there (or you can find it [here](https://git.pekaway.de/Vincent/vanpi/-/blob/main/pi4_bullseye/config.json)), not further tested
+(Homebridge needs to be setup, you can do that when accessing RPI-IP:8581 or pekaway.local:8581 - set vanpi:pekawayfetzt and continue from there, config should already be there (or you can find it [here](https://git.pekaway.de/Vincent/vanpi/-/blob/main/pi4/config.json)), not further tested
