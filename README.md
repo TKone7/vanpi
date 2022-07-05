@@ -1,6 +1,6 @@
 # Manually installing the VanPi system
 
-- Get a clean install of Raspberry Pi OS Lite (Debian 11)  on a MicroSD-card - ([download here](https://www.raspberrypi.com/software/operating-systems/)) 
+- Get a clean install of Raspberry Pi OS Lite (Debian 10 Buster)  on a MicroSD-card - ([download here](https://www.raspberrypi.com/software/operating-systems/)) 
 
 **_On bullseye the ads script is not working out of the box! Use buster instead! (the installation script works on both versions)_**
 
