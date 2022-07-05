@@ -35,4 +35,6 @@ bash vanpi-init.sh
 Once done, the RPI will power up in Access Point Mode, connect to it and proceed from there
 (You can just turn off the Access Point because we already configured wifi during the flashing process)
 
-(Homebridge needs to be setup, you can do that when accessing RPI-IP:8581 or pekaway.local:8581 - set vanpi:pekawayfetzt and continue from there, config should already be there (or you can find it [here](https://git.pekaway.de/Vincent/vanpi/-/blob/main/pi4/config.json)), not further tested
+(Homebridge needs to be setup, you can do that when accessing RPI-IP:8581 or pekaway.local:8581 - set vanpi:pekawayfetzt and continue from there, config should already be there (or you can find it [here](https://git.pekaway.de/Vincent/vanpi/-/blob/main/pi4/config.json)) - not further tested!!
+
+Go to the frontend of the VanPi system > Config > Wifi and click on reset Homebridge. That will generate a new random Mac, a new Pin code and it'll download the latest homebridge config from our server and deploy it. Remember that you need to be connected to the internet for Apple Home to work (and for downloading the config files, obviously)
