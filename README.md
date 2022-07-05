@@ -7,8 +7,8 @@
  - Using the Raspberry Pi Imager ([download here](https://www.raspberrypi.com/software/)), set the following options
     - Hostname: pekaway.local
     - activate ssh
-    - username: vanpi
-    - password: pekawayfetzt
+    - username: pi
+    - password: raspberry
     - wifi:
         - Your wifi SSID and passphrase
         - change wifi country if needed
