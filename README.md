@@ -28,7 +28,7 @@ chmod +x vanpi-init.sh &&
 bash vanpi-init.sh
 ```
 
-- The script will take about 10-20min to run through, depending on bandwith and hardware
+- The script will take about 10-20min to run through, depending on bandwith and hardware (20+ min on RPI3)
 - Confirm if inputs are needed (none on bullseye, one on buster -> script works for both)
 - Sit back and relax
 
