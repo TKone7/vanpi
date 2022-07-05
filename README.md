@@ -38,3 +38,8 @@ Once done, the RPI will power up in Access Point Mode, connect to it and proceed
 (Homebridge needs to be setup, you can do that when accessing RPI-IP:8581 or pekaway.local:8581 - set vanpi:pekawayfetzt and continue from there, config should already be there (or you can find it [here](https://git.pekaway.de/Vincent/vanpi/-/blob/main/pi4/config.json)) - not further tested!!
 
 Go to the frontend of the VanPi system > Config > Wifi and click on reset Homebridge. That will generate a new random Mac, a new Pin code and it'll download the latest homebridge config from our server and deploy it. Remember that you need to be connected to the internet for Apple Home to work (and for downloading the config files, obviously)
+
+**THROUBLESHOOTING**
+
+In case some symbols in the frontend are not displayed correctly (eg. "°C"), download the flows.json from the pi4 folder ([here](https://git.pekaway.de/Vincent/vanpi/-/blob/main/pi4/flows.json)).
+On your RPI open ~/.node-red/flows_pekaway.json and manually replace its content with the content from the file you just downloaded from the server. Then restart Node-Red with "sudo systemctl restart nodered.service".
