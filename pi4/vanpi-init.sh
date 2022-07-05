@@ -54,7 +54,7 @@ unzip ~/pekaway/home_pi_pekaway_files.zip
 echo -e "${Cyan}making scripts executable${NC}"
 find ~/pekaway/ -type f -iname "*.sh" -exec chmod +x {} \;
 chmod 0744 ~/pekaway/availableWifi.txt
-chmod 0755 ~/pekaway/pythonsqlite.db
+chmod 0777 ~/pekaway/pythonsqlite.db
 chmod 0755 ~/pekaway/raspi-blinka.py
 echo "yes" > ~/pekaway/firstboot
 
