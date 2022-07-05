@@ -43,3 +43,7 @@ Go to the frontend of the VanPi system > Config > Wifi and click on reset Homebr
 
 In case some symbols in the frontend are not displayed correctly (eg. "°C"), download the flows.json from the pi4 folder ([here](https://git.pekaway.de/Vincent/vanpi/-/blob/main/pi4/flows.json)).
 On your RPI open ~/.node-red/flows_pekaway.json and manually replace its content with the content from the file you just downloaded from the server. Then restart Node-Red with "sudo systemctl restart nodered.service".
+
+Alternatively, go into the Node-Red backend and replace non-formatted characters by hand:
+ - flow Sensor-Dashboard, on the very top there are 4 text nodes displaying the temp sensors
+ - flow Monit, aghain there are 4 nodes for the temp sensors and 1 gauge node for the CPU-temp
