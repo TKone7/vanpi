@@ -67,7 +67,7 @@ sudo dpkg -i wiringpi-latest.deb
 # get and install needed packages list
 echo -e "${Cyan}Saving list with needed packages${NC}"
 cd ~/pekaway
-wget ${Server}packages.txt
+wget ${Server}packages_bullseye.txt
 wget ${Server}packages_buster.txt
 echo -e "${Cyan}Installing needed packages${NC}"
 
