@@ -163,6 +163,9 @@ sudo systemctl enable nginx
 # Install Mosquitto MQTT Server (probably already installed from packages.txt)
 echo -e "${Cyan}Installing Mosquitto MQTT Server${NC}"
 sudo apt install mosquitto mosquitto-clients -y
+sudo mkdir /var/log/mosquitto
+sudo touch /var/log/mosquitto/mosquitto.log
+sudo chmod 0755 /var/log/mosquitto/mosquitto.log
 
 # Implementing new udev rules and restarting udev service
 echo -e "${Cyan}Implementing udev rules for serial connections{NC}"
