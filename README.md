@@ -52,4 +52,9 @@ Alternatively, go into the Node-Red backend and replace non-formatted characters
  ** On Raspberry Pi Zero W2**
 
 npm might not fully install all needed packages (you'll see it when Node-Red reports missing/unknown nodes)
- - login via SSH, type "cd ~/.node-red" and then use "npm install --verbose". It'll take like... forever, basically. But it will finish! (Use verbose output to see whats going on)
+ - login via SSH
+ - increase swapsize in /etc/dphys-swapfile to 1024 (sudo nano /etc/dphys-swapfile)
+ - reboot
+ - sudo systemctl stop nodered.service homebridge.service mosquitto.service nginx.service
+ - type "cd ~/.node-red" and then use "npm install --verbose". It'll take like... forever, basically. But it will finish! (Use verbose output to see whats going on)
+- sudo systemctl start nodered.service homebridge.service mosquitto.service nginx.service
