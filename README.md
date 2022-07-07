@@ -49,7 +49,7 @@ Alternatively, go into the Node-Red backend and replace non-formatted characters
  - flow Monit, again there are 4 nodes for the temp sensors and 1 gauge node for the CPU-temp
  - flow Config, at "system settings" 4 text nodes for the four temp sensors
 
- ** On Raspberry Pi Zero W2**
+ ## On Raspberry Pi Zero W2
 
 npm might not fully install all needed packages (you'll see it when Node-Red reports missing/unknown nodes)
  - login via SSH
