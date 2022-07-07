@@ -2,7 +2,7 @@
 
 - Get a clean install of Raspberry Pi OS Lite (Debian 10 Buster)  on a MicroSD-card - ([download here](https://www.raspberrypi.com/software/operating-systems/)) 
 
-**_On bullseye the ads script is not working out of the box! Use buster instead! (the installation script works on both versions)_**
+**_On bullseye the ADS (for the shunt etc.) script is not working out of the box! Use buster instead! (the installation script works on both versions)_**
 
  - Using the Raspberry Pi Imager ([download here](https://www.raspberrypi.com/software/)), set the following options
     - Hostname: pekaway.local
