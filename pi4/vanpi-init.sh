@@ -189,6 +189,7 @@ echo -e "${Cyan}Clearing folders and files...${NC}"
 sudo rm /tmp/wiringpi-latest.deb
 sudo rm ~/pekaway/home_pi_pekaway_files.zip
 sudo rm ~/pekaway/packages.txt
+sudo rm ~/pekaway/packages_bullseye.txt
 sudo rm ~/pekaway/packages_buster.txt
 sudo rm ~/pekaway/pip3list.txt
 sudo rm ~/pekaway/flows.json
