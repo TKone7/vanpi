@@ -63,6 +63,9 @@ echo -e "${Cyan}Installing/updating wiringpi...${NC}"
 cd /tmp
 wget https://project-downloads.drogon.net/wiringpi-latest.deb
 sudo dpkg -i wiringpi-latest.deb
+sudo sed -i 's/PIN = 5/PIN = 4/g' ~/pekaway/433Utils/RPi_utils/codesend.cpp
+sudo sed -i 's/PIN = 4/PIN = 3/g' ~/pekaway/433Utils/RPi_utils/RFSniffer.cpp
+cd ~/pekaway/433Utils/RPi_utils/ && make
 
 # get and install needed packages list
 echo -e "${Cyan}Saving list with needed packages${NC}"
