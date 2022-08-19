@@ -1,0 +1,238 @@
+Update 1.0.3
+- fixed monitoring waterlevels to not show more than 100%
+- changed touchdisplay switch (page) from number to string
+- reworked building of UI to be more stable
+- changed temp2 global variable to be stored as string (fixed to be shown in mobile app, was integer before)
+- added global variables to show BMSmax/min data in mobile app from JBD BL/UART BMS
+- JBD BMS is now available for usage on all 4 USB ports
+- fixed JBD BMS settings (UART)
+- fixed JBD BMS calculations for USB and BL connections
+- changed Daly BMS flow to show capacity in ampere hours
+- added function to generate a new ssh host key on first boot
+- added function to clear bash history when generating new image
+- added function to clear system volume information when generating new image
+- added function to show/hide system time in the toolbar
+- changed uptime function for better visibility in monitor tab
+- deactivated function that updates relay/wifi-relay labels every 3min
+- reworked functions that update switches labels in frontend (update happens when changing to switches tab)
+- switches labels now return to default value when names are deleted (instead of showing nothing)
+- added function to automatically turn off respective switches after a custom set time
+- added schedulers for relays, wifi-relays and dimmers (automatically turn on/off at given times) -> remember to set system time properly or synchronize it automatically (internet access needed)
+- prepared "autooff" varibaale in HTTP endpoints (not yet in use, will be used when code for IoT-bridge code is updated)
+- prepared new HTTP endpoint "relayiot" to be used in futere IOT-bridge code update
+- added usability off payloads "true"/"false" to be used when switching states of relays/w-relays/dimmers via MQTT
+- fixed PIN numbers in "/home/pi/pekaway/433Utils/RPi_utils/codesend.cpp" (line 27) to PIN 4 and "/home/pi/pekaway/433Utils/RPi_utils/RFSniffer.cpp" (line 26) to PIN 3 for 433MHz sender/receiver to work with VANPI Relayboard
+
+Update 1.0.2
+- changed relative paths to absolute paths in ~/pekaway/ads_py/web1.py to resolve issues with database
+- created files "ohm1empty" & "ohm1full" (up to #4) to fix error when calibrating water tank sensors
+- added function to write ohm data before using the adjustment slider
+- changed function to hide/show bms info to fix error when updating UI
+
+Update 1.0.1
+- downgraded OS back to Debian 10 Buster due to problems with ADS packages
+- changed user back to pi to simplify filepaths
+- changed DHCP range to 192.168.4.2-192.168.4.50
+- added van.pi to dnsmasq.conf
+- installed bottle webserver (python) as user vanpi
+- fixed paths in wifi-scripts (to be used via NR frontend)
+- changed ads_py script to use relative paths
+- renamed button "Relays" to "Switches" in config menu
+- fixed udev rules (usb connection status)
+- minor bugfixes
+
+Major Update 1.0.0
+- updated OS to Debian 11 Bullseye
+- updated Node-Red to version 2.2.2
+- removed function to auto rebuilt  UI when changing to info tab
+- added function to rebuilt UI when changing to config tab
+- added query for bluetooth battery to built UI accordingly
+- fixed battery (bluetooth) function to correctly show/hide bms info
+- added function to automatically update relay names when entering tabs (debug, heater, settings, switches)
+- changed absolute paths to relative paths in .sh files
+- changed monitor timestamp interval to 60s for waterlevels and 30s for rpi usage
+- added bms info to HTTP API and MQTT API
+- added reboot function to HTTP API
+- added topic 'conniot' to HTTP API for IoT Bridge
+- added topic 'wrelayiot' to HTTP API for IoT Bridge (same as 'wrelay' but without firmware info)
+- optimized dimmer label functions
+- optimized wrelay I/O for touchdisplay
+- added option to reset bluetooth devices
+- removed DS18B20 node and added DS18B20.py instead
+
+Update 0.9.1
+- bug fixes from v0.9.0
+- change Temperature node
+- DALY MONIT Issuse solved
+- name PKW Shunt to VANPI SHUNT
+
+Update 0.9.0 
+- Display Version 0.6b - improved communication
+- Heater hysteresis is working
+- added reset waterlevel calibration
+- fixed cell voltage for daly
+- changed Victron name in the UART menus to "Ve.Direct"
+- added wemos d1 flasher
+- added names api
+- added flows to rebuild ui when opening tabs
+- seperated config into tabs for better overview
+- rearranged all nodes in all flows for better backend overview
+- source folder for pekaway data changed to /home/pi/pekaway
+- seperated init_flow >> init_flow and connections (USB/UART connections)
+- added new global variables "MainBattAmps", "MainBattVolts" & "MainBattSoc", battery values from all source destinations will be copied into these variables
+- added new option to set battery stats in the config (frontend) for "MainBattDelivery" - HAS TO BE SET!!
+- Display flow is now seperated into two flows for better overview
+- Dimmer Controller for Mosfetboard (to be released soon -> 7 mosfets for dimmable lights etc.)
+- integrated flasher mode to easily flash Wemos D1 directly from the Pi
+- integrated JDB/GENERIC BMS to be used with the system
+- new "ConnectedRelay" variable for turning heater on/off via relay (including hysteresis check)
+- added LFBros Heater (433Mhz remote control), 433Mhz receiver and sender for raspberry needed! installed WiringPi for realisation
+- included HTTP API to toggle relays get information about the system, rename names, set heater etc.
+- included MQTT API to toggle relays get information about the system, rename names, set heater etc.
+- changed the timing interval for monitor tab from 20s to 25s and less datapoints in charts (from 1000 to 600)
+- added a new flow BLE Connections to connect BLE devices, currently supported: LIONTRON/JBD bluetooth Battery, GOK Senso4s Bluetooth scale
+- added options in config to set dimmer names, added a debug option for Mosfetboard to show connection and MQTT stats
+- added toggable function to send all stats via MQTT every 5min
+- added template controls to open desired tabs when pressing buttons (menu navigation) leading to better overview
+- added a debug tab with several functions to get information about the system and the Raspberry Pi itself
+- update function is now capable of installing new packages via apt-get/apt and npm (lists are publicly available at git.pekaway.de, please make sure to read through them before using any download automations)
+- wifi relays do now support tasmota and shelly
+- the protocol used for the touchdisplay has been changed to run more smoothly and stable, already set names have to be set again as they will show weird stuff when upgrading from the old version
+- touchdisplay v0.6b only compatible with RPI-Image v0.9.0 BETA and above!!
+- buttons and waterlevels that are not being used can be disabled on the touchdisplay
+- Votronic tank sensors can be calibrated directly (up to 2.4V max!)
+- Water tank calibrations can be resetted
+- serial USB connections are fixed via a new set of udev rules
+
+Update 0.8.0
+- added package esptool
+	new package "esptool" can be installed with `sudo apt-get install esptool`
+- added ESP32&ESP8266 Tasmota Mosfet bins to disk
+- added Flashermode to Node-Red -> enables flashing of ESP32/ESP8266 directly on the pi with the tasmota bins to control the mosfetboard (upcoming)
+- added a "restart web1.py after crash" function
+- added flow Dimmer Controller (controls dimmers in dashboard and Homebridge)
+- added dimmer logic in config flow (hide/show dimmers and debug mode)
+- added watchdog for mosfetboard (ESP32/8266)
+- added Homebridge support for dimmers
+- updated Homebridge to v1.4.0
+- added npm install node-red-contrib-mcp23017chip
+- added bmv 712 victron pid
+- added pekaway display 2 -> add slider to display
+- added jbd/generic BMS (basic)
+- added LionTron Battery Bluetooth
+- remove new version from PID Controll Autoterm
+- add connection flow for all serial/bluetooth connections
+- add rules for portbinding serialconnections
+- remove usb serial swap 
+- 
+
+Update 0.7.4
+- improved PID Controll Autoterm
+- added "check for update" button in update flow to check if an update is available
+- hotfix for the Wifi scan problem from v0.7.3
+
+
+Update 0.7.3
+- added PID Controller npm install node-red-contrib-pid-controller
+	New npm module needed! Use `cd .node-red && npm install node-red-contrib-pid-controller`
+- PID Heatcontroller Autoterm
+- added backup and restore userData
+	new packages "zip" & "unzip" are required! Use `sudo apt-get install zip unzip` to install them
+- added Nest-style heattemperature-Widget
+
+
+Update 0.7.2
+ - add pekawaydisplay UserData Flow
+ - improve DisplaySettings -> show ips
+ - new display version 0.4
+
+
+
+Update 0.7.1
+ - update tab fix
+ - autoterm temperaturemode added
+
+
+Update 0.7.0
+- webasto flow improvements 
+- autoterm improvements
+- SET PARITY WEBASTO not fixed
+- display switch error fix
+
+
+
+Update 0.6.9
+- added homebridge reset function
+- fixed voltage calibration function
+
+Update 0.6.8
+- calbriate voltfactor function
+- integrated update notification
+- remove redbot and telegram flow (flow to be found on gitlab )
+- added MQTT Broker to switch relays via Tasmota/Apple Home
+- added homebridge support to use Apple Home via MQTT (homebridge running on port 8581 with login admin:pekawayfetzt)
+- added function to resize filesystem in config (if SD-card not using full size for some reason)
+- added rpi monitoring to the monitor tab
+- added button to show ip-adress of both, wlan0 and eth0
+
+
+image 0.6.7
+- added possibilities to update the flows with USB-device and/or with internet connection (via curl git.pekaway.de/...)
+- added option to create backups manually
+- added option to delete existing backups to save space
+- added a function to load existing backups
+- added delay before restarting hostapd and dnsmasq when switching between Access Point modes
+- change Heater flow - each heater has now one flow
+- relayorder issue solved
+- usb swap detection 
+
+
+image 0.6.6
+
+- add watchdog to shunt script
+- increase voltage reading
+- add custom batterySize (watthours)
+- load shunt config after start
+- add Monitor Tab for Battery and Temperatur
+- reload old relay status after reboot
+- remove network time snyc -> time from display or realtime clock 
+      ->sudo systemctl stop systemd-timesyncd
+      ->sudo systemctl disable systemd-timesyncd
+- add telegram bot flow
+
+
+image 0.6.5
+
+- adjusted timezone to CEST/Berlin
+- solved issue with custom wifi connection not working because of double quotation marks
+- removed duplicate textfield of version info in config tab
+- changed slider to set state of charge to dropdown menu
+- changed methods to calibrate water sensors to have better feedback visibility (pop-up) on smaller displays
+
+
+image 0.6.4
+
+- ADS1115 gain change -> Votronic Sensor
+- Level2 issue solved
+- VersionInfo -> config
+
+
+image 0.6.3
+
+### Major Changes ###
+- updated Node-Red to v2.0.6
+- updated dashboard to v3.0.4
+- added template node to generate stylesheet for the dashboard
+- added control for autoterm heater
+
+### Minor Changes ###
+- changed width of battery widget to 6
+- cleaned flow 'VE.Direct' in backend
+- access point name will now include parts (3 chars) of the RPI's hardware serial, so AP-names will be  unique
+--> AP-name is set on first boot only
+- unchecked 'send to all browser sessions' on all notification nodes
+- added a version number with changelog to the 'init' flow
+- changed baudrate on china heater to 9600
+- added favicon for dashboard
+- changed a line of text in index.html (appears when the dashboard is loading)
+- added connection status of USB ports to dashboard config
