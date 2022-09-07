@@ -1,3 +1,11 @@
+Update 1.0.4 (07 Sep 2022)
+- added callback query when resetting water level calibrations
+- fixed function "searching for backup files" when folder is empty
+- reworked upload/download UserData functions
+- fixed function for relays "autoturnoff" to work properly after rebooting (delay restarts at time of boot)
+- fixed relay tabs showing up properly when deploying while Switches tab is in focus
+- fixed function sending MQTT stats every 5min (Wifi-Config -> "Send stats via MQTT")
+
 Update 1.0.3
 - fixed monitoring waterlevels to not show more than 100%
 - changed touchdisplay switch (page) from number to string
