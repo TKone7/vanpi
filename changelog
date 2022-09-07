@@ -26,7 +26,7 @@ Update 1.0.3
 - switches labels now return to default value when names are deleted (instead of showing nothing)
 - added function to automatically turn off respective switches after a custom set time
 - added schedulers for relays, wifi-relays and dimmers (automatically turn on/off at given times) -> remember to set system time properly or synchronize it automatically (internet access needed)
-- prepared "autooff" varibaale in HTTP endpoints (not yet in use, will be used when code for IoT-bridge code is updated)
+- prepared "autooff" variable in HTTP endpoints (not yet in use, will be used when code for IoT-bridge code is updated)
 - prepared new HTTP endpoint "relayiot" to be used in future IOT-bridge code update
 - added usage of payloads "true"/"false" to be used when switching states of relays/w-relays/dimmers via MQTT
 - fixed PIN numbers in "/home/pi/pekaway/433Utils/RPi_utils/codesend.cpp" (line 27) to PIN 4 and "/home/pi/pekaway/433Utils/RPi_utils/RFSniffer.cpp" (line 26) to PIN 3 for 433MHz sender/receiver to work with VANPI Relayboard
