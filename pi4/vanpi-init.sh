@@ -187,6 +187,18 @@ cd ~/pekaway
 wget ${Server}config.json
 sudo \cp -r ~/pekaway/config.json /var/lib/homebridge/config.json
 
+# Install Zigbee2MQTT
+echo -e "${Cyan}Installing Zigbee2MQTT${NC}"
+sudo mkdir /opt/zigbee2mqtt
+sudo chown -R ${USER}: /opt/zigbee2mqtt
+git clone --depth 1 https://github.com/Koenkk/zigbee2mqtt.git /opt/zigbee2mqtt
+cd /opt/zigbee2mqtt && npm ci
+echo -e "${Cyan}Downloading config files for Zigbee2MQTT${NC}"
+cd ~/pekaway
+curl ${Server}configuration.yaml > /opt/zigbee2mqtt/data/configuration.yaml
+sudo wget ${Server}zigbee2mqtt.service
+sudo mv zigbee2mqtt.service /etc/systemd/system/
+
 # Clear files
 echo -e "${Cyan}Clearing folders and files...${NC}"
 sudo rm /tmp/wiringpi-latest.deb
@@ -199,6 +211,7 @@ sudo rm ~/pekaway/flows.json
 
 # Restart Services
 echo -e "${Cyan}Restarting services...${NC}"
+sudo systemctl daemon-reload
 sudo systemctl restart nginx.service homebridge.service mosquitto.service nodered.service bluetooth
 sudo chmod 0755 ~/pekaway/ds18b20_py/ds18b20.py
 sudo systemctl enable bluetooth
