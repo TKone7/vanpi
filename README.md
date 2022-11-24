@@ -70,7 +70,9 @@ npm might not fully install all needed packages (you'll see it when Node-Red rep
 
 
 
------------obsolete--------------
+-----------------------------------------------------------------------------
+obsolete
+-----------------------------------------------------------------------------
 https://git.pekaway.de/Karl/campercontrol
 
 
