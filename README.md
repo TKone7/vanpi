@@ -63,3 +63,15 @@ npm might not fully install all needed packages (you'll see it when Node-Red rep
  - sudo systemctl stop nodered.service homebridge.service mosquitto.service nginx.service
  - type "cd ~/.node-red" and then use "npm install --verbose". It'll take like... forever, basically. But it will finish! (Use verbose output to see whats going on)
 - sudo systemctl start nodered.service homebridge.service mosquitto.service nginx.service
+
+
+
+
+
+
+
+-----------obsolete--------------
+https://git.pekaway.de/Karl/campercontrol
+
+
+
