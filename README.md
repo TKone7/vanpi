@@ -5,7 +5,7 @@
 -----------------
 _**-- IMPORTANT --**_
 
-**_On bullseye the ADS-script (for the shunt etc.) is not working out of the box! Use buster instead! (The installation script works on both versions)_**
+**_On bullseye the ADS-script (for the shunt etc.) is not working out of the box! Use Buster instead! (The installation script works on both versions, but packages/dependencies needed for future versions of VanPi OS will not be fully installed!)_**
 -----------------
 
  - Using the Raspberry Pi Imager ([download here](https://www.raspberrypi.com/software/)), set the following options
