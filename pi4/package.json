@@ -7,7 +7,7 @@
     "i2c-bus": "latest",
     "node-mcp23017": "latest",
     "node-red-contrib-binary": "latest",
-    "node-red-contrib-buffer-parser": "^3.2.2",
+    "node-red-contrib-buffer-parser": "latest",
     "node-red-contrib-cpu": "latest",
     "node-red-contrib-ds18b20-sensor": "latest",
     "node-red-contrib-generic-ble": "latest",
@@ -17,9 +17,9 @@
     "node-red-contrib-pid-controller": "latest",
     "node-red-contrib-play-audio": "latest",
     "node-red-contrib-queued-sqlite": "latest",
-    "node-red-contrib-buffer-parser": "latest",
     "node-red-contrib-sqlitedb": "latest",
-    "node-red-contrib-ui-time-scheduler": "latest",
+    "node-red-contrib-ui-time-scheduler": "~1.17.2",
+    "node-red-contrib-zigbee2mqtt": "~2.6.3",
     "node-red-dashboard": "latest",
     "node-red-node-pi-gpio": "latest",
     "node-red-node-ping": "latest",
@@ -27,6 +27,7 @@
     "node-red-node-serialport": "latest",
     "node-red-node-smooth": "latest",
     "node-red-node-sqlite": "latest",
+    "node-red-node-ui-list": "~0.3.6",
     "npm-check-updates": "latest",
     "package.json": "latest"
   }
