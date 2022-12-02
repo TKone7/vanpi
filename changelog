@@ -1,5 +1,8 @@
 # Update 1.1.0 BETA (02 Dec 2022)
-**IMPORTANT: When updating via internet, please make sure that in folder ~/pekaway there are NO files called packages.txt and/or package.json. If there are such files, delete them before updating! Otherwise Node-RED will break due to missing nodes.**
+
+**IMPORTANT: When updating via internet, please make sure that in folder ~/pekaway there are NO files called packages.txt and/or package.json.
+If there are such files, delete them before updating! Otherwise Node-RED will break due to missing nodes.**
+
 - added link in update checker to read full changelog
 - set global variable BatteryDataDelivery to empty ("") on first boot
 - added some logic to the function that rebuilds the UI
