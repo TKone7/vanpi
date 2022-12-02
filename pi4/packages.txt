@@ -116,6 +116,7 @@ iotop
 iproute2
 iptables
 iptables-persistent
+iptraf-ng
 iputils-ping
 isc-dhcp-client
 isc-dhcp-common
