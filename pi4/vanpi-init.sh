@@ -212,8 +212,7 @@ sudo rm ~/pekaway/flows.json
 # Restart Services
 echo -e "${Cyan}Restarting services...${NC}"
 sudo systemctl daemon-reload
-sudo systemctl start zigbee2mqtt.service
-sudo systemctl enable zigbee2mqtt.service
+echo -e "${Cyan}zigbee2mqtt.service is not started/enabled by default!${NC}"
 sudo systemctl restart nginx.service homebridge.service mosquitto.service nodered.service bluetooth
 sudo chmod 0755 ~/pekaway/ds18b20_py/ds18b20.py
 sudo systemctl enable bluetooth
