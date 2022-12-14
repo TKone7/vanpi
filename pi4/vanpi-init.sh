@@ -216,6 +216,11 @@ echo -e "${Cyan}zigbee2mqtt.service is not started/enabled by default!${NC}"
 sudo systemctl restart nginx.service homebridge.service mosquitto.service nodered.service bluetooth
 sudo chmod 0755 ~/pekaway/ds18b20_py/ds18b20.py
 sudo systemctl enable bluetooth
+echo -e "${Cyan}Turning off swapfile!${NC}"
+sudo swapoff -a
+sleep 5
+sudo service dphys-swapfile stop
+sudo systemctl disable dphys-swapfile
 # Configure /boot/cmdline.txt
 echo -e "${Cyan}Configuring cmdline.txt...${NC}"
 sudo sed -i 's/^.*root=PARTUUID/root=PARTUUID/' /boot/cmdline.txt
