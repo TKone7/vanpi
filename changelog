@@ -18,6 +18,9 @@
 - added dimmytemp sensor data to http endpoint /temp (only when set to active in config)
 - reworked the function that generates the default wifi ssid to be a bit more randomized
 - reworked the function to reset the wifi to use the same process that generates the default wifi ssid
+- reworked the update function 
+    > it will now download a script from the Pekaway servers and execute to keep it seperated from Node-RED
+    > the script can be found at git.pekaway.de
 - fixed error that sometimes displayed ble-bms info in textfield for "currently set battery" (config)
 - fixed error with libevdev2:armhf package
 ______________________________________________________________________________________________________________
