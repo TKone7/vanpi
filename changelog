@@ -1,4 +1,4 @@
-# Update 1.1.0 (16 Feb 2023) >> changes mentioned here also include BETA updates for this version!
+# Update 1.1.0 (31 Mar 2023) >> changes mentioned here also include BETA updates for this version!
 - added a precompiled .tft file (VanPI_NSPANEL.tft) for the Sonoff NS Panel to ~/pekaway together with the berry driver (autoexec.be), which is needed for the flashing process
     > quickstart NSPanel:
         > install Tasmota via https://tasmota.github.io/install/ (choose "Tasmota32 Sonoff-NSPanel(englisch)" to be flashed)
