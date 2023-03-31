@@ -32,6 +32,7 @@ cron
 curl
 dash
 dbus
+dbus-user-session
 dc
 debconf
 debconf-i18n
@@ -178,6 +179,11 @@ libdevmapper1.02.1:armhf
 libdns-export1104
 libdns1104:armhf
 libdpkg-perl
+libdrm-amdgpu1:armhf
+libdrm-common
+libdrm-nouveau2:armhf
+libdrm-radeon1:armhf
+libdrm2:armhf
 libdw1:armhf
 libedit2:armhf
 libelf1:armhf
@@ -208,10 +214,10 @@ libgcc1:armhf
 libgcrypt20:armhf
 libgdbm-compat4:armhf
 libgdbm6:armhf
-libgdk-pixbuf2.0-0:armhf
 libgeoip1:armhf
 libgirepository-1.0-1:armhf
 libgl1-mesa-dri:armhf
+libglapi-mesa:armhf
 libglib2.0-0:armhf
 libglib2.0-data
 libgmp10:armhf
@@ -220,6 +226,8 @@ libgomp1:armhf
 libgpg-error0:armhf
 libgpm2:armhf
 libgssapi-krb5-2:armhf
+libgtk-3-common
+libgtk2.0-common
 libhogweed4:armhf
 libi2c0:armhf
 libicu63:armhf
@@ -249,6 +257,7 @@ libkrb5support0:armhf
 libksba8:armhf
 libldap-2.4-2:armhf
 libldap-common
+libllvm9:armhf
 liblmdb0:armhf
 liblocale-gettext-perl
 liblognorm5:armhf
@@ -283,7 +292,6 @@ libnginx-mod-http-auth-pam
 libnginx-mod-http-dav-ext
 libnginx-mod-http-echo
 libnginx-mod-http-geoip
-libnginx-mod-http-image-filter
 libnginx-mod-http-subs-filter
 libnginx-mod-http-upstream-fair
 libnginx-mod-http-xslt-filter
@@ -350,6 +358,7 @@ libselinux1:armhf
 libsemanage-common
 libsemanage1:armhf
 libsensors-config
+libsensors5:armhf
 libsepol1:armhf
 libsigc++-1.2-5c2
 libslang2:armhf
@@ -432,7 +441,6 @@ nginx-common
 nginx-light
 nodejs
 ntfs-3g
-openbox
 openresolv
 openssh-client
 openssh-server
@@ -557,12 +565,10 @@ wireless-regdb
 wireless-tools
 wpasupplicant
 x11-common
-x11-xserver-utils
 xdg-user-dirs
-xinit
+xfonts-base
+xfonts-utils
 xkb-data
-xserver-xorg
-xserver-xorg-core
 xxd
 xz-utils
 zip
