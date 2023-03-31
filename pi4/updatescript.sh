@@ -23,10 +23,10 @@ cd ~/.node-red
 npm install
 
 # remove downloaded files
-rm -f ~/pekaway/packages.txt && rm -f ~/pekaway/package.json'
+rm -f ~/pekaway/packages.txt && rm -f ~/pekaway/package.json
 
 # backup Node-RED flows
-cp ~/.node-red/flows_pekaway.json "pekaway/nrbackups/flows_pekaway_`date +%d-%m-%Y_%I:%M:%S%p`.json"
+cp ~/.node-red/flows_pekaway.json 'pekaway/nrbackups/flows_pekaway_`date +%d-%m-%Y_%I:%M:%S%p`.json'
 
 # replace version number
 echo ${Version} >| ~/pekaway/version
@@ -36,6 +36,6 @@ echo "1" >| ~/pekaway/update
 
 # download new flows and replace the old file
 curl ${Server}flows.json > pekaway/pkwUpdate/flows_pekaway.json 
-cp pekaway/pkwUpdate/flows_pekaway.json .node-red/flows_pekaway.json
+cp ~/pekaway/pkwUpdate/flows_pekaway.json ~/.node-red/flows_pekaway.json
 sudo systemctl restart nodered.service
-rm pekaway/pkwUpdate/flows_pekaway.json
+rm ~/pekaway/pkwUpdate/flows_pekaway.json
