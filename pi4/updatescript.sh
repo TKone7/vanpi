@@ -26,7 +26,8 @@ npm install
 rm -f ~/pekaway/packages.txt && rm -f ~/pekaway/package.json
 
 # backup Node-RED flows
-cp ~/.node-red/flows_pekaway.json '~/pekaway/nrbackups/flows_pekaway_`date +%d-%m-%Y_%I:%M:%S%p`.json'
+cd ~/pekaway/nrbackups
+cp ~/.node-red/flows_pekaway.json 'flows_pekaway_`date +%d-%m-%Y_%I:%M:%S%p`.json'
 
 # replace version number
 echo ${Version} >| ~/pekaway/version
