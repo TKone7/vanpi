@@ -18,6 +18,7 @@ cp ~/.node-red/package.json ~/pekaway/nrbackups/package-backup.json
 cp ~/pekaway/package.json ~/.node-red/package.json
 
 # install packages and dependencies
+sudo apt update
 sudo apt install $(cat ~/pekaway/packages.txt) -y
 cd ~/.node-red
 npm install
