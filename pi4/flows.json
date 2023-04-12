@@ -42408,7 +42408,7 @@
     "type": "function",
     "z": "e604dd9.4dd232",
     "name": "substring",
-    "func": "if(msg.payload == \"\") {\n    global.set(\"temp1\",\"\")\n    global.set(\"temp2\",\"\")\n    global.set(\"temp3\",\"\")\n    global.set(\"temp4\",\"\")\n    return null\n}\n\nelse if(msg.payload == 0) {\n    return;\n}\n\nmsg.topic = Number(msg.payload.substring(0,1))\nmsg.payload = msg.payload.substring(5,11)\n\nmsg.payload = Number(msg.payload)\n\nreturn msg;",
+    "func": "if(msg.payload == \"\") {\n    //global.set(\"temp1\",\"\")\n    //global.set(\"temp2\",\"\")\n    //global.set(\"temp3\",\"\")\n    //global.set(\"temp4\",\"\")\n    return null\n}\n\nelse if(msg.payload == 0) {\n    return;\n}\n\nmsg.topic = Number(msg.payload.substring(0,1))\nmsg.payload = msg.payload.substring(5,11)\n\nmsg.payload = Number(msg.payload)\n\nreturn msg;",
     "outputs": 1,
     "noerr": 0,
     "initialize": "",
@@ -42457,15 +42457,9 @@
     "x": 1310,
     "y": 260,
     "wires": [
-      [
-        "dc458ece.736dd"
-      ],
-      [
-        "eca28358.c946c"
-      ],
-      [
-        "a947df33.984df"
-      ],
+      [],
+      [],
+      [],
       [
         "abb157dc.fca178"
       ]
@@ -42671,6 +42665,89 @@
     "x": 1150,
     "y": 360,
     "wires": []
+  },
+  {
+    "id": "235e09eeda184067",
+    "type": "mqtt in",
+    "z": "e604dd9.4dd232",
+    "name": "",
+    "topic": "tele/WLANTEMP2/SENSOR",
+    "qos": "2",
+    "datatype": "json",
+    "broker": "0ddb07c65cbb68bc",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 840,
+    "y": 60,
+    "wires": [
+      [
+        "98bd25adc04f7916"
+      ]
+    ]
+  },
+  {
+    "id": "98bd25adc04f7916",
+    "type": "function",
+    "z": "e604dd9.4dd232",
+    "name": "split multiple readings",
+    "func": "let ret = [null, null]\nif ('DS18B20-1' in msg.payload) {\n    ret[0] = { payload: msg.payload['DS18B20-1'].Temperature }\n}\nif ('DS18B20-2' in msg.payload) {\n    ret[1] = { payload: msg.payload['DS18B20-2'].Temperature }\n}\nreturn ret;",
+    "outputs": 2,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1220,
+    "y": 60,
+    "wires": [
+      [
+        "dc458ece.736dd"
+      ],
+      [
+        "eca28358.c946c"
+      ]
+    ]
+  },
+  {
+    "id": "c55964d60f1cea82",
+    "type": "function",
+    "z": "e604dd9.4dd232",
+    "name": "read Temperature",
+    "func": "msg.payload = msg.payload.AM2301.Temperature;\n\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1210,
+    "y": 120,
+    "wires": [
+      [
+        "a947df33.984df"
+      ]
+    ]
+  },
+  {
+    "id": "4c6059c7b4f75486",
+    "type": "mqtt in",
+    "z": "e604dd9.4dd232",
+    "name": "",
+    "topic": "tele/tasmota_68F3FA/SENSOR",
+    "qos": "2",
+    "datatype": "json",
+    "broker": "0ddb07c65cbb68bc",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 850,
+    "y": 120,
+    "wires": [
+      [
+        "c55964d60f1cea82"
+      ]
+    ]
   },
   {
     "id": "1efeed7ed06bead6",
