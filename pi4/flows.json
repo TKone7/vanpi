@@ -9269,7 +9269,8 @@
         "6f7a18ac7fdbbcd7",
         "01a2961b39108eae",
         "63e79ce3b17c8613",
-        "0c235bbb53d494e5"
+        "0c235bbb53d494e5",
+        "5f485a5c8d5bd255"
       ]
     ]
   },
@@ -10232,6 +10233,52 @@
     "className": "",
     "x": 1050,
     "y": 280,
+    "wires": []
+  },
+  {
+    "id": "5f485a5c8d5bd255",
+    "type": "function",
+    "z": "e10bdbef.f84828",
+    "name": "get global",
+    "func": "msg.payload = Number(global.get(\"BMScycles\")).toFixed(1);\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1000,
+    "y": 460,
+    "wires": [
+      [
+        "7e3d5b76c6827493"
+      ]
+    ]
+  },
+  {
+    "id": "7e3d5b76c6827493",
+    "type": "ui_gauge",
+    "z": "e10bdbef.f84828",
+    "name": "",
+    "group": "e60b8bd1.9669b8",
+    "order": 3,
+    "width": "3",
+    "height": "3",
+    "gtype": "donut",
+    "title": "Cycles",
+    "label": "",
+    "format": "{{value}}",
+    "min": "1",
+    "max": "5000",
+    "colors": [
+      "#00b500",
+      "#f8e45c",
+      "#ca3838"
+    ],
+    "seg1": "2000",
+    "seg2": "4000",
+    "className": "",
+    "x": 1170,
+    "y": 460,
     "wires": []
   },
   {
@@ -59536,8 +59583,8 @@
     "id": "979d093027d95f0b",
     "type": "function",
     "z": "40d4ba5c28e4a6be",
-    "name": "liontron.py",
-    "func": "msg.payload = global.get(\"btbat\");\nif(msg.payload == undefined || msg.payload == \"turn off\" || msg.payload == 0 || msg.payload == \"turned off\" || msg.payload == \"Scan Bluetooth first\" || msg.payload == \"\") {\n    return [null, msg];\n}\nelse {\n    msg.payload = \"sudo python3 pekaway/ble_py/liontronBmsInfo.py -d \"+global.get(\"btbat\");\n    return [msg, msg];\n}",
+    "name": "ectiveBms.py",
+    "func": "msg.payload = global.get(\"btbat\");\nif(msg.payload == undefined || msg.payload == \"turn off\" || msg.payload == 0 || msg.payload == \"turned off\" || msg.payload == \"Scan Bluetooth first\" || msg.payload == \"\") {\n    return [null, msg];\n}\nelse {\n    msg.payload = \"sudo python3 pekaway/ble_py/ectiveBms.py -d \"+global.get(\"btbat\");\n    return [msg, msg];\n}",
     "outputs": 2,
     "noerr": 0,
     "initialize": "",
@@ -59586,7 +59633,7 @@
     "type": "function",
     "z": "40d4ba5c28e4a6be",
     "name": "set global",
-    "func": "//battery\nglobal.set(\"BMSamps\",msg.payload.Imain);\nglobal.set(\"BMScap\",msg.payload.RemainAh);\nglobal.set(\"BMSmaxcap\", (msg.payload.NominalAh * msg.payload.Vmain).toFixed(2));\nglobal.set(\"BMSvolt\",msg.payload.Vmain)\nglobal.set(\"BMStemp\",msg.payload.TempC1);\nglobal.set(\"BMScell1\",msg.payload.Vcell1*1000);\nglobal.set(\"BMScell2\",msg.payload.Vcell2*1000);\nglobal.set(\"BMScell3\",msg.payload.Vcell3*1000);\nglobal.set(\"BMScell4\",msg.payload.Vcell4*1000);\nglobal.set(\"BMSsoc\",msg.payload.SoC);\n\nif (global.get(\"BatteryDataDelivery\") == \"1\") {\n    return null\n}\n\nvar BMSmaxvolt = global.get(\"BMSvolt\")\nvar BMSminvolt = global.get(\"BMSvolt\")\nvar BMSmaxcap = global.get(\"BMSmaxcap\")\n\nif (global.get(\"BMSmaxvolt\") == \"wait\" || global.get(\"BMSmaxvolthighest\") == \"wait\" || BMSmaxvolt > global.get(\"BMSmaxvolthighest\")) {\n    global.set(\"BMSmaxvolthighest\", BMSmaxvolt)\n    global.set(\"BMSmaxvolt\", BMSmaxvolt.toString())\n}\nif (global.get(\"BMSminvolt\") == \"wait\" || global.get(\"BMSminvoltlowest\") == \"wait\" || BMSminvolt < global.get(\"BMSminvoltlowest\")) {\n    global.set(\"BMSminvoltlowest\", BMSminvolt)\n    global.set(\"BMSminvolt\", BMSminvolt.toString())\n}\nif (global.get(\"BMSmaxcap\") == \"wait\" || global.get(\"BMSmaxcaphighest\") == \"wait\" || BMSmaxcap > global.get(\"BMSmaxcaphighest\")) {\n    global.set(\"BMSmaxcaphighest\", BMSmaxcap)\n    global.set(\"BMSmaxcap\", BMSmaxcap.toString())\n}\n\nvar power = msg.payload.Imain * msg.payload.Vmain;\npower = power.toFixed(1);\nglobal.set(\"BMSpower\",power);",
+    "func": "//battery\nglobal.set(\"BMSamps\", msg.payload.current);\nglobal.set(\"BMScap\", 0);\nglobal.set(\"BMSmaxcap\", (msg.payload.cap * msg.payload.volt).toFixed(2));\nglobal.set(\"BMSvolt\", msg.payload.volt)\nglobal.set(\"BMStemp\", msg.payload.temp);\nglobal.set(\"BMScell1\", 0);\nglobal.set(\"BMScell2\", 0);\nglobal.set(\"BMScell3\", 0);\nglobal.set(\"BMScell4\", 0);\nglobal.set(\"BMSsoc\", msg.payload.soc);\nglobal.set(\"BMScycles\", msg.payload.cycles);\n\nif (global.get(\"BatteryDataDelivery\") == \"1\") {\n    return null\n}\n\nvar BMSmaxvolt = global.get(\"BMSvolt\")\nvar BMSminvolt = global.get(\"BMSvolt\")\nvar BMSmaxcap = global.get(\"BMSmaxcap\")\n\nif (global.get(\"BMSmaxvolt\") == \"wait\" || global.get(\"BMSmaxvolthighest\") == \"wait\" || BMSmaxvolt > global.get(\"BMSmaxvolthighest\")) {\n    global.set(\"BMSmaxvolthighest\", BMSmaxvolt)\n    global.set(\"BMSmaxvolt\", BMSmaxvolt.toString())\n}\nif (global.get(\"BMSminvolt\") == \"wait\" || global.get(\"BMSminvoltlowest\") == \"wait\" || BMSminvolt < global.get(\"BMSminvoltlowest\")) {\n    global.set(\"BMSminvoltlowest\", BMSminvolt)\n    global.set(\"BMSminvolt\", BMSminvolt.toString())\n}\nif (global.get(\"BMSmaxcap\") == \"wait\" || global.get(\"BMSmaxcaphighest\") == \"wait\" || BMSmaxcap > global.get(\"BMSmaxcaphighest\")) {\n    global.set(\"BMSmaxcaphighest\", BMSmaxcap)\n    global.set(\"BMSmaxcap\", BMSmaxcap.toString())\n}\n\nvar power = msg.payload.current * msg.payload.volt;\npower = power.toFixed(1);\nglobal.set(\"BMSpower\", power);",
     "outputs": 1,
     "noerr": 0,
     "initialize": "",
