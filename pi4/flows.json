@@ -206,6 +206,47 @@
     "env": []
   },
   {
+    "id": "a3810c0495b637d4",
+    "type": "tab",
+    "label": "Ective BLE",
+    "disabled": false,
+    "info": "",
+    "env": []
+  },
+  {
+    "id": "66e7f53c2a5440e2",
+    "type": "subflow",
+    "name": "average of 5 minutes",
+    "info": "",
+    "category": "",
+    "in": [
+      {
+        "x": 60,
+        "y": 80,
+        "wires": [
+          {
+            "id": "0a1391e9f9ab247b"
+          }
+        ]
+      }
+    ],
+    "out": [
+      {
+        "x": 660,
+        "y": 80,
+        "wires": [
+          {
+            "id": "203768e8b38de5f0",
+            "port": 0
+          }
+        ]
+      }
+    ],
+    "env": [],
+    "meta": {},
+    "color": "#DDAA99"
+  },
+  {
     "id": "d9229161.b8548",
     "type": "ui_group",
     "name": "Switches",
@@ -1381,6 +1422,81 @@
     "width": "6",
     "collapse": false,
     "className": ""
+  },
+  {
+    "id": "c202da164d32f31e",
+    "type": "ui_group",
+    "name": "MPPT",
+    "tab": "deee53a800de461d",
+    "order": 8,
+    "disp": true,
+    "width": "6",
+    "collapse": false,
+    "className": ""
+  },
+  {
+    "id": "0a1391e9f9ab247b",
+    "type": "batch",
+    "z": "66e7f53c2a5440e2",
+    "name": "",
+    "mode": "interval",
+    "count": "3",
+    "overlap": 0,
+    "interval": "300",
+    "allowEmptySequence": false,
+    "topics": [],
+    "x": 190,
+    "y": 80,
+    "wires": [
+      [
+        "fe2bcba7f6821a65"
+      ]
+    ]
+  },
+  {
+    "id": "fe2bcba7f6821a65",
+    "type": "join",
+    "z": "66e7f53c2a5440e2",
+    "name": "",
+    "mode": "custom",
+    "build": "array",
+    "property": "payload",
+    "propertyType": "msg",
+    "key": "topic",
+    "joiner": "\\n",
+    "joinerType": "str",
+    "accumulate": false,
+    "timeout": "3",
+    "count": "",
+    "reduceRight": false,
+    "reduceExp": "",
+    "reduceInit": "",
+    "reduceInitType": "",
+    "reduceFixup": "",
+    "x": 350,
+    "y": 80,
+    "wires": [
+      [
+        "203768e8b38de5f0"
+      ]
+    ]
+  },
+  {
+    "id": "203768e8b38de5f0",
+    "type": "function",
+    "z": "66e7f53c2a5440e2",
+    "name": "calc average",
+    "func": "const keys = Object.keys(msg.payload[0]);\n\nconst summed = msg.payload.reduce((prev, val) => {\n    keys.forEach(k => prev[k] += val[k]);\n    return prev;\n},\n    keys.reduce((prev, val) => { prev[val] = 0; return prev; }, {})\n);\n\nconst average = keys.reduce((prev, val) => { prev[val] = summed[val] / msg.payload.length; return prev; }, {});\n\nmsg.payload = average;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 530,
+    "y": 80,
+    "wires": [
+      []
+    ]
   },
   {
     "id": "bb0abe7e.248eb",
@@ -4961,7 +5077,7 @@
     "type": "function",
     "z": "1f780f8f.dbcd5",
     "name": "MUART, USB, BTbatt, Shunt",
-    "func": "/*\nUSB UART:\n0 = nothing\n1 = Daly BMS Bluetooth\n2 = VE.Direct\n3 = Webasto\n4 = China Diesel Heater\n5 = Autoterm 2D\n6 = Daly Monit\n7 = JBD Generic\n8 = Autoterm 4D\n9 = MaxxAir MaxxFan\n*/\nvar multiuart = global.get(\"multiuart1\");\nvar multiuart2 = global.get(\"multiuart2\");\nvar BLE = global.get(\"BLEdevice\");\nvar usb1 = parseInt(global.get(\"usb1uart\"));\nvar usb2 = parseInt(global.get(\"usb2uart\"));\nvar usb3 = parseInt(global.get(\"usb3uart\"));\nvar usb4 = parseInt(global.get(\"usb4uart\"));\nvar btbat = global.get(\"btbat\");\nvar btbat1 = 1;\n\nvar bms_info = {\"group\":{\"hide\":[\"Info_BMS_INFO\"]}};\nvar victron = {\"tabs\":{\"hide\":[\"Victron\"]}};\nlet maxxfan = {\"tabs\":{\"hide\":[\"MaxxFan\"]}};\nvar webasto = {\"group\":{\"hide\":[\"Heater_Info_Webasto\"]}};\nvar chinaheater = {\"group\":{\"hide\":[\"Heater_Info_China_Heater\"]}};\nvar autoterm = {\"group\":{\"hide\":[\"Heater_Info_Autoterm\"]}};\nvar vanpishunt = {\"group\":{\"hide\":[\"Info_VanPI_Shunt\"]}};\nvar victronshunt = {\"group\":{\"hide\":[\"Info_Victron_Shunt\"]}};\nvar dimmytemp = {\"group\":{\"hide\":[\"Info_Dimmy_Temperature\", \"Sensors_Dimmy_Temperature_Names\"]}};\n\nif (btbat == 0 || btbat == \"\" || btbat == undefined || btbat == \"turn off\" || btbat == \"turned off\" || btbat == \"Scan Bluetooth first\") {\n    btbat1 = 0;   \n}\n\n//USB-Ports + Bluetooth Batt/BMS\nif (usb1 == 0 && usb2 == 0 && usb3 == 0 && usb4 == 0) {\n    if(btbat == 0 || btbat == \"\" || btbat == undefined || btbat == \"turn off\" || btbat == \"turned off\" || btbat == \"Scan Bluetooth first\") {\n        bms_info = {\"group\":{\"hide\":[\"Info_BMS_INFO\"]}};\n    }\n    else {\n        bms_info = { \"group\": { \"show\": [\"Info_BMS_INFO\"], \"hide\": []}};\n    }\n}\n\nif(usb1==1 || usb1==6 || usb1 == 7 || usb2==1 || usb2==6 || usb2 == 7 || usb3==1 || usb3==6 || usb3 == 7 || usb4==1 || usb4==6 || usb4 == 7 || multiuart==1 || multiuart==6 || multiuart == 7 || BLE == 1 || multiuart2 == 1 || multiuart2 == 6 || multiuart2 == 7 || btbat1 == 1) {\n    bms_info = { \"group\": { \"show\": [\"Info_BMS_INFO\"], \"hide\": []}};\n}\nif(usb1==2 || usb2==2 || usb3==2 || usb4==2) {\n    victron = { \"tabs\": { \"show\": [\"Victron\"], \"hide\": []}};\n}\nif(usb1==3 || usb2==3 || usb3==3 || usb4==3) {\n    webasto = { \"group\": { \"show\": [\"Heater_Info_Webasto\"], \"hide\": []}};\n}\nif(usb1==4 || usb2==4 || usb3==4 || usb4==4) {\n    chinaheater = { \"group\": { \"show\": [\"Heater_Info_China_Heater\"], \"hide\": []}};\n}\nif (usb1 == 5 || usb2 == 5 || usb3 == 5 || usb4 == 5 || usb1 == 8 || usb2 == 8 || usb3 == 8 || usb4 == 8) {\n    autoterm = { \"group\": { \"show\": [\"Heater_Info_Autoterm\"], \"hide\": []}};\n}\n\n//MUART\nif(multiuart==2 || multiuart2==2) {\n    victron = { \"tabs\": { \"show\": [\"Victron\"], \"hide\": []}};\n}\n\n//Shunt\nif(global.get(\"pkwshuntactive\")==true) {\n    vanpishunt = { \"group\": { \"show\": [\"Info_VanPI_Shunt\"], \"hide\": []}};\n}\nif(global.get(\"BatteryDataDelivery\")==\"VICTRON\") {\n    victronshunt = { \"group\": { \"show\": [\"Info_Victron_Shunt\"], \"hide\": []}};\n}\n\n//Dimmy temp sensors\nif (global.get(\"dimmytemp\") == true) {\n    dimmytemp = { \"group\": { \"show\": [\"Info_Dimmy_Temperature\", \"Sensors_Dimmy_Temperature_Names\"], \"hide\": []}};\n}\n\n//MaxFan Tab\nif (usb1 == 9 || usb2 == 9 || usb3 == 9 || usb4 == 9) {\n    maxxfan = {\"tabs\":{\"show\":[\"MaxxFan\"], \"hide\":[]}};\n}\n\n//send variables to build ui\nmsg.payload = bms_info\nnode.send(msg)\nmsg.payload = victron\nnode.send(msg)\nmsg.payload = webasto\nnode.send(msg)\nmsg.payload = chinaheater\nnode.send(msg)\nmsg.payload = autoterm\nnode.send(msg)\nmsg.payload = vanpishunt\nnode.send(msg)\nmsg.payload = victronshunt\nnode.send(msg)\nmsg.payload = dimmytemp\nnode.send(msg)\nmsg.payload = maxxfan\nnode.send(msg)",
+    "func": "/*\nUSB UART:\n0 = nothing\n1 = Daly BMS Bluetooth\n2 = VE.Direct\n3 = Webasto\n4 = China Diesel Heater\n5 = Autoterm 2D\n6 = Daly Monit\n7 = JBD Generic\n8 = Autoterm 4D\n9 = MaxxAir MaxxFan\n*/\nvar multiuart = global.get(\"multiuart1\");\nvar multiuart2 = global.get(\"multiuart2\");\nvar BLE = global.get(\"BLEdevice\");\nvar usb1 = parseInt(global.get(\"usb1uart\"));\nvar usb2 = parseInt(global.get(\"usb2uart\"));\nvar usb3 = parseInt(global.get(\"usb3uart\"));\nvar usb4 = parseInt(global.get(\"usb4uart\"));\nvar btbat = global.get(\"btbat\");\nvar btbat1 = 1;\n\nvar bms_info = {\"group\":{\"hide\":[\"Info_BMS_INFO\"]}};\nvar victron = {\"tabs\":{\"hide\":[\"Victron\"]}};\nlet maxxfan = {\"tabs\":{\"hide\":[\"MaxxFan\"]}};\nvar webasto = {\"group\":{\"hide\":[\"Heater_Info_Webasto\"]}};\nvar chinaheater = {\"group\":{\"hide\":[\"Heater_Info_China_Heater\"]}};\nvar autoterm = {\"group\":{\"hide\":[\"Heater_Info_Autoterm\"]}};\nvar vanpishunt = {\"group\":{\"hide\":[\"Info_VanPI_Shunt\"]}};\nvar victronshunt = {\"group\":{\"hide\":[\"Info_Victron_Shunt\"]}};\nvar dimmytemp = {\"group\":{\"hide\":[\"Info_Dimmy_Temperature\", \"Sensors_Dimmy_Temperature_Names\"]}};\n\nif (btbat == 0 || btbat == \"\" || btbat == undefined || btbat == \"turn off\" || btbat == \"turned off\" || btbat == \"Scan Bluetooth first\") {\n    btbat1 = 0;   \n}\nbtbat1 = 1;\n\n//USB-Ports + Bluetooth Batt/BMS\nif (usb1 == 0 && usb2 == 0 && usb3 == 0 && usb4 == 0) {\n    if(btbat == 0 || btbat == \"\" || btbat == undefined || btbat == \"turn off\" || btbat == \"turned off\" || btbat == \"Scan Bluetooth first\") {\n        bms_info = {\"group\":{\"hide\":[\"Info_BMS_INFO\"]}};\n    }\n    else {\n        bms_info = { \"group\": { \"show\": [\"Info_BMS_INFO\"], \"hide\": []}};\n    }\n}\n\nif(usb1==1 || usb1==6 || usb1 == 7 || usb2==1 || usb2==6 || usb2 == 7 || usb3==1 || usb3==6 || usb3 == 7 || usb4==1 || usb4==6 || usb4 == 7 || multiuart==1 || multiuart==6 || multiuart == 7 || BLE == 1 || multiuart2 == 1 || multiuart2 == 6 || multiuart2 == 7 || btbat1 == 1) {\n    bms_info = { \"group\": { \"show\": [\"Info_BMS_INFO\"], \"hide\": []}};\n}\nif(usb1==2 || usb2==2 || usb3==2 || usb4==2) {\n    victron = { \"tabs\": { \"show\": [\"Victron\"], \"hide\": []}};\n}\nif(usb1==3 || usb2==3 || usb3==3 || usb4==3) {\n    webasto = { \"group\": { \"show\": [\"Heater_Info_Webasto\"], \"hide\": []}};\n}\nif(usb1==4 || usb2==4 || usb3==4 || usb4==4) {\n    chinaheater = { \"group\": { \"show\": [\"Heater_Info_China_Heater\"], \"hide\": []}};\n}\nif (usb1 == 5 || usb2 == 5 || usb3 == 5 || usb4 == 5 || usb1 == 8 || usb2 == 8 || usb3 == 8 || usb4 == 8) {\n    autoterm = { \"group\": { \"show\": [\"Heater_Info_Autoterm\"], \"hide\": []}};\n}\n\n//MUART\nif(multiuart==2 || multiuart2==2) {\n    victron = { \"tabs\": { \"show\": [\"Victron\"], \"hide\": []}};\n}\n\n//Shunt\nif(global.get(\"pkwshuntactive\")==true) {\n    vanpishunt = { \"group\": { \"show\": [\"Info_VanPI_Shunt\"], \"hide\": []}};\n}\nif(global.get(\"BatteryDataDelivery\")==\"VICTRON\") {\n    victronshunt = { \"group\": { \"show\": [\"Info_Victron_Shunt\"], \"hide\": []}};\n}\n\n//Dimmy temp sensors\nif (global.get(\"dimmytemp\") == true) {\n    dimmytemp = { \"group\": { \"show\": [\"Info_Dimmy_Temperature\", \"Sensors_Dimmy_Temperature_Names\"], \"hide\": []}};\n}\n\n//MaxFan Tab\nif (usb1 == 9 || usb2 == 9 || usb3 == 9 || usb4 == 9) {\n    maxxfan = {\"tabs\":{\"show\":[\"MaxxFan\"], \"hide\":[]}};\n}\n\n//send variables to build ui\nmsg.payload = bms_info\nnode.send(msg)\nmsg.payload = victron\nnode.send(msg)\nmsg.payload = webasto\nnode.send(msg)\nmsg.payload = chinaheater\nnode.send(msg)\nmsg.payload = autoterm\nnode.send(msg)\nmsg.payload = vanpishunt\nnode.send(msg)\nmsg.payload = victronshunt\nnode.send(msg)\nmsg.payload = dimmytemp\nnode.send(msg)\nmsg.payload = maxxfan\nnode.send(msg)",
     "outputs": 1,
     "noerr": 0,
     "initialize": "",
@@ -4980,7 +5096,7 @@
     "type": "function",
     "z": "1f780f8f.dbcd5",
     "name": "hide",
-    "func": "msg.payload={\"group\":{\"hide\":[\"Info_BMS_INFO\",\"Heater_Info_China_Heater\",\"Heater_Info_Webasto\",\"Heater_Info_Autoterm\",\"Info_VanPI_Shunt\",\"Info_Victron_Shunt\",\"Heater_LFBros\"]}};\nnode.send([null, msg])\nmsg.payload={\"tabs\":{\"show\":[\"Heater\"]}};\nnode.send([null, msg])\nmsg.payload={\"tabs\":{\"hide\":[\"Victron\"]}};\nnode.send([null, msg])\nmsg.payload={\"tabs\":{\"hide\":[\"MaxxFan\"]}};\nnode.send([null, msg])\n\nreturn [msg, null];",
+    "func": "msg.payload={\"group\":{\"hide\":[\"Info_BMS_INFO\",\"Heater_Info_China_Heater\",\"Heater_Info_Webasto\",\"Heater_Info_Autoterm\",\"Info_VanPI_Shunt\",\"Info_Victron_Shunt\",\"Heater_LFBros\"]}};\nnode.send([null, msg])\nmsg.payload={\"tabs\":{\"show\":[\"Heater\"]}};\nnode.send([null, msg])\nmsg.payload={\"tabs\":{\"hide\":[\"Victron\"]}};\nnode.send([null, msg])\nmsg.payload={\"tabs\":{\"hide\":[\"MaxxFan\"]}};\nnode.send([null, msg])\nreturn [msg, null];",
     "outputs": 2,
     "noerr": 0,
     "initialize": "",
@@ -52148,7 +52264,6 @@
         "d4e1378e34f71834",
         "9f5d99a090b671fd",
         "3075aa43999ca314",
-        "196da47b40565b0c",
         "e38d0f381033c354"
       ]
     ]
@@ -84458,5 +84573,486 @@
         "be96f9257f9187d2"
       ]
     ]
+  },
+  {
+    "id": "7963db7c3e26358e",
+    "type": "function",
+    "z": "a3810c0495b637d4",
+    "name": "get global MPPTsolarPower",
+    "func": "msg.payload = global.get(\"MPPTsolarPower\");\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 640,
+    "y": 940,
+    "wires": [
+      [
+        "e49d0ba6d6f9273d"
+      ]
+    ]
+  },
+  {
+    "id": "e49d0ba6d6f9273d",
+    "type": "ui_gauge",
+    "z": "a3810c0495b637d4",
+    "name": "",
+    "group": "c202da164d32f31e",
+    "order": 1,
+    "width": "3",
+    "height": "3",
+    "gtype": "gage",
+    "title": "Solar Power",
+    "label": "W",
+    "format": "{{value}}",
+    "min": "0",
+    "max": "380",
+    "colors": [
+      "#e26f03",
+      "#e6e600",
+      "#14c838"
+    ],
+    "seg1": "50",
+    "seg2": "200",
+    "className": "",
+    "x": 890,
+    "y": 940,
+    "wires": []
+  },
+  {
+    "id": "517b7cbd3a79ebcc",
+    "type": "inject",
+    "z": "a3810c0495b637d4",
+    "name": "",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "5",
+    "crontab": "",
+    "once": true,
+    "onceDelay": "12",
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 310,
+    "y": 940,
+    "wires": [
+      [
+        "7963db7c3e26358e",
+        "9779d520aa15fb16"
+      ]
+    ]
+  },
+  {
+    "id": "67bf1c9ba5857bab",
+    "type": "comment",
+    "z": "a3810c0495b637d4",
+    "name": "MPPT UI",
+    "info": "",
+    "x": 280,
+    "y": 900,
+    "wires": []
+  },
+  {
+    "id": "9be0a45522a9097f",
+    "type": "comment",
+    "z": "a3810c0495b637d4",
+    "name": "Request values from bt MPPT charger",
+    "info": "",
+    "x": 370,
+    "y": 320,
+    "wires": []
+  },
+  {
+    "id": "0790ecbcc2e4b2dd",
+    "type": "inject",
+    "z": "a3810c0495b637d4",
+    "name": "",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "30",
+    "crontab": "",
+    "once": true,
+    "onceDelay": "10",
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 310,
+    "y": 360,
+    "wires": [
+      [
+        "52ac7c7d2c714aa1"
+      ]
+    ]
+  },
+  {
+    "id": "52ac7c7d2c714aa1",
+    "type": "function",
+    "z": "a3810c0495b637d4",
+    "name": "ectiveMPPT.py",
+    "func": "msg.payload = \"sudo python3 pekaway/ble_py/ectiveMPPT.py -d 00:15:A5:00:0D:AB\";\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 520,
+    "y": 360,
+    "wires": [
+      [
+        "baa0b05f66e3b7b0"
+      ]
+    ]
+  },
+  {
+    "id": "baa0b05f66e3b7b0",
+    "type": "exec",
+    "z": "a3810c0495b637d4",
+    "command": "",
+    "addpay": "payload",
+    "append": "",
+    "useSpawn": "false",
+    "timer": "",
+    "winHide": false,
+    "oldrc": false,
+    "name": "readMPPT",
+    "x": 750,
+    "y": 360,
+    "wires": [
+      [
+        "4ce8d208decf2aeb"
+      ],
+      [
+        "cdd8277d39fe103f"
+      ],
+      []
+    ]
+  },
+  {
+    "id": "4ce8d208decf2aeb",
+    "type": "json",
+    "z": "a3810c0495b637d4",
+    "name": "",
+    "property": "payload",
+    "action": "",
+    "pretty": false,
+    "x": 910,
+    "y": 360,
+    "wires": [
+      [
+        "9ff6af17eb4e46ae",
+        "b0fb5893f4972bd9"
+      ]
+    ]
+  },
+  {
+    "id": "9ff6af17eb4e46ae",
+    "type": "function",
+    "z": "a3810c0495b637d4",
+    "name": "set global",
+    "func": "//mppt\nglobal.set(\"MPPTcharge\", msg.payload.batteryCurrent);\nglobal.set(\"MPPTsolarPower\", msg.payload.solarPanelPower);\nglobal.set(\"MPPTsolarVoltage\", msg.payload.solarPanelVoltage);",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1160,
+    "y": 360,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "cdd8277d39fe103f",
+    "type": "debug",
+    "z": "a3810c0495b637d4",
+    "name": "debug 62",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 900,
+    "y": 520,
+    "wires": []
+  },
+  {
+    "id": "7d8906822297dcd0",
+    "type": "function",
+    "z": "a3810c0495b637d4",
+    "name": "prepare mppt stats",
+    "func": "msg = {\n   \"stats\": \"mppt\",\n   \"payload\": {\n       \"charge\": Math.round(msg.payload.batteryCurrent),\n       \"power\": Math.round(msg.payload.solarPanelPower),\n       \"voltage\": parseFloat(msg.payload.solarPanelVoltage.toFixed(1)),\n   }\n}\n\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1450,
+    "y": 420,
+    "wires": [
+      [
+        "3baf4481f68acdbd"
+      ]
+    ]
+  },
+  {
+    "id": "3baf4481f68acdbd",
+    "type": "mqtt out",
+    "z": "a3810c0495b637d4",
+    "name": "",
+    "topic": "pkw/tele/mppt",
+    "qos": "",
+    "retain": "",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "0ddb07c65cbb68bc",
+    "x": 1740,
+    "y": 420,
+    "wires": []
+  },
+  {
+    "id": "0da118de51f9ce30",
+    "type": "ui_gauge",
+    "z": "a3810c0495b637d4",
+    "name": "",
+    "group": "c202da164d32f31e",
+    "order": 1,
+    "width": "3",
+    "height": "3",
+    "gtype": "gage",
+    "title": "Solar Charge",
+    "label": "A",
+    "format": "{{value}}",
+    "min": 0,
+    "max": "30",
+    "colors": [
+      "#8ff0a4",
+      "#33d17a",
+      "#00b500"
+    ],
+    "seg1": "",
+    "seg2": "",
+    "className": "",
+    "x": 870,
+    "y": 1000,
+    "wires": []
+  },
+  {
+    "id": "9779d520aa15fb16",
+    "type": "function",
+    "z": "a3810c0495b637d4",
+    "name": "get global MPPTcharge",
+    "func": "msg.payload = global.get(\"MPPTcharge\");\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 630,
+    "y": 1000,
+    "wires": [
+      [
+        "0da118de51f9ce30"
+      ]
+    ]
+  },
+  {
+    "id": "7b2693940a227259",
+    "type": "inject",
+    "z": "a3810c0495b637d4",
+    "name": "",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "30",
+    "crontab": "",
+    "once": true,
+    "onceDelay": "40",
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 310,
+    "y": 620,
+    "wires": [
+      [
+        "cbbe6da6497665e6"
+      ]
+    ]
+  },
+  {
+    "id": "cbbe6da6497665e6",
+    "type": "function",
+    "z": "a3810c0495b637d4",
+    "name": "ectiveBms.py",
+    "func": "msg.payload = \"sudo python3 pekaway/ble_py/ectiveBms.py -d FC:45:C3:BD:ED:BF\";\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 510,
+    "y": 620,
+    "wires": [
+      [
+        "32db5fd008860b18"
+      ]
+    ]
+  },
+  {
+    "id": "32db5fd008860b18",
+    "type": "exec",
+    "z": "a3810c0495b637d4",
+    "command": "",
+    "addpay": "payload",
+    "append": "",
+    "useSpawn": "false",
+    "timer": "",
+    "winHide": false,
+    "oldrc": false,
+    "name": "readBms",
+    "x": 740,
+    "y": 620,
+    "wires": [
+      [
+        "45efe1fa37d16176"
+      ],
+      [
+        "cdd8277d39fe103f"
+      ],
+      []
+    ]
+  },
+  {
+    "id": "45efe1fa37d16176",
+    "type": "json",
+    "z": "a3810c0495b637d4",
+    "name": "",
+    "property": "payload",
+    "action": "",
+    "pretty": false,
+    "x": 910,
+    "y": 620,
+    "wires": [
+      [
+        "4b7cd26882479e20",
+        "bdd1707eb1d4be2d"
+      ]
+    ]
+  },
+  {
+    "id": "4b7cd26882479e20",
+    "type": "function",
+    "z": "a3810c0495b637d4",
+    "name": "set global",
+    "func": "//battery\nglobal.set(\"BMSamps\", parseFloat(msg.payload.current.toFixed(1)));\nglobal.set(\"BMSmaxcap\", (msg.payload.cap * msg.payload.volt).toFixed(2));\nglobal.set(\"BMSvolt\", msg.payload.volt)\nglobal.set(\"BMStemp\", msg.payload.temp);\nglobal.set(\"BMSsoc\", msg.payload.soc);\nglobal.set(\"BMScycles\", msg.payload.cycles);\n\nvar power = msg.payload.current * msg.payload.volt;\npower = power.toFixed(1);\nglobal.set(\"BMSpower\", power);",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1160,
+    "y": 620,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "b0fb5893f4972bd9",
+    "type": "subflow:66e7f53c2a5440e2",
+    "z": "a3810c0495b637d4",
+    "name": "",
+    "x": 1200,
+    "y": 420,
+    "wires": [
+      [
+        "7d8906822297dcd0"
+      ]
+    ]
+  },
+  {
+    "id": "bdd1707eb1d4be2d",
+    "type": "subflow:66e7f53c2a5440e2",
+    "z": "a3810c0495b637d4",
+    "name": "",
+    "x": 1200,
+    "y": 680,
+    "wires": [
+      [
+        "d1e6223b7e5bc5a1"
+      ]
+    ]
+  },
+  {
+    "id": "d1e6223b7e5bc5a1",
+    "type": "function",
+    "z": "a3810c0495b637d4",
+    "name": "prepare bms stats",
+    "func": "msg = {\n    \"stats\": \"battery\",\n    \"payload\": {\n        \"BMSamps\": Math.round(msg.payload.current),\n        \"BMSmaxcap\": Math.round(msg.payload.cap * msg.payload.volt),\n        \"BMSpower\": Math.round(msg.payload.current * msg.payload.volt),\n        \"BMSsoc\": Math.round(msg.payload.soc),\n        \"BMStemp\": parseFloat(msg.payload.temp.toFixed(1)),\n        \"BMSvolt\": parseFloat(msg.payload.volt.toFixed(1)),\n    }\n}\n\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1450,
+    "y": 680,
+    "wires": [
+      [
+        "c6fe74085a2ed6d6"
+      ]
+    ]
+  },
+  {
+    "id": "c6fe74085a2ed6d6",
+    "type": "mqtt out",
+    "z": "a3810c0495b637d4",
+    "name": "",
+    "topic": "pkw/tele/bms",
+    "qos": "",
+    "retain": "",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "0ddb07c65cbb68bc",
+    "x": 1730,
+    "y": 680,
+    "wires": []
+  },
+  {
+    "id": "594a17019628bac5",
+    "type": "comment",
+    "z": "a3810c0495b637d4",
+    "name": "Request values from bt BMS",
+    "info": "",
+    "x": 340,
+    "y": 580,
+    "wires": []
   }
 ]
