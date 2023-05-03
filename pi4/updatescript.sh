@@ -83,6 +83,7 @@ fi
 
 # remove packages.txt and package.json if they already exist
 cd ~/pekaway
+rm -f updatescript.sh
 rm -f packages.txt
 rm -f package.json
 rm -f pip3list.txt
