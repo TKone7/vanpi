@@ -136,7 +136,7 @@ if [[ -n $extramodules ]]; then
 						# cd ~/.node-red
 						echo `jq -s '.[0] * .[1]' ~/.node-red/package.json ~/pekaway/nrbackups/package-backup.json` > ~/pekaway/nrbackups/package-backup1.json
 						jq . ~/pekaway/nrbackups/package-backup1.json > ~/pekaway/nrbackups/pretty.json 
-						# rm ~/pekaway/nrbackups/package-backup.json #### keep backup just in case...
+						rm ~/pekaway/nrbackups/package-backup.json #### keep backup just in case...??
 						mv ~/pekaway/nrbackups/pretty.json ~/.node-red/package.json
 						echo "Missing lines have been added to package.json"
 						echo "New ~/.node-red/package.json:"
