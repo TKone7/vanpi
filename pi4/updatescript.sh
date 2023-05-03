@@ -191,7 +191,7 @@ echo "1" >| ~/pekaway/update
 echo "replacing local flows.json file with new one from the server"
 curl ${Server}flows.json > ~/pekaway/pkwUpdate/flows_pekaway.json 
 cp ~/pekaway/pkwUpdate/flows_pekaway.json ~/.node-red/flows_pekaway.json
-sudo systemctl restart nodered.service
-rm ~/pekaway/pkwUpdate/flows_pekaway.json
-
 echo "update script finished! You can find the logfile at ${LOG_FILE}."
+rm ~/pekaway/pkwUpdate/flows_pekaway.json
+sudo systemctl restart nodered.service
+
