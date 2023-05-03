@@ -113,7 +113,7 @@ cd ~/.node-red
 # compare older package.json with new one and ask for merging
 echo "comparing original package.json with the new one:"
 
-extramodules=$(diff <(jq --sort-keys .dependencies ~/pekaway/.node-red/package.json) <(jq --sort-keys .dependencies ~/pekaway/nrbackups/package-backup.json) | grep '>')
+extramodules=$(diff <(jq --sort-keys .dependencies ~/.node-red/package.json) <(jq --sort-keys .dependencies ~/pekaway/nrbackups/package-backup.json) | grep '>')
 
 if [[ -n $extramodules ]]; then
     echo -e "Your original package.json file has the following additonal modules listed:"
@@ -123,7 +123,7 @@ if [[ -n $extramodules ]]; then
    if [[ "$1" == "node-red-auto-update" ]] || [["$needUpdate" == 'true' ]]; then
 	echo -e "updating from Node-RED, adding additional lines automatically."
 		# cd ~/.node-red
-		echo `jq -s '.[0] * .[1]' ~/json_test/package.json ~/json_test/package_backup.json` > ~/json_test/package1.json && jq . ~/json_test/package1.json > ~/json_test/pretty.json && rm ~/json_test/package1.json && mv ~/json_test/pretty.json ~/json_test/package1.json
+		echo `jq -s '.[0] * .[1]' ~/.node-red/package.json ~/pekaway/nrbackups/package-backup.json` > ~/pekaway/nrbackups/package1.json && jq . ~/pekaway/nrbackups/package1.json > ~/pekaway/nrbackups/pretty.json && rm ~/pekaway/nrbackups/package1.json && mv ~/pekaway/nrbackups/pretty.json ~/pekaway/nrbackups/package1.json
 		echo "Missing lines have been added to package1.json"
 		echo "New package.json:"
 		cat ~/json_test/package1.json
