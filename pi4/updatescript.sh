@@ -124,9 +124,9 @@ if [[ -n $extramodules ]]; then
 	echo -e "updating from Node-RED, adding additional lines automatically."
 		# cd ~/.node-red
 		echo `jq -s '.[0] * .[1]' ~/.node-red/package.json ~/pekaway/nrbackups/package-backup.json` > ~/pekaway/nrbackups/package1.json && jq . ~/pekaway/nrbackups/package1.json > ~/pekaway/nrbackups/pretty.json && rm ~/pekaway/nrbackups/package1.json && mv ~/pekaway/nrbackups/pretty.json ~/pekaway/nrbackups/package1.json
-		echo "Missing lines have been added to package1.json"
+		echo "Missing lines have been added to package.json"
 		echo "New package.json:"
-		cat ~/json_test/package1.json
+		cat ~/.node-red/package.json
 		exit
    else
 		while true; do
