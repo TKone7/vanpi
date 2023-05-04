@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#########################################################
-#														#
-# This script will install VanPi OS				 		#
-# on a clean and fresh 'Raspberry Pi OS (Buster)'!		#
-# Simply download the script and execute it.			#
-#														#
-#########################################################
+########################################################
+#														
+# This script will install VanPi OS				 		
+# on a clean and fresh 'Raspberry Pi OS (Buster)'!		
+# Simply download the script and execute it.			
+#														
+########################################################
 
 # create logfile and make it writable
 LOG_FILE=/var/log/pekaway-install.log
