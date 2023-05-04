@@ -183,9 +183,6 @@ echo "replacing version number of VanPi OS"
 # replace version number
 echo ${Version} >| ~/pekaway/version
 
-# set file dimmer_maxpercent to 100
-echo "100" > ~/pekaway/dimmer_maxpercent
-
 # set update = true to show up when opening dashboard
 echo "1" >| ~/pekaway/update
 
