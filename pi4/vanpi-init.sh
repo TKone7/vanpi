@@ -193,7 +193,7 @@ echo -e "${Cyan}Installing Mqttthing for Homebridge${NC}"
 sudo -E -n npm install -g homebridge-mqttthing@latest
 cd ~/pekaway
 wget ${Server}config.json
-sudo \cp -r ~/pekaway/config.json /var/lib/homebridge/config.json
+sudo cp -r ~/pekaway/config.json /var/lib/homebridge/config.json
 
 # install Zigbee2MQTT
 echo -e "${Cyan}Installing Zigbee2MQTT${NC}"
