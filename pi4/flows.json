@@ -1374,6 +1374,22 @@
         "className": ""
     },
     {
+        "id": "a1d8ed34.6a447",
+        "type": "ui_group",
+        "name": "Time",
+        "tab": "4d8d2f83.26819",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "4d8d2f83.26819",
+        "type": "ui_tab",
+        "name": "Settings",
+        "icon": "settings"
+    },
+    {
         "id": "bb0abe7e.248eb",
         "type": "function",
         "z": "1f780f8f.dbcd5",
@@ -62550,7 +62566,7 @@
         "d": true,
         "name": "",
         "group": "f06428cbbee24a1a",
-        "order": 7,
+        "order": 11,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -62580,7 +62596,7 @@
         "d": true,
         "name": "",
         "group": "f06428cbbee24a1a",
-        "order": 6,
+        "order": 10,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -63186,7 +63202,7 @@
         "z": "67973ee8.553c3",
         "name": "",
         "group": "f06428cbbee24a1a",
-        "order": 8,
+        "order": 12,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -63497,7 +63513,7 @@
         "z": "67973ee8.553c3",
         "name": "",
         "group": "f06428cbbee24a1a",
-        "order": 9,
+        "order": 13,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -63542,6 +63558,7 @@
         "id": "307d869f.1c90fa",
         "type": "ui_text",
         "z": "67973ee8.553c3",
+        "d": true,
         "group": "f06428cbbee24a1a",
         "order": 1,
         "width": 0,
@@ -63559,6 +63576,7 @@
         "id": "d36d3f1f.0f445",
         "type": "function",
         "z": "67973ee8.553c3",
+        "d": true,
         "name": "new Date()",
         "func": "var now = new Date().toLocaleString();\nmsg.payload = now.replace(/\\//g, \".\");\nreturn msg",
         "outputs": 1,
@@ -67037,6 +67055,7 @@
         "id": "866facb36782aed3",
         "type": "comment",
         "z": "67973ee8.553c3",
+        "d": true,
         "name": "TIME SYNC",
         "info": "",
         "x": 1490,
@@ -68000,7 +68019,7 @@
         "z": "67973ee8.553c3",
         "d": true,
         "group": "f06428cbbee24a1a",
-        "order": 5,
+        "order": 9,
         "width": 0,
         "height": 0,
         "name": "",
@@ -69107,7 +69126,7 @@
         "label": "Network Time Sync",
         "tooltip": "Enable/Disable network time synchronisation",
         "group": "f06428cbbee24a1a",
-        "order": 2,
+        "order": 6,
         "width": 0,
         "height": 0,
         "passthru": true,
@@ -69179,7 +69198,7 @@
         "type": "ui_text",
         "z": "67973ee8.553c3",
         "group": "f06428cbbee24a1a",
-        "order": 3,
+        "order": 7,
         "width": 0,
         "height": 0,
         "name": "",
@@ -69487,6 +69506,7 @@
         "id": "38d66c48db178f1c",
         "type": "inject",
         "z": "67973ee8.553c3",
+        "d": true,
         "name": "",
         "props": [
             {
@@ -69578,7 +69598,7 @@
         "z": "67973ee8.553c3",
         "name": "Back (System)",
         "group": "f06428cbbee24a1a",
-        "order": 10,
+        "order": 14,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -69856,6 +69876,7 @@
         "id": "9dbd9848d42dea76",
         "type": "ui_ui_control",
         "z": "67973ee8.553c3",
+        "d": true,
         "name": "change to tab 9",
         "events": "change",
         "x": 1260,
@@ -71467,7 +71488,7 @@
         "label": "Client time in toolbar",
         "tooltip": "show/hide client time in toolbar",
         "group": "f06428cbbee24a1a",
-        "order": 4,
+        "order": 8,
         "width": 0,
         "height": 0,
         "passthru": true,
@@ -74345,6 +74366,7 @@
         "id": "aff4dcc810670f3c",
         "type": "delay",
         "z": "67973ee8.553c3",
+        "d": true,
         "name": "",
         "pauseType": "delay",
         "timeout": "3",
@@ -75025,43 +75047,283 @@
         ]
     },
     {
-        "id": "c2a4f88ca87aaa76",
-        "type": "ui_text",
+        "id": "12e0203f.d58be",
+        "type": "inject",
         "z": "67973ee8.553c3",
-        "group": "d67e5a303452213e",
-        "order": 1,
-        "width": 0,
-        "height": 0,
-        "name": "",
-        "label": "System time",
-        "format": "{{msg.payload}}",
-        "layout": "row-spread",
-        "className": "",
-        "x": 1970,
-        "y": 1700,
-        "wires": []
+        "name": "init",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 2030,
+        "y": 1660,
+        "wires": [
+            [
+                "4ad793f9.1fbdbc"
+            ]
+        ]
     },
     {
-        "id": "750e943cf142bc75",
+        "id": "4ad793f9.1fbdbc",
         "type": "function",
         "z": "67973ee8.553c3",
-        "name": "new Date()",
-        "func": "var now = new Date().toLocaleString();\nmsg.payload = now.replace(/\\//g, \".\");\nreturn msg",
+        "name": "Read locales",
+        "func": "var TZ = [\"Africa\",\"Asia\",\"Canada\",\"Indian\",\"US\",\"America\",\"Atlantic\",\"Chile\",\"Mexico\",\"Antarctica\",\"Australia\",\"Pacific\",\"Arctic\",\"Brazil\",\"Europe\"]\n\nfor(let i=0;i<TZ.length;i++) {\n    node.send({topic: TZ[i], payload: '/usr/share/zoneinfo/' + TZ[i] + '/', init: i === TZ.length-1})\n}\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1810,
-        "y": 1700,
+        "x": 2250,
+        "y": 1660,
         "wires": [
             [
-                "c2a4f88ca87aaa76"
+                "c6fd0daf.8c482"
             ]
         ]
     },
     {
-        "id": "4c1c2ec236394adf",
+        "id": "c6fd0daf.8c482",
+        "type": "exec",
+        "z": "67973ee8.553c3",
+        "command": "ls ",
+        "addpay": true,
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "oldrc": false,
+        "name": "",
+        "x": 2430,
+        "y": 1660,
+        "wires": [
+            [
+                "ebd4dca4.ab828",
+                "3e2e7b0e.683ce4"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "ebd4dca4.ab828",
+        "type": "function",
+        "z": "67973ee8.553c3",
+        "name": "set flow vars",
+        "func": "var areas = msg.payload.split('\\n').filter(a => !!a)\n\nflow.set(msg.topic, areas)",
+        "outputs": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2590,
+        "y": 1640,
+        "wires": []
+    },
+    {
+        "id": "3e2e7b0e.683ce4",
+        "type": "switch",
+        "z": "67973ee8.553c3",
+        "name": "if init",
+        "property": "init",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 2589,
+        "y": 1685,
+        "wires": [
+            [
+                "467bb794.f76f88"
+            ]
+        ]
+    },
+    {
+        "id": "375407c3.992bd8",
+        "type": "ui_dropdown",
+        "z": "67973ee8.553c3",
+        "name": "",
+        "label": "Area",
+        "tooltip": "",
+        "place": "Select area",
+        "group": "f06428cbbee24a1a",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "",
+                "value": "",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "",
+        "topicType": "str",
+        "className": "",
+        "x": 2916,
+        "y": 1684,
+        "wires": [
+            [
+                "f1ff3b98.994be8"
+            ]
+        ]
+    },
+    {
+        "id": "467bb794.f76f88",
+        "type": "function",
+        "z": "67973ee8.553c3",
+        "name": "Set options",
+        "func": "var msg = {\n    options: flow.keys()\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2750,
+        "y": 1684,
+        "wires": [
+            [
+                "375407c3.992bd8"
+            ]
+        ]
+    },
+    {
+        "id": "f4e22fd6.746d3",
+        "type": "ui_dropdown",
+        "z": "67973ee8.553c3",
+        "name": "",
+        "label": "City",
+        "tooltip": "",
+        "place": "Select city",
+        "group": "f06428cbbee24a1a",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "",
+                "value": "",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "",
+        "topicType": "str",
+        "className": "",
+        "x": 3070,
+        "y": 1720,
+        "wires": [
+            [
+                "7866d4d5.6cf34c"
+            ]
+        ]
+    },
+    {
+        "id": "f1ff3b98.994be8",
+        "type": "function",
+        "z": "67973ee8.553c3",
+        "name": "Set cities",
+        "func": "global.set(\"timezone_area\", msg.payload)\nglobal.set(\"timezone_city\", \"\")\n\nmsg = {options: flow.get(msg.payload)}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3069,
+        "y": 1684,
+        "wires": [
+            [
+                "f4e22fd6.746d3"
+            ]
+        ]
+    },
+    {
+        "id": "7866d4d5.6cf34c",
+        "type": "function",
+        "z": "67973ee8.553c3",
+        "name": "Set cities",
+        "func": "global.set(\"timezone_city\", msg.payload)",
+        "outputs": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3200,
+        "y": 1720,
+        "wires": []
+    },
+    {
+        "id": "65e64af0.16f134",
+        "type": "inject",
+        "z": "67973ee8.553c3",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "area",
+        "payloadType": "global",
+        "x": 2765,
+        "y": 1721,
+        "wires": [
+            [
+                "375407c3.992bd8"
+            ]
+        ]
+    },
+    {
+        "id": "8c4767e4.d55908",
+        "type": "inject",
+        "z": "67973ee8.553c3",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "city",
+        "payloadType": "global",
+        "x": 2930,
+        "y": 1760,
+        "wires": [
+            [
+                "f4e22fd6.746d3"
+            ]
+        ]
+    },
+    {
+        "id": "66cfa78b.b5b6d8",
         "type": "inject",
         "z": "67973ee8.553c3",
         "name": "",
@@ -75077,26 +75339,241 @@
         "repeat": "1",
         "crontab": "",
         "once": true,
-        "onceDelay": "1",
+        "onceDelay": 0.1,
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 1650,
-        "y": 1700,
+        "x": 2051,
+        "y": 1725,
         "wires": [
             [
-                "750e943cf142bc75"
+                "5ad77235.78a39c"
             ]
         ]
     },
     {
-        "id": "81ddf4e686ad7197",
+        "id": "5ad77235.78a39c",
+        "type": "exec",
+        "z": "67973ee8.553c3",
+        "command": "date",
+        "addpay": false,
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 2205,
+        "y": 1725,
+        "wires": [
+            [
+                "98d0bf7f.5371d",
+                "67f0b9ef3a78eb94"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "98d0bf7f.5371d",
+        "type": "ui_text",
+        "z": "67973ee8.553c3",
+        "group": "f06428cbbee24a1a",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "System time (Config)",
+        "label": "",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 2442,
+        "y": 1712,
+        "wires": []
+    },
+    {
+        "id": "4fbda27f.7d015c",
+        "type": "ui_button",
+        "z": "67973ee8.553c3",
+        "name": "",
+        "group": "f06428cbbee24a1a",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "UPDATE timezone",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "topicType": "str",
+        "x": 2010,
+        "y": 1780,
+        "wires": [
+            [
+                "27059364.3b4a8c"
+            ]
+        ]
+    },
+    {
+        "id": "27059364.3b4a8c",
+        "type": "function",
+        "z": "67973ee8.553c3",
+        "name": "update timezone",
+        "func": "var command = '/usr/share/zoneinfo/' + global.get(\"timezone_area\") + '/' + global.get(\"timezone_city\")+' /etc/localtime'\nnode.send({payload: command})\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2222,
+        "y": 1780,
+        "wires": [
+            [
+                "d759e33f.cecaa"
+            ]
+        ]
+    },
+    {
+        "id": "d759e33f.cecaa",
+        "type": "exec",
+        "z": "67973ee8.553c3",
+        "command": "sudo ln -sf",
+        "addpay": true,
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "oldrc": false,
+        "name": "",
+        "x": 2417,
+        "y": 1780,
+        "wires": [
+            [
+                "5aea3ae6.980494"
+            ],
+            [
+                "cd3f0ef2.cf60c"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "a0414d37.8132c",
+        "type": "ui_toast",
+        "z": "67973ee8.553c3",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "topic": "",
+        "name": "success",
+        "x": 2725,
+        "y": 1766,
+        "wires": []
+    },
+    {
+        "id": "ff28f510.a53508",
+        "type": "ui_toast",
+        "z": "67973ee8.553c3",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "topic": "",
+        "name": "error",
+        "x": 2716,
+        "y": 1807,
+        "wires": []
+    },
+    {
+        "id": "5aea3ae6.980494",
+        "type": "change",
+        "z": "67973ee8.553c3",
+        "name": "success",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Timezone updated successfully",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 2576,
+        "y": 1766,
+        "wires": [
+            [
+                "a0414d37.8132c"
+            ]
+        ]
+    },
+    {
+        "id": "cd3f0ef2.cf60c",
+        "type": "change",
+        "z": "67973ee8.553c3",
+        "name": "error",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Error while updating timezone",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 2584,
+        "y": 1807,
+        "wires": [
+            [
+                "ff28f510.a53508"
+            ]
+        ]
+    },
+    {
+        "id": "67f0b9ef3a78eb94",
+        "type": "ui_text",
+        "z": "67973ee8.553c3",
+        "group": "d67e5a303452213e",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "System time (Info)",
+        "label": "",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 2430,
+        "y": 1740,
+        "wires": []
+    },
+    {
+        "id": "6806c5019b21a2ac",
         "type": "comment",
         "z": "67973ee8.553c3",
-        "name": "show system time in info tab",
+        "name": "TIME & TIMEZONE",
         "info": "",
-        "x": 1680,
-        "y": 1660,
+        "x": 2110,
+        "y": 1620,
         "wires": []
     },
     {
