@@ -62,7 +62,7 @@ fi
 
 # get confirmation to continue on manual update
 if [[ "$1" == "node-red-auto-update" ]] || [[ "$needUpdate" == "true" ]]; then
-	echo -e "not asking for confirmation, proceeding automatically."
+	echo -e "proceeding..."
 else
 	while true; do
 		read -r -p "This will update to version ${Version}! Currently you are running version ${currentVersion}. Do you want to continue [y/n]" input
@@ -121,13 +121,12 @@ if [[ -n $extramodules ]]; then
 	echo -e "$extramodules"
 
    if [[ "$1" == "node-red-auto-update" ]] || [[ "$needUpdate" == "true" ]]; then
-	echo -e "updating from Node-RED, adding additional lines automatically."
+	echo -e "adding additional lines in package.json automatically."
 		# cd ~/.node-red
 		echo `jq -s '.[0] * .[1]' ~/.node-red/package.json ~/pekaway/nrbackups/package-backup.json` > ~/pekaway/nrbackups/package1.json && jq . ~/pekaway/nrbackups/package1.json > ~/pekaway/nrbackups/pretty.json && rm ~/pekaway/nrbackups/package1.json && mv ~/pekaway/nrbackups/pretty.json ~/pekaway/nrbackups/package1.json
 		echo "Missing lines have been added to package.json"
 		echo "New package.json:"
 		cat ~/.node-red/package.json
-		exit
    else
 		while true; do
 			read -r -p "Do you want them to be added to the new package.json? [y/n]" input
