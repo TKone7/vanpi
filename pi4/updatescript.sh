@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#########################################################
-#														#
-# This script will update your existing VanPi OS 		#
-# to the latest release from the Pekaway VanPi server!	#
-# Simply download the script to your VanPi OS and		#
-# execute it.											#
-#														#
-#########################################################
+########################################################
+#														
+# This script will update your existing VanPi OS 		
+# to the latest release from the Pekaway VanPi server!	
+# Simply download the script to your VanPi OS and		
+# execute it.											
+#														
+########################################################
 
 # create logfile and make it writable
 LOG_FILE=/var/log/pekaway-update.log
