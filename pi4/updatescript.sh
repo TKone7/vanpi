@@ -61,7 +61,7 @@ fi
 
 
 # get confirmation to continue on manual update
-if [[ "$1" == "node-red-auto-update" ]] || [["$needUpdate" == 'true' ]]; then
+if [[ "$1" == "node-red-auto-update" ]] || [[ "$needUpdate" == "true" ]]; then
 	echo -e "not asking for confirmation, proceeding automatically."
 else
 	while true; do
@@ -120,7 +120,7 @@ if [[ -n $extramodules ]]; then
     echo -e "Your original package.json file has the following additonal modules listed:"
 	echo -e "$extramodules"
 
-   if [[ "$1" == "node-red-auto-update" ]] || [["$needUpdate" == 'true' ]]; then
+   if [[ "$1" == "node-red-auto-update" ]] || [[ "$needUpdate" == "true" ]]; then
 	echo -e "updating from Node-RED, adding additional lines automatically."
 		# cd ~/.node-red
 		echo `jq -s '.[0] * .[1]' ~/.node-red/package.json ~/pekaway/nrbackups/package-backup.json` > ~/pekaway/nrbackups/package1.json && jq . ~/pekaway/nrbackups/package1.json > ~/pekaway/nrbackups/pretty.json && rm ~/pekaway/nrbackups/package1.json && mv ~/pekaway/nrbackups/pretty.json ~/pekaway/nrbackups/package1.json
