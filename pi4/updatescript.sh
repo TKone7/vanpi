@@ -26,7 +26,7 @@ currentVersion=`cat ~/pekaway/version`
 
 # prepare variables to be compared
 VersionToCheck='v1.1.1' # Version that has relevant changes in update script
-# (if current version number is below that number than script will update without the need for confirmation)
+# (if current version number is below that number than this script will execute without the need for confirmation)
 VersionSubstring=${VersionToCheck#*v}
 currentVersionSubstring=${currentVersion#*v}
 IFS='.' read -ra currentVersion_array <<< "$currentVersionSubstring"
@@ -60,9 +60,9 @@ else
 fi
 
 
-# get confirmation to continue
+# get confirmation to continue on manual update
 if [[ "$1" == "node-red-auto-update" ]] || [["$needUpdate" == 'true' ]]; then
-	echo -e "updating from Node-RED, proceeding automatically."
+	echo -e "not asking for confirmation, proceeding automatically."
 else
 	while true; do
 		read -r -p "This will update to version ${Version}! Currently you are running version ${currentVersion}. Do you want to continue [y/n]" input
@@ -118,7 +118,6 @@ extramodules=$(diff <(jq --sort-keys .dependencies ~/.node-red/package.json) <(j
 
 if [[ -n $extramodules ]]; then
     echo -e "Your original package.json file has the following additonal modules listed:"
-	echo -e "extramodule(s):"
 	echo -e "$extramodules"
 
    if [[ "$1" == "node-red-auto-update" ]] || [["$needUpdate" == 'true' ]]; then
@@ -137,7 +136,8 @@ if [[ -n $extramodules ]]; then
 						# cd ~/.node-red
 						echo `jq -s '.[0] * .[1]' ~/.node-red/package.json ~/pekaway/nrbackups/package-backup.json` > ~/pekaway/nrbackups/package-backup1.json
 						jq . ~/pekaway/nrbackups/package-backup1.json > ~/pekaway/nrbackups/pretty.json 
-						rm ~/pekaway/nrbackups/package-backup.json #### keep backup just in case...??
+						mv ~/pekaway/nrbackups/package-backup.json ~/pekaway/package-backup.json # keep backup just in case
+						rm -f ~/pekaway/nrbackups/package1.json
 						mv ~/pekaway/nrbackups/pretty.json ~/.node-red/package.json
 						echo "Missing lines have been added to package.json"
 						echo "New ~/.node-red/package.json:"
@@ -194,4 +194,3 @@ cp ~/pekaway/pkwUpdate/flows_pekaway.json ~/.node-red/flows_pekaway.json
 echo "update script finished! You can find the logfile at ${LOG_FILE}."
 rm ~/pekaway/pkwUpdate/flows_pekaway.json
 sudo systemctl restart nodered.service
-
