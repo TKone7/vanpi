@@ -64,6 +64,7 @@ find ~/pekaway/ -type f -iname "*.sh" -exec chmod +x {} \;
 chmod 0744 ~/pekaway/availableWifi.txt
 chmod 0777 ~/pekaway/pythonsqlite.db
 chmod 0755 ~/pekaway/raspi-blinka.py
+echo "100" > ~/pekaway/dimmer_maxpercent
 echo "yes" > ~/pekaway/firstboot
 
 # get and install needed packages list
