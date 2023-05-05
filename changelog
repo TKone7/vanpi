@@ -1,3 +1,13 @@
+# Update 1.1.1 (05 May 2023)
+- fixed mcp inputs not being displayed correctly
+- fixed water level 1 error which kept it from taking other values than 0
+- fixed error which prevented "main battdata" to be initialised on boot
+- changed sampling frequency of PCA9685 to 200 (dimmer section)
+- changed http request nodes in Pekaway Shunt flow to use 127.0.0.1 instead of localhost
+- added function to start a second Node-RED instance, using a backup flows file
+- added a timezone picker in Frontend (Config > System)
+- added function that displays the system time in the info tab & altered format of system time in frontend (Config)
+
 # Update 1.1.0 (31 Mar 2023) >> changes mentioned here also include BETA updates for this version!
 - added a precompiled .tft file (VanPI_NSPANEL.tft) for the Sonoff NS Panel to ~/pekaway together with the berry driver (autoexec.be), which is needed for the flashing process
     > quickstart NSPanel:
