@@ -217,6 +217,11 @@ sudo rm ~/pekaway/packages_buster.txt
 sudo rm ~/pekaway/pip3list.txt
 sudo rm ~/pekaway/flows.json
 
+# prepare mosquitto logs
+sudo mkdir -p /var/log/mosquitto
+sudo touch /var/log/mosquitto/mosquitto.log
+sudo chmod 0666 /var/log/mosquitto/mosquitto.log
+
 # restart Services
 echo -e "${Cyan}Restarting services...${NC}"
 sudo systemctl daemon-reload
