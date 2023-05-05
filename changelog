@@ -7,6 +7,7 @@
 - added function to start a second Node-RED instance, using a backup flows file
 - added a timezone picker in Frontend (Config > System)
 - added function that displays the system time in the info tab & altered format of system time in frontend (Config)
+______________________________________________________________________________________________________________
 
 # Update 1.1.0 (31 Mar 2023) >> changes mentioned here also include BETA updates for this version!
 - added a precompiled .tft file (VanPI_NSPANEL.tft) for the Sonoff NS Panel to ~/pekaway together with the berry driver (autoexec.be), which is needed for the flashing process
