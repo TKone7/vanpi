@@ -193,7 +193,7 @@ sudo hb-service install --user homebridge
 echo -e "${Cyan}Installing Mqttthing for Homebridge${NC}"
 sudo -E -n npm install -g homebridge-mqttthing@latest
 cd ~/pekaway
-wget ${Server}config.json
+wget -q ${Server}config.json -O ~/pekaway/config.json
 sudo cp -r ~/pekaway/config.json /var/lib/homebridge/config.json
 
 # install Zigbee2MQTT
