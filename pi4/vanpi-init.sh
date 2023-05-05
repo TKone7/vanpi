@@ -175,9 +175,9 @@ sudo systemctl enable nginx
 # install Mosquitto MQTT Server (probably already installed from packages.txt)
 echo -e "${Cyan}Installing Mosquitto MQTT broker${NC}"
 sudo apt install mosquitto mosquitto-clients -y
-sudo mkdir /var/log/mosquitto
+sudo mkdir -p /var/log/mosquitto
 sudo touch /var/log/mosquitto/mosquitto.log
-sudo chmod 0755 /var/log/mosquitto/mosquitto.log
+sudo chmod 0666 /var/log/mosquitto/mosquitto.log
 
 # implementing new udev rules and restarting udev service
 echo -e "${Cyan}Implementing udev rules for serial connections{NC}"
@@ -216,11 +216,6 @@ sudo rm ~/pekaway/packages_bullseye.txt
 sudo rm ~/pekaway/packages_buster.txt
 sudo rm ~/pekaway/pip3list.txt
 sudo rm ~/pekaway/flows.json
-
-# prepare mosquitto logs
-sudo mkdir -p /var/log/mosquitto
-sudo touch /var/log/mosquitto/mosquitto.log
-sudo chmod 0666 /var/log/mosquitto/mosquitto.log
 
 # restart Services
 echo -e "${Cyan}Restarting services...${NC}"
