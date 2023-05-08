@@ -1,10 +1,8 @@
 adduser
 adwaita-icon-theme
-alsa-utils
 apt
 apt-listchanges
 apt-utils
-at-spi2-core
 avahi-daemon
 base-files
 base-passwd
@@ -45,6 +43,7 @@ debianutils
 device-tree-compiler
 dh-python
 dhcpcd5
+dialog
 diffutils
 dirmngr
 distro-info-data
@@ -169,7 +168,6 @@ libbabeltrace1:armhf
 libbind9-161:armhf
 libbinutils:armhf
 libblkid1:armhf
-libboost-iostreams1.58.0:armhf
 libbsd0:armhf
 libbz2-1.0:armhf
 libc-bin
@@ -201,11 +199,6 @@ libdevmapper1.02.1:armhf
 libdns-export1104
 libdns1104:armhf
 libdpkg-perl
-libdrm-amdgpu1:armhf
-libdrm-common
-libdrm-nouveau2:armhf
-libdrm-radeon1:armhf
-libdrm2:armhf
 libdw1:armhf
 libedit2:armhf
 libelf1:armhf
@@ -244,8 +237,6 @@ libgdk-pixbuf2.0-bin
 libgdk-pixbuf2.0-common
 libgeoip1:armhf
 libgirepository-1.0-1:armhf
-libgl1-mesa-dri:armhf
-libglapi-mesa:armhf
 libglib2.0-0:armhf
 libglib2.0-data
 libgmp10:armhf
@@ -265,7 +256,6 @@ libharfbuzz0b:armhf
 libhogweed4:armhf
 libi2c0:armhf
 libicu63:armhf
-libident
 libidn11:armhf
 libidn2-0:armhf
 libip4tc0:armhf
@@ -294,7 +284,6 @@ libksba8:armhf
 liblcms2-2:armhf
 libldap-2.4-2:armhf
 libldap-common
-libllvm9:armhf
 liblmdb0:armhf
 liblocale-gettext-perl
 liblognorm5:armhf
@@ -371,12 +360,9 @@ libprocps7:armhf
 libprotobuf-c1:armhf
 libproxy1v5:armhf
 libpsl5:armhf
-libpython-dev:armhf
 libpython-stdlib:armhf
-libpython2-dev:armhf
 libpython2-stdlib:armhf
 libpython2.7:armhf
-libpython2.7-dev:armhf
 libpython2.7-minimal:armhf
 libpython2.7-stdlib:armhf
 libpython3-dev:armhf
@@ -389,7 +375,6 @@ libraspberrypi-bin
 libraspberrypi-dev
 libraspberrypi-doc
 libraspberrypi0
-libreadline6:armhf
 libreadline7:armhf
 librest-0.7-0:armhf
 librsvg2-2:armhf
@@ -403,9 +388,7 @@ libselinux1:armhf
 libsemanage-common
 libsemanage1:armhf
 libsensors-config
-libsensors5:armhf
 libsepol1:armhf
-libsigc++-1.2-5c2
 libslang2:armhf
 libsmartcols1:armhf
 libsoup-gnome2.4-1:armhf
@@ -431,7 +414,6 @@ libtirpc-common
 libtirpc3:armhf
 libubsan1:armhf
 libuchardet0:armhf
-libudev0:armhf
 libudev1:armhf
 libunistring2:armhf
 libusb-0.1-4:armhf
@@ -471,7 +453,6 @@ libxrandr2:armhf
 libxrender1:armhf
 libxslt1.1:armhf
 libxtables12:armhf
-libxtst6:armhf
 libzstd1:armhf
 linux-base
 linux-libc-dev:armhf
@@ -529,19 +510,8 @@ policykit-1
 procps
 psmisc
 publicsuffix
-python
 python-apt-common
-python-dev
-python-minimal
 python-pip-whl
-python-rpi.gpio
-python-smbus:armhf
-python2
-python2-dev
-python2-minimal
-python2.7
-python2.7-dev
-python2.7-minimal
 python3
 python3-apt
 python3-asn1crypto
@@ -583,8 +553,6 @@ raspberrypi-kernel
 raspberrypi-net-mods
 raspberrypi-sys-mods
 raspbian-archive-keyring
-raspi-config
-raspi-copies-and-fills
 raspi-gpio
 raspinfo
 read-edid
@@ -612,7 +580,6 @@ tar
 tasksel
 tasksel-data
 traceroute
-triggerhappy
 tzdata
 ucf
 udev
@@ -631,11 +598,7 @@ whiptail
 wireless-regdb
 wireless-tools
 wpasupplicant
-x11-common
 xdg-user-dirs
-xfonts-base
-xfonts-encodings
-xfonts-utils
 xkb-data
 xxd
 xz-utils
