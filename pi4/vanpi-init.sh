@@ -89,9 +89,9 @@ sudo apt install python3-pip -y
 
 # install python modules locally (user pi) and globally (root)
 sudo pip3 install -r ~/pekaway/pip3list.txt
-sudo pip3 install bottle
+sudo pip3 install bottle pexpect argparse gatt
 pip3 install -r ~/pekaway/pip3list.txt
-pip3 install bottle
+pip3 install bottle pexpect argparse gatt
 
 # download files for NSPanel
 cd ~/pekaway
