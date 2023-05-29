@@ -162,14 +162,6 @@
     "info": ""
   },
   {
-    "id": "c60a5166bd6dac41",
-    "type": "tab",
-    "label": "Wifi TOUCHPANEL",
-    "disabled": false,
-    "info": "",
-    "env": []
-  },
-  {
     "id": "67973ee8.553c3",
     "type": "tab",
     "label": "Config",
@@ -209,6 +201,22 @@
     "id": "a3810c0495b637d4",
     "type": "tab",
     "label": "Ective BLE",
+    "disabled": false,
+    "info": "",
+    "env": []
+  },
+  {
+    "id": "27cb224f8928f1ad",
+    "type": "tab",
+    "label": "Zigbee",
+    "disabled": false,
+    "info": "",
+    "env": []
+  },
+  {
+    "id": "c60a5166bd6dac41",
+    "type": "tab",
+    "label": "Wifi TOUCHPANEL",
     "disabled": false,
     "info": "",
     "env": []
@@ -1377,12 +1385,26 @@
     "alpnprotocol": ""
   },
   {
+    "id": "e1cd326233f0d93e",
+    "type": "zigbee2mqtt-server",
+    "name": "localhost",
+    "host": "localhost",
+    "mqtt_port": "1883",
+    "mqtt_username": "",
+    "mqtt_password": "",
+    "mqtt_qos": "0",
+    "tls": "4230868a2749a2ba",
+    "usetls": false,
+    "base_topic": "zigbee2mqtt"
+  },
+  {
     "id": "0ddb07c65cbb68bc",
     "type": "mqtt-broker",
     "name": "",
     "broker": "http://localhost",
     "port": "1883",
     "clientid": "",
+    "autoConnect": true,
     "usetls": false,
     "protocolVersion": "4",
     "keepalive": "60",
@@ -20962,7 +20984,8 @@
       "35979598d2e22ffe",
       "f723e65523ef02ca",
       "3fe38c2d6edc0c84",
-      "0ec85dcb3608a2e8"
+      "0ec85dcb3608a2e8",
+      "ecccdbb221227c12"
     ],
     "x": 1015,
     "y": 660,
@@ -21001,7 +21024,8 @@
       "7b35692bbcc1d3a1",
       "9382dcd5bc8523ac",
       "3fe38c2d6edc0c84",
-      "0ec85dcb3608a2e8"
+      "0ec85dcb3608a2e8",
+      "c39fbad0b6ba4af0"
     ],
     "x": 1015,
     "y": 920,
@@ -21191,7 +21215,8 @@
       "74c07fa0bf9c5a2e",
       "c34b8236b33847f4",
       "3fe38c2d6edc0c84",
-      "0ec85dcb3608a2e8"
+      "0ec85dcb3608a2e8",
+      "29525ba8275c48ac"
     ],
     "x": 1015,
     "y": 740,
@@ -21228,7 +21253,8 @@
       "084b703eefb74342",
       "ecb6200b0e4a0766",
       "3fe38c2d6edc0c84",
-      "0ec85dcb3608a2e8"
+      "0ec85dcb3608a2e8",
+      "06028a080df0cd62"
     ],
     "x": 1015,
     "y": 820,
@@ -23810,12 +23836,11 @@
     "name": "Wswitch connect 1",
     "links": [
       "2d8411f3b31d9334",
+      "3fe38c2d6edc0c84",
       "8a40988dd0ca7485",
       "937d5e03dd599a61",
       "98426e64185a14f4",
-      "d896b7d25f27d216",
-      "3fe38c2d6edc0c84",
-      "0ec85dcb3608a2e8"
+      "d896b7d25f27d216"
     ],
     "x": 1515,
     "y": 380,
@@ -28765,7 +28790,8 @@
       "91808d95f9b1141d",
       "dbb87fff6ea8f3e8",
       "f9c1cd909de58d36",
-      "d00a0a9ac74bb361"
+      "d00a0a9ac74bb361",
+      "a9dc4aac626887a8"
     ],
     "x": 605,
     "y": 520,
@@ -42616,11 +42642,7 @@
     "x": 540,
     "y": 500,
     "wires": [
-      [
-        "e343fcb7a4978535",
-        "2160832dedc8a42f",
-        "18b9fb11d95404fb"
-      ]
+      []
     ]
   },
   {
@@ -42863,6 +42885,64 @@
     "wires": [
       [
         "c55964d60f1cea82"
+      ]
+    ]
+  },
+  {
+    "id": "32c2a885c530c99e",
+    "type": "mqtt in",
+    "z": "e604dd9.4dd232",
+    "name": "",
+    "topic": "pkw/tele/PekawayMOTA/SENSOR",
+    "qos": "2",
+    "datatype": "auto",
+    "broker": "0ddb07c65cbb68bc",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 200,
+    "y": 600,
+    "wires": [
+      [
+        "f6388c23e3c1a409"
+      ]
+    ]
+  },
+  {
+    "id": "f6388c23e3c1a409",
+    "type": "json",
+    "z": "e604dd9.4dd232",
+    "name": "",
+    "property": "payload",
+    "action": "",
+    "pretty": false,
+    "x": 410,
+    "y": 600,
+    "wires": [
+      [
+        "0f01840943b5d852"
+      ]
+    ]
+  },
+  {
+    "id": "0f01840943b5d852",
+    "type": "function",
+    "z": "e604dd9.4dd232",
+    "name": "",
+    "func": "if (msg.payload.hasOwnProperty(\"DS18B20\")) {\n    msg.payload.check = \"available\"\n    msg.dimmytemp1 = msg.payload.DS18B20.Temperature\n    global.set(\"dimmytemp1\", msg.dimmytemp1)\n    global.set(\"dimmytemp2\", \"\")\n    msg.sensorcount = 1\n} else {\n    msg.payload.check = \"not available\"\n    global.set(\"dimmytemp1\", \"\")\n    global.set(\"dimmytemp2\", \"\")\n    msg.sensorcount = 0\n}\n  \nmsg.dimmytemp1 = global.get(\"dimmytemp1\")\nmsg.dimmytemp2 = global.get(\"dimmytemp2\")\n\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 540,
+    "y": 600,
+    "wires": [
+      [
+        "18b9fb11d95404fb",
+        "e343fcb7a4978535",
+        "2160832dedc8a42f"
       ]
     ]
   },
@@ -49903,6 +49983,7 @@
     "type": "link out",
     "z": "71d2baa986138c38",
     "name": "home/relay1/POWER",
+    "mode": "link",
     "links": [
       "afbb8dda.ffe6c"
     ],
@@ -60925,11 +61006,6 @@
         "vt": "str"
       },
       {
-        "t": "eq",
-        "v": "page,info",
-        "vt": "str"
-      },
-      {
         "t": "regex",
         "v": "dimm[0-9],\\d+(?:\\.\\d{1,3})?$",
         "vt": "str",
@@ -60969,11 +61045,26 @@
         "t": "eq",
         "v": "event,heateron",
         "vt": "str"
+      },
+      {
+        "t": "eq",
+        "v": "page,menu",
+        "vt": "str"
+      },
+      {
+        "t": "eq",
+        "v": "event,loadnames",
+        "vt": "str"
+      },
+      {
+        "t": "eq",
+        "v": "page,temp",
+        "vt": "str"
       }
     ],
     "checkall": "true",
     "repair": false,
-    "outputs": 18,
+    "outputs": 20,
     "x": 410,
     "y": 380,
     "wires": [
@@ -61005,9 +61096,6 @@
         "b70d9411f96b354c"
       ],
       [
-        "81a661cdbda984d2"
-      ],
-      [
         "212a57e0167cb29b"
       ],
       [],
@@ -61026,6 +61114,15 @@
       ],
       [
         "7e4dd6723e584edd"
+      ],
+      [
+        "b310151e65cf9ee5"
+      ],
+      [
+        "a816faab6131d167"
+      ],
+      [
+        "9fb8deeab40e71e9"
       ]
     ]
   },
@@ -61248,8 +61345,10 @@
     "tls": "",
     "persist": false,
     "proxy": "",
+    "insecureHTTPParser": true,
     "authType": "",
     "senderr": false,
+    "headers": [],
     "x": 650,
     "y": 280,
     "wires": [
@@ -61314,25 +61413,6 @@
     "y": 440,
     "wires": [
       []
-    ]
-  },
-  {
-    "id": "81a661cdbda984d2",
-    "type": "function",
-    "z": "c60a5166bd6dac41",
-    "name": "load switch",
-    "func": "var van_name = (global.get(\"van_name\") != undefined) ? global.get(\"van_name\") : \"\";\nmsg.payload=\"--\" + van_name\nreturn msg;",
-    "outputs": 1,
-    "noerr": 0,
-    "initialize": "",
-    "finalize": "",
-    "libs": [],
-    "x": 630,
-    "y": 400,
-    "wires": [
-      [
-        "9a2c65739762090a"
-      ]
     ]
   },
   {
@@ -61676,7 +61756,6 @@
     "id": "63c36da990a3d96d",
     "type": "mqtt in",
     "z": "c60a5166bd6dac41",
-    "d": true,
     "name": "",
     "topic": "stat/WifiTouch/RESULT",
     "qos": "2",
@@ -61687,7 +61766,7 @@
     "rh": 0,
     "inputs": 0,
     "x": 140,
-    "y": 740,
+    "y": 840,
     "wires": [
       [
         "781d6ec6a3798e4d"
@@ -61698,22 +61777,21 @@
     "id": "75b87d8eae14806d",
     "type": "function",
     "z": "c60a5166bd6dac41",
-    "d": true,
     "name": "Wifitouch action buttons",
-    "func": "//HW-Button1 = all off\n//HW-Button2 = toggle dimmer0+1 either off or 60%\nif (flow.get(\"wifitouch_restart\") == true) {\n    return null\n}\n\nif (msg.payload.POWER1 == \"ON\" || msg.payload.POWER1 == \"OFF\") {\n    msg.url = \"http://127.0.0.1:1880/switchall/false\"\n    return [msg, null]\n}\nif (msg.payload.POWER2 == \"ON\" || msg.payload.POWER2 == \"OFF\") {\n    let channel1 = parseInt(global.get(\"dimmer0\"))\n    let channel2 = parseInt(global.get(\"dimmer1\"))\n    if (channel1 != 0 || channel2 != 0 ) {\n        msg.url = \"http://localhost:1880/dimmer/1/0\"\n        node.send([null, msg])\n        msg.url = \"http://localhost:1880/dimmer/2/0\"\n        return [null, msg]\n    }\n    else if (channel1 == 0 && channel2 == 0) {\n        msg.url = \"http://localhost:1880/dimmer/1/60\"\n        node.send([null, msg])\n        msg.url = \"http://localhost:1880/dimmer/2/60\"\n        return [null, msg]\n    }\n}",
+    "func": "//HW-Button1 = all off\n//HW-Button2 = toggle dimmer0+1 either off or 60%\nif (flow.get(\"wifitouch_restart\") == true) {\n    return null\n}\n\nif (msg.payload.POWER1 == \"ON\" || msg.payload.POWER1 == \"OFF\") {\n    msg.url = \"http://localhost:1880/dimmer/3/0\"\n    node.send([msg,null]);\n    msg.url = \"http://localhost:1880/dimmer/2/0\"\n    node.send([msg, null]);\n    msg.url = \"http://localhost:1880/dimmer/1/0\"\n    node.send([msg, null]);\n    msg.url = \"http://localhost:1880/dimmer/4/0\"\n    return [msg, null];\n}\nif (msg.payload.POWER2 == \"ON\" || msg.payload.POWER2 == \"OFF\") {\n    let channel1 = parseInt(global.get(\"dimmer0\"))\n    let channel2 = parseInt(global.get(\"dimmer1\"))\n    if (channel1 != 0 || channel2 != 0 ) {\n        msg.url = \"http://localhost:1880/dimmer/1/0\"\n        node.send([null, msg])\n        msg.url = \"http://localhost:1880/dimmer/2/0\"\n        return [null, msg]\n    }\n    else if (channel1 == 0 && channel2 == 0) {\n        msg.url = \"http://localhost:1880/dimmer/1/35\"\n        node.send([null, msg])\n        msg.url = \"http://localhost:1880/dimmer/2/35\"\n        return [null, msg]\n    }\n}",
     "outputs": 2,
     "noerr": 0,
     "initialize": "",
     "finalize": "",
     "libs": [],
     "x": 530,
-    "y": 740,
+    "y": 840,
     "wires": [
       [
-        "6c38c77ebb0162df"
+        "73d594b03e30d8c0"
       ],
       [
-        "4c27111a595daf88"
+        "81f27f3566cae6c8"
       ]
     ]
   },
@@ -61721,13 +61799,12 @@
     "id": "781d6ec6a3798e4d",
     "type": "json",
     "z": "c60a5166bd6dac41",
-    "d": true,
     "name": "",
     "property": "payload",
     "action": "",
     "pretty": false,
     "x": 350,
-    "y": 740,
+    "y": 840,
     "wires": [
       [
         "75b87d8eae14806d"
@@ -61738,8 +61815,7 @@
     "id": "6c38c77ebb0162df",
     "type": "http request",
     "z": "c60a5166bd6dac41",
-    "d": true,
-    "name": "switchall/false",
+    "name": "switch dimmer",
     "method": "PUT",
     "ret": "txt",
     "paytoqs": "ignore",
@@ -61747,10 +61823,12 @@
     "tls": "",
     "persist": false,
     "proxy": "",
+    "insecureHTTPParser": false,
     "authType": "",
     "senderr": false,
-    "x": 740,
-    "y": 720,
+    "headers": [],
+    "x": 1020,
+    "y": 800,
     "wires": [
       []
     ]
@@ -61759,7 +61837,6 @@
     "id": "4c27111a595daf88",
     "type": "http request",
     "z": "c60a5166bd6dac41",
-    "d": true,
     "name": "switch dimmer 1+2",
     "method": "PUT",
     "ret": "txt",
@@ -61768,10 +61845,12 @@
     "tls": "",
     "persist": false,
     "proxy": "",
+    "insecureHTTPParser": false,
     "authType": "",
     "senderr": false,
-    "x": 750,
-    "y": 760,
+    "headers": [],
+    "x": 1030,
+    "y": 860,
     "wires": [
       []
     ]
@@ -61785,7 +61864,7 @@
     "links": [
       "8114989ad3d836db"
     ],
-    "x": 575,
+    "x": 615,
     "y": 600,
     "wires": []
   },
@@ -61798,7 +61877,7 @@
     "links": [
       "eb1e92403a6a4490"
     ],
-    "x": 575,
+    "x": 615,
     "y": 640,
     "wires": []
   },
@@ -61816,7 +61895,7 @@
     "rh": 0,
     "inputs": 0,
     "x": 140,
-    "y": 840,
+    "y": 940,
     "wires": [
       [
         "64b3cffd65824f25"
@@ -61835,7 +61914,7 @@
     "finalize": "",
     "libs": [],
     "x": 510,
-    "y": 840,
+    "y": 940,
     "wires": [
       [
         "c98669cc7d0a03cd"
@@ -61860,7 +61939,7 @@
     "allowrate": false,
     "outputs": 1,
     "x": 700,
-    "y": 840,
+    "y": 940,
     "wires": [
       [
         "da5141b964c11d36"
@@ -61879,7 +61958,7 @@
     "finalize": "",
     "libs": [],
     "x": 870,
-    "y": 840,
+    "y": 940,
     "wires": [
       []
     ]
@@ -61893,7 +61972,7 @@
     "action": "",
     "pretty": false,
     "x": 350,
-    "y": 840,
+    "y": 940,
     "wires": [
       [
         "9db514f3f7a25d87"
@@ -62445,7 +62524,7 @@
     "name": "Hardware buttons will send a payload on reboot, so we need to be able to filter them",
     "info": "",
     "x": 330,
-    "y": 800,
+    "y": 900,
     "wires": []
   },
   {
@@ -62455,7 +62534,7 @@
     "name": "Hardware buttons example",
     "info": "",
     "x": 150,
-    "y": 700,
+    "y": 800,
     "wires": []
   },
   {
@@ -62946,6 +63025,31 @@
     "wires": [
       [
         "02ef6346fc803c18"
+      ]
+    ]
+  },
+  {
+    "id": "73d594b03e30d8c0",
+    "type": "delay",
+    "z": "c60a5166bd6dac41",
+    "name": "",
+    "pauseType": "rate",
+    "timeout": "1",
+    "timeoutUnits": "seconds",
+    "rate": "1",
+    "nbRateUnits": "0.5",
+    "rateUnits": "second",
+    "randomFirst": "1",
+    "randomLast": "5",
+    "randomUnits": "seconds",
+    "drop": false,
+    "allowrate": false,
+    "outputs": 1,
+    "x": 800,
+    "y": 800,
+    "wires": [
+      [
+        "6c38c77ebb0162df"
       ]
     ]
   },
@@ -84409,8 +84513,8 @@
     "correl": "",
     "expiry": "",
     "broker": "0ddb07c65cbb68bc",
-    "x": 1770,
-    "y": 480,
+    "x": 1510,
+    "y": 440,
     "wires": []
   },
   {
@@ -84423,7 +84527,7 @@
     "timeoutUnits": "seconds",
     "rate": "1",
     "nbRateUnits": "5",
-    "rateUnits": "second",
+    "rateUnits": "minute",
     "randomFirst": "1",
     "randomLast": "5",
     "randomUnits": "seconds",
@@ -84495,32 +84599,7 @@
     "y": 500,
     "wires": [
       [
-        "a653feac37f20196"
-      ]
-    ]
-  },
-  {
-    "id": "a653feac37f20196",
-    "type": "delay",
-    "z": "592c2bf61e20fa21",
-    "name": "",
-    "pauseType": "rate",
-    "timeout": "5",
-    "timeoutUnits": "seconds",
-    "rate": "1",
-    "nbRateUnits": "5",
-    "rateUnits": "minute",
-    "randomFirst": "1",
-    "randomLast": "5",
-    "randomUnits": "seconds",
-    "drop": true,
-    "allowrate": false,
-    "outputs": 1,
-    "x": 1020,
-    "y": 540,
-    "wires": [
-      [
-        "be96f9257f9187d2"
+        "fcbea06a3c290007"
       ]
     ]
   },
@@ -84684,18 +84763,18 @@
         "vt": "str"
       }
     ],
-    "repeat": "30",
+    "repeat": "15",
     "crontab": "",
     "once": true,
-    "onceDelay": "10",
+    "onceDelay": "5",
     "topic": "",
     "payload": "",
     "payloadType": "date",
-    "x": 310,
-    "y": 360,
+    "x": 90,
+    "y": 460,
     "wires": [
       [
-        "52ac7c7d2c714aa1"
+        "0b359433dd2e0914"
       ]
     ]
   },
@@ -84877,35 +84956,6 @@
     ]
   },
   {
-    "id": "7b2693940a227259",
-    "type": "inject",
-    "z": "a3810c0495b637d4",
-    "name": "",
-    "props": [
-      {
-        "p": "payload"
-      },
-      {
-        "p": "topic",
-        "vt": "str"
-      }
-    ],
-    "repeat": "30",
-    "crontab": "",
-    "once": true,
-    "onceDelay": "40",
-    "topic": "",
-    "payload": "",
-    "payloadType": "date",
-    "x": 310,
-    "y": 620,
-    "wires": [
-      [
-        "cbbe6da6497665e6"
-      ]
-    ]
-  },
-  {
     "id": "cbbe6da6497665e6",
     "type": "function",
     "z": "a3810c0495b637d4",
@@ -85054,5 +85104,600 @@
     "x": 340,
     "y": 580,
     "wires": []
+  },
+  {
+    "id": "0b359433dd2e0914",
+    "type": "round robin",
+    "z": "a3810c0495b637d4",
+    "name": "",
+    "outputs": "2",
+    "x": 310,
+    "y": 460,
+    "wires": [
+      [
+        "52ac7c7d2c714aa1"
+      ],
+      [
+        "cbbe6da6497665e6"
+      ]
+    ]
+  },
+  {
+    "id": "92ca9e8edb48f2f3",
+    "type": "zigbee2mqtt-in",
+    "z": "27cb224f8928f1ad",
+    "name": "test",
+    "server": "e1cd326233f0d93e",
+    "friendly_name": "0x001788010d352db8 (8719514440937/8719514440999)",
+    "device_id": "0x001788010d352db8",
+    "state": "0",
+    "outputAtStartup": true,
+    "filterChanges": false,
+    "enableMultiple": false,
+    "x": 190,
+    "y": 280,
+    "wires": [
+      [
+        "81726fe8d224944d"
+      ]
+    ]
+  },
+  {
+    "id": "04d466d9667efe66",
+    "type": "debug",
+    "z": "27cb224f8928f1ad",
+    "name": "debug 63",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "false",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 600,
+    "y": 660,
+    "wires": []
+  },
+  {
+    "id": "a9dc4aac626887a8",
+    "type": "link out",
+    "z": "27cb224f8928f1ad",
+    "name": "dimmer 0",
+    "mode": "link",
+    "links": [
+      "a4c0fd66546e7864"
+    ],
+    "x": 895,
+    "y": 320,
+    "wires": []
+  },
+  {
+    "id": "81726fe8d224944d",
+    "type": "switch",
+    "z": "27cb224f8928f1ad",
+    "name": "",
+    "property": "payload.action",
+    "propertyType": "msg",
+    "rules": [
+      {
+        "t": "regex",
+        "v": "dial_rotate_.*",
+        "vt": "str",
+        "case": false
+      },
+      {
+        "t": "regex",
+        "v": "button_.*_press_release",
+        "vt": "str",
+        "case": false
+      },
+      {
+        "t": "eq",
+        "v": "button_1_hold",
+        "vt": "str"
+      },
+      {
+        "t": "else"
+      }
+    ],
+    "checkall": "true",
+    "repair": false,
+    "outputs": 4,
+    "x": 370,
+    "y": 360,
+    "wires": [
+      [
+        "f2a4391cb71e98d3"
+      ],
+      [
+        "c14266e01f432e99"
+      ],
+      [
+        "1dc257322a88207f"
+      ],
+      [
+        "04d466d9667efe66"
+      ]
+    ]
+  },
+  {
+    "id": "f2a4391cb71e98d3",
+    "type": "function",
+    "z": "27cb224f8928f1ad",
+    "name": "increase",
+    "func": "msg.label = global.get(\"Ndimmer0\");\n\nlet action = msg.payload.action.split(\"_\");\nlet speed = action.pop();\nlet direction = action.pop();\nlet current = global.get(\"dimmer0\");\n\nlet increment = speed === 'step' ? 1 : speed === 'slow' ?\n    5 : speed === 'fast' ? 20 : 0;\nincrement = direction === 'right' ? increment : -1 * increment;\nmsg.payload = current + increment\nmsg.payload = msg.payload > 100 ? 100 : msg.payload;\nmsg.payload = msg.payload < 0 ? 0 : msg.payload;\nreturn msg",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 620,
+    "y": 340,
+    "wires": [
+      [
+        "a9dc4aac626887a8"
+      ]
+    ]
+  },
+  {
+    "id": "c14266e01f432e99",
+    "type": "function",
+    "z": "27cb224f8928f1ad",
+    "name": "press release",
+    "func": "let action = msg.payload.action.split(\"_\");\nlet nr = parseInt(action[1]) - 1\n\nlet ret = [null, null, null, null]\nlet current;\n\nif (nr === 0) {\n    current = global.get(\"one\");\n} else if (nr === 1) {\n    current = global.get(\"two\");\n} else if (nr === 2) {\n    current = global.get(\"three\");\n} else if (nr === 3) {\n    current = global.get(\"four\");\n}\n\nret[nr] = { payload: !current };\nreturn ret;",
+    "outputs": 4,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 640,
+    "y": 440,
+    "wires": [
+      [
+        "ecccdbb221227c12"
+      ],
+      [
+        "29525ba8275c48ac"
+      ],
+      [
+        "06028a080df0cd62"
+      ],
+      [
+        "c39fbad0b6ba4af0"
+      ]
+    ]
+  },
+  {
+    "id": "ecccdbb221227c12",
+    "type": "link out",
+    "z": "27cb224f8928f1ad",
+    "name": "switch1",
+    "mode": "link",
+    "links": [
+      "e9ffa3ef.cde5d"
+    ],
+    "x": 935,
+    "y": 400,
+    "wires": []
+  },
+  {
+    "id": "06028a080df0cd62",
+    "type": "link out",
+    "z": "27cb224f8928f1ad",
+    "name": "link out 1",
+    "mode": "link",
+    "links": [
+      "c698c6e8.416b58"
+    ],
+    "x": 935,
+    "y": 480,
+    "wires": []
+  },
+  {
+    "id": "c39fbad0b6ba4af0",
+    "type": "link out",
+    "z": "27cb224f8928f1ad",
+    "name": "link out 2",
+    "mode": "link",
+    "links": [
+      "f14867fc.930ab8"
+    ],
+    "x": 935,
+    "y": 520,
+    "wires": []
+  },
+  {
+    "id": "29525ba8275c48ac",
+    "type": "link out",
+    "z": "27cb224f8928f1ad",
+    "name": "link out 3",
+    "mode": "link",
+    "links": [
+      "7255f9f4.6304d8"
+    ],
+    "x": 935,
+    "y": 440,
+    "wires": []
+  },
+  {
+    "id": "1dc257322a88207f",
+    "type": "function",
+    "z": "27cb224f8928f1ad",
+    "name": "hold 1",
+    "func": "msg.label = global.get(\"Ndimmer0\");\n\nlet current = global.get(\"dimmer0\");\n\nif (current) {\n    flow.set(\"lastVal\", current);\n    msg.payload = 0;\n} else {\n    let lastVal = flow.get(\"lastVal\");\n    msg.payload = lastVal || 100;\n}\n\nreturn msg",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 630,
+    "y": 560,
+    "wires": [
+      [
+        "a9dc4aac626887a8"
+      ]
+    ]
+  },
+  {
+    "id": "81f27f3566cae6c8",
+    "type": "delay",
+    "z": "c60a5166bd6dac41",
+    "name": "",
+    "pauseType": "rate",
+    "timeout": "1000",
+    "timeoutUnits": "milliseconds",
+    "rate": "1",
+    "nbRateUnits": "0.5",
+    "rateUnits": "second",
+    "randomFirst": "1",
+    "randomLast": "5",
+    "randomUnits": "seconds",
+    "drop": false,
+    "allowrate": false,
+    "outputs": 1,
+    "x": 800,
+    "y": 860,
+    "wires": [
+      [
+        "4c27111a595daf88"
+      ]
+    ]
+  },
+  {
+    "id": "b310151e65cf9ee5",
+    "type": "function",
+    "z": "c60a5166bd6dac41",
+    "name": "new Date()",
+    "func": "var now = new Date().toLocaleString();\nnow = now.replace(/\\//g, \".\");\n\nmsg.payload = Number(global.get(\"heattempsensor\"));\n\nif (msg.payload != 1 && msg.payload != 2 && msg.payload != 3 && msg.payload != 4 && msg.payload != 5 && msg.payload != 6)\n    msg.payload = \"no sensor\"\n\nif (msg.payload == 1)\n    msg.payload = global.get(\"temp1\");\n\nif (msg.payload == 2)\n    msg.payload = global.get(\"temp2\");\n\nif (msg.payload == 3)\n    msg.payload = global.get(\"temp3\");\n\nif (msg.payload == 4)\n    msg.payload = global.get(\"temp4\");\n\nif (msg.payload == 5)\n    msg.global.get(\"dimmytemp1\")\n\nif (msg.payload == 6)\n    msg.global.get(\"dimmytemp2\")\n\n\nif (global.get(\"temp1\") == \"\" && global.get(\"temp2\") == \"\" && global.get(\"temp3\") == \"\" && global.get(\"temp4\") == \"\" && global.get(\"dimmytemp1\") == \"\" && global.get(\"dimmytemp2\") == \"\") {\n    msg.payload = \"--\"\n}\n\nmsg.payload=msg.payload.toFixed(1) + \"°c \" + now;\nreturn msg",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 650,
+    "y": 680,
+    "wires": [
+      [
+        "d243ee65b85d70ca"
+      ]
+    ]
+  },
+  {
+    "id": "d243ee65b85d70ca",
+    "type": "buffer-maker",
+    "z": "c60a5166bd6dac41",
+    "name": "",
+    "specification": "spec",
+    "specificationType": "ui",
+    "items": [
+      {
+        "name": "check",
+        "type": "string",
+        "length": 25,
+        "dataType": "msg",
+        "data": "payload"
+      }
+    ],
+    "swap1": "",
+    "swap2": "",
+    "swap3": "",
+    "swap1Type": "swap",
+    "swap2Type": "swap",
+    "swap3Type": "swap",
+    "msgProperty": "payload",
+    "msgPropertyType": "str",
+    "x": 850,
+    "y": 680,
+    "wires": [
+      [
+        "90320e2e4bf06b24"
+      ]
+    ]
+  },
+  {
+    "id": "a816faab6131d167",
+    "type": "function",
+    "z": "c60a5166bd6dac41",
+    "name": "get  names",
+    "func": "msg.payload = global.get(\"None\") + \"/\" + global.get(\"Ntwo\") + \"/\" + global.get(\"Nthree\") + \"/\" \n+ global.get(\"Nfour\") + \"/\" + global.get(\"Nfive\") + \"/\" + global.get(\"Nsix\") \n    + \"/\" + global.get(\"Nseven\") + \"/\" + global.get(\"Neight\") + \"/\" + global.get(\"Ntemp1\") +\n    \"/\" + global.get(\"Ntemp2\") + \"/\" + global.get(\"Ntemp3\") + \"/\" + global.get(\"Ntemp4\") +\n    \"/\" + global.get(\"Ndimmer0\") + \"/\" + global.get(\"Ndimmer1\") + \"/\" + global.get(\"Ndimmer2\") + \"/\" + global.get(\"Ndimmer3\") \n    + \"/\" + global.get(\"Ndimmer4\") + \"/\" + global.get(\"Ndimmer5\") + \"/\" + global.get(\"Ndimmer6\") + \"/\" + global.get(\"NLevel1\") + \"/\" + global.get(\"NLevel2\"); \n\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 650,
+    "y": 720,
+    "wires": [
+      [
+        "7b2dddaee695c71e",
+        "3befd44890e7872c",
+        "578cd09025a311a6",
+        "55efba0e5ca97d76"
+      ]
+    ]
+  },
+  {
+    "id": "7b2dddaee695c71e",
+    "type": "buffer-maker",
+    "z": "c60a5166bd6dac41",
+    "name": "",
+    "specification": "spec",
+    "specificationType": "ui",
+    "items": [
+      {
+        "name": "check",
+        "type": "string",
+        "length": 200,
+        "dataType": "msg",
+        "data": "payload"
+      }
+    ],
+    "swap1": "",
+    "swap2": "",
+    "swap3": "",
+    "swap1Type": "swap",
+    "swap2Type": "swap",
+    "swap3Type": "swap",
+    "msgProperty": "payload",
+    "msgPropertyType": "str",
+    "x": 850,
+    "y": 720,
+    "wires": [
+      [
+        "90320e2e4bf06b24"
+      ]
+    ]
+  },
+  {
+    "id": "a0e4114325f6d7a4",
+    "type": "buffer-maker",
+    "z": "c60a5166bd6dac41",
+    "name": "",
+    "specification": "spec",
+    "specificationType": "ui",
+    "items": [
+      {
+        "name": "check",
+        "type": "string",
+        "length": 50,
+        "dataType": "msg",
+        "data": "payload"
+      }
+    ],
+    "swap1": "",
+    "swap2": "",
+    "swap3": "",
+    "swap1Type": "swap",
+    "swap2Type": "swap",
+    "swap3Type": "swap",
+    "msgProperty": "payload",
+    "msgPropertyType": "str",
+    "x": 850,
+    "y": 760,
+    "wires": [
+      [
+        "90320e2e4bf06b24"
+      ]
+    ]
+  },
+  {
+    "id": "9fb8deeab40e71e9",
+    "type": "function",
+    "z": "c60a5166bd6dac41",
+    "name": "get  temps",
+    "func": "let var1 = global.get(\"temp1\");\nlet var2 = global.get(\"temp2\");\nlet var3 = global.get(\"temp3\");\nlet var4 = global.get(\"temp4\");\n\nif(var1==\"\")\n    var1=\"--\";\n\nif (var2 == \"\")\n    var2 = \"--\";\n    \nif (var3 == \"\")\n    var3 = \"--\";\n\nif (var4 == \"\")\n    var4 = \"--\";\n\n\nmsg.payload = global.get(\"temp1\") + \"°C\" +\n    \"/\" + global.get(\"temp2\") + \"°C\" + \"/\" + global.get(\"temp3\") + \"°C\" + \"/\" + global.get(\"temp4\") + \"°C\";\n    \nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 640,
+    "y": 760,
+    "wires": [
+      [
+        "a0e4114325f6d7a4",
+        "3befd44890e7872c"
+      ]
+    ]
+  },
+  {
+    "id": "3befd44890e7872c",
+    "type": "debug",
+    "z": "c60a5166bd6dac41",
+    "name": "debug 64",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "false",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 1100,
+    "y": 700,
+    "wires": []
+  },
+  {
+    "id": "3ca55172555720c1",
+    "type": "function",
+    "z": "c60a5166bd6dac41",
+    "name": "restart",
+    "func": "msg.topic = \"cmnd/WifiTouch/Backlog\"\nmsg.payload = \"Restart 1\"\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1310,
+    "y": 640,
+    "wires": [
+      [
+        "1a7831289902e96c"
+      ]
+    ]
+  },
+  {
+    "id": "1a7831289902e96c",
+    "type": "mqtt out",
+    "z": "c60a5166bd6dac41",
+    "name": "",
+    "topic": "",
+    "qos": "",
+    "retain": "",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "0ddb07c65cbb68bc",
+    "x": 1510,
+    "y": 640,
+    "wires": []
+  },
+  {
+    "id": "578cd09025a311a6",
+    "type": "delay",
+    "z": "c60a5166bd6dac41",
+    "name": "",
+    "pauseType": "delay",
+    "timeout": "3",
+    "timeoutUnits": "seconds",
+    "rate": "1",
+    "nbRateUnits": "1",
+    "rateUnits": "second",
+    "randomFirst": "1",
+    "randomLast": "5",
+    "randomUnits": "seconds",
+    "drop": false,
+    "allowrate": false,
+    "outputs": 1,
+    "x": 1140,
+    "y": 640,
+    "wires": [
+      [
+        "3ca55172555720c1"
+      ]
+    ]
+  },
+  {
+    "id": "55efba0e5ca97d76",
+    "type": "debug",
+    "z": "c60a5166bd6dac41",
+    "name": "debug 65",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "false",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 920,
+    "y": 600,
+    "wires": []
+  },
+  {
+    "id": "416d86184db83af5",
+    "type": "mqtt in",
+    "z": "c60a5166bd6dac41",
+    "name": "",
+    "topic": "tele/WifiTouch/SENSOR",
+    "qos": "2",
+    "datatype": "auto",
+    "broker": "0ddb07c65cbb68bc",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 140,
+    "y": 1820,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "215f38f91ad149b5",
+    "type": "json",
+    "z": "c60a5166bd6dac41",
+    "name": "",
+    "property": "payload",
+    "action": "",
+    "pretty": false,
+    "x": 350,
+    "y": 1820,
+    "wires": [
+      [
+        "5a26c8c4353440be"
+      ]
+    ]
+  },
+  {
+    "id": "a5fada863ebcb13c",
+    "type": "link out",
+    "z": "c60a5166bd6dac41",
+    "name": "Mqtt out temp1",
+    "links": [
+      "f76cd45103a046b7",
+      "53fd8be3f52752ef"
+    ],
+    "x": 855,
+    "y": 1820,
+    "wires": []
+  },
+  {
+    "id": "5a26c8c4353440be",
+    "type": "function",
+    "z": "c60a5166bd6dac41",
+    "name": "set Temp ",
+    "func": "msg.payload=msg.payload.ANALOG.Temperature1;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 500,
+    "y": 1820,
+    "wires": [
+      [
+        "7923490ac0cdfd60"
+      ]
+    ]
+  },
+  {
+    "id": "7923490ac0cdfd60",
+    "type": "function",
+    "z": "c60a5166bd6dac41",
+    "name": "set global temp1",
+    "func": "global.set(\"temp1\",msg.payload);\nreturn msg",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 680,
+    "y": 1820,
+    "wires": [
+      [
+        "a5fada863ebcb13c"
+      ]
+    ]
   }
 ]
