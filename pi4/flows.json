@@ -5661,7 +5661,7 @@
     "rh": 0,
     "inputs": 0,
     "x": 140,
-    "y": 840,
+    "y": 940,
     "wires": [
       [
         "64b3cffd65824f25"
@@ -11537,8 +11537,8 @@
     "rap": true,
     "rh": 0,
     "inputs": 0,
-    "x": 840,
-    "y": 60,
+    "x": 820,
+    "y": 20,
     "wires": [
       [
         "98bd25adc04f7916"
@@ -26229,7 +26229,6 @@
     "id": "4c27111a595daf88",
     "type": "http request",
     "z": "c60a5166bd6dac41",
-    "d": true,
     "name": "switch dimmer 1+2",
     "method": "PUT",
     "ret": "txt",
@@ -26238,10 +26237,12 @@
     "tls": "",
     "persist": false,
     "proxy": "",
+    "insecureHTTPParser": false,
     "authType": "",
     "senderr": false,
-    "x": 750,
-    "y": 760,
+    "headers": [],
+    "x": 1030,
+    "y": 860,
     "wires": [
       []
     ]
@@ -26366,8 +26367,8 @@
     "rap": true,
     "rh": 0,
     "inputs": 0,
-    "x": 850,
-    "y": 120,
+    "x": 1290,
+    "y": 720,
     "wires": [
       [
         "c55964d60f1cea82"
@@ -34391,7 +34392,6 @@
     "id": "63c36da990a3d96d",
     "type": "mqtt in",
     "z": "c60a5166bd6dac41",
-    "d": true,
     "name": "",
     "topic": "stat/WifiTouch/RESULT",
     "qos": "2",
@@ -34402,7 +34402,7 @@
     "rh": 0,
     "inputs": 0,
     "x": 140,
-    "y": 740,
+    "y": 840,
     "wires": [
       [
         "781d6ec6a3798e4d"
@@ -34829,7 +34829,7 @@
     "action": "",
     "pretty": false,
     "x": 350,
-    "y": 840,
+    "y": 940,
     "wires": [
       [
         "9db514f3f7a25d87"
@@ -37357,8 +37357,7 @@
     "id": "6c38c77ebb0162df",
     "type": "http request",
     "z": "c60a5166bd6dac41",
-    "d": true,
-    "name": "switchall/false",
+    "name": "switch dimmer",
     "method": "PUT",
     "ret": "txt",
     "paytoqs": "ignore",
@@ -37370,8 +37369,8 @@
     "authType": "",
     "senderr": false,
     "headers": [],
-    "x": 740,
-    "y": 720,
+    "x": 1020,
+    "y": 800,
     "wires": [
       []
     ]
@@ -37482,7 +37481,7 @@
     "type": "function",
     "z": "c60a5166bd6dac41",
     "name": "check Ok/Cancel",
-    "func": "if (msg.payload == \"Cancel\"){\n    return null   \n}\nelse if (msg.payload == \"Go!\") {\n    msg.payload = \"rm ~/pekaway/VanPI_NSPANEL.tft & rm ~/pekaway/autoexec.be & cd ~/pekaway && wget -o /dev/null -N https://raw.githubusercontent.com/TKone7/vanpi/rudy2/pi4/NSPanel/autoexec.be & mkdir -p ~/pekaway/userdata/NSPanel && cd ~/pekaway/userdata/NSPanel && wget -o /dev/null -N https://raw.githubusercontent.com/TKone7/vanpi/rudy2/pi4/NSPanel/VanPI_NSPANEL.tft\"\n    return msg;\n}",
+    "func": "if (msg.payload == \"Cancel\"){\n    return null   \n}\nelse if (msg.payload == \"Go!\") {\n    msg.payload = \"rm ~/pekaway/VanPI_NSPANEL.tft & rm ~/pekaway/autoexec.be & cd ~/pekaway && wget -o /dev/null -N https://git.pekaway.de/Vincent/vanpi/-/raw/main/pi4/NSPanel/autoexec.be & mkdir -p ~/pekaway/userdata/NSPanel && cd ~/pekaway/userdata/NSPanel && wget -o /dev/null -N https://git.pekaway.de/Vincent/vanpi/-/raw/main/pi4/NSPanel/VanPI_NSPANEL.tft\"\n    return msg;\n}",
     "outputs": 1,
     "noerr": 0,
     "initialize": "",
@@ -41756,13 +41755,12 @@
     "id": "781d6ec6a3798e4d",
     "type": "json",
     "z": "c60a5166bd6dac41",
-    "d": true,
     "name": "",
     "property": "payload",
     "action": "",
     "pretty": false,
     "x": 350,
-    "y": 740,
+    "y": 840,
     "wires": [
       [
         "75b87d8eae14806d"
@@ -41913,11 +41911,6 @@
         "vt": "str"
       },
       {
-        "t": "eq",
-        "v": "page,info",
-        "vt": "str"
-      },
-      {
         "t": "regex",
         "v": "dimm[0-9],\\d+(?:\\.\\d{1,3})?$",
         "vt": "str",
@@ -41956,6 +41949,21 @@
       {
         "t": "eq",
         "v": "event,heateron",
+        "vt": "str"
+      },
+      {
+        "t": "eq",
+        "v": "page,menu",
+        "vt": "str"
+      },
+      {
+        "t": "eq",
+        "v": "event,loadnames",
+        "vt": "str"
+      },
+      {
+        "t": "eq",
+        "v": "page,temp",
         "vt": "str"
       }
     ],
@@ -44090,7 +44098,7 @@
     "links": [
       "eb1e92403a6a4490"
     ],
-    "x": 575,
+    "x": 615,
     "y": 640,
     "wires": []
   },
@@ -44262,7 +44270,7 @@
     "name": "Hardware buttons example",
     "info": "",
     "x": 150,
-    "y": 700,
+    "y": 800,
     "wires": []
   },
   {
@@ -44541,7 +44549,7 @@
     "type": "function",
     "z": "e604dd9.4dd232",
     "name": "substring",
-    "func": "if(msg.payload == \"\") {\n    global.set(\"temp1\",\"\")\n    return null\n}\n\nelse if(msg.payload == 0) {\n    return;\n}\n\nmsg.topic = Number(msg.payload.substring(0,1))\nmsg.payload = msg.payload.substring(5,11)\n\nmsg.payload = Number(msg.payload)\n\nreturn msg;",
+    "func": "if(msg.payload == \"\") {\n    global.set(\"temp4\",\"\")\n    return null\n}\n\nelse if(msg.payload == 0) {\n    return;\n}\n\nmsg.topic = Number(msg.payload.substring(0,1))\nmsg.payload = msg.payload.substring(5,11)\n\nmsg.payload = Number(msg.payload)\n\nreturn msg;",
     "outputs": 1,
     "noerr": 0,
     "initialize": "",
@@ -46510,6 +46518,27 @@
     "x": 1175,
     "y": 340,
     "wires": []
+  },
+  {
+    "id": "86e64c61d768cfe2",
+    "type": "mqtt in",
+    "z": "e604dd9.4dd232",
+    "name": "",
+    "topic": "pkw/tele/PekawayMOTA/SENSOR",
+    "qos": "2",
+    "datatype": "json",
+    "broker": "0ddb07c65cbb68bc",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 820,
+    "y": 80,
+    "wires": [
+      [
+        "c44295b6d428b5ac"
+      ]
+    ]
   },
   {
     "id": "86f4026b3b5bda29",
@@ -51696,8 +51725,8 @@
     "initialize": "",
     "finalize": "",
     "libs": [],
-    "x": 1220,
-    "y": 60,
+    "x": 1200,
+    "y": 20,
     "wires": [
       [
         "dc458ece.736dd"
@@ -53546,7 +53575,7 @@
     "finalize": "",
     "libs": [],
     "x": 510,
-    "y": 840,
+    "y": 940,
     "wires": [
       [
         "c98669cc7d0a03cd"
@@ -64653,10 +64682,8 @@
     "tls": "",
     "persist": false,
     "proxy": "",
-    "insecureHTTPParser": false,
     "authType": "",
     "senderr": false,
-    "headers": [],
     "x": 650,
     "y": 320,
     "wires": [
@@ -66477,6 +66504,25 @@
     ]
   },
   {
+    "id": "c44295b6d428b5ac",
+    "type": "function",
+    "z": "e604dd9.4dd232",
+    "name": "read Temperature",
+    "func": "if (msg.payload.hasOwnProperty(\"DS18B20\")) {\n    msg.payload = msg.payload.DS18B20.Temperature;\n}\n\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1190,
+    "y": 80,
+    "wires": [
+      [
+        "a947df33.984df"
+      ]
+    ]
+  },
+  {
     "id": "c46303e5a872cc1b",
     "type": "ui_toast",
     "z": "b14c00f226d9b539",
@@ -66884,12 +66930,10 @@
     "initialize": "",
     "finalize": "",
     "libs": [],
-    "x": 1210,
-    "y": 120,
+    "x": 1650,
+    "y": 720,
     "wires": [
-      [
-        "a947df33.984df"
-      ]
+      []
     ]
   },
   {
@@ -67259,7 +67303,7 @@
     "name": "Hardware buttons will send a payload on reboot, so we need to be able to filter them",
     "info": "",
     "x": 330,
-    "y": 800,
+    "y": 900,
     "wires": []
   },
   {
@@ -68156,7 +68200,7 @@
     "allowrate": false,
     "outputs": 1,
     "x": 700,
-    "y": 840,
+    "y": 940,
     "wires": [
       [
         "da5141b964c11d36"
@@ -69414,7 +69458,7 @@
     "links": [
       "8114989ad3d836db"
     ],
-    "x": 575,
+    "x": 615,
     "y": 600,
     "wires": []
   },
@@ -73581,7 +73625,7 @@
     "finalize": "",
     "libs": [],
     "x": 870,
-    "y": 840,
+    "y": 940,
     "wires": [
       []
     ]
@@ -76049,9 +76093,7 @@
     "x": 960,
     "y": 1080,
     "wires": [
-      [
-        "49b1f6147a376e0c"
-      ]
+      []
     ]
   },
   {
