@@ -19,6 +19,7 @@
     "node-red-contrib-pid-controller": "latest",
     "node-red-contrib-play-audio": "^2.5.0",
     "node-red-contrib-queued-sqlite": "latest",
+    "node-red-contrib-round-robin": "^1.0.5",
     "node-red-contrib-sqlitedb": "latest",
     "node-red-contrib-ui-time-scheduler": "~1.17.2",
     "node-red-contrib-web-worldmap": "^2.37.0",
