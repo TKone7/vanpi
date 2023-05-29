@@ -19,7 +19,7 @@ coproc mytee { tee ${LOG_FILE} >&3;  }
 exec >&${mytee[1]} 2>&1
 
 # define variables
-Server='https://git.pekaway.de/Vincent/vanpi/-/raw/main/pi4/'
+Server='https://raw.githubusercontent.com/TKone7/vanpi/rudy2/pi4/'
 Version='v1.1.1'		### <--- set new version number VanPi OS
 NSPanelVersion='0.0.1'	### <--- set new version number NSPanel
 currentVersion=`cat ~/pekaway/version`

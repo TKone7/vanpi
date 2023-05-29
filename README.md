@@ -27,7 +27,7 @@ _**-- IMPORTANT --**_
 - Once logged in do
 ```
 cd ~/ &&
-wget https://git.pekaway.de/Vincent/vanpi/-/raw/main/pi4/vanpi-init.sh &&
+wget https://raw.githubusercontent.com/TKone7/vanpi/rudy2/pi4/vanpi-init.sh &&
 chmod +x vanpi-init.sh &&
 bash vanpi-init.sh
 ```

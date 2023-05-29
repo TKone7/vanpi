@@ -1346,6 +1346,22 @@
     ]
   },
   {
+    "id": "04d466d9667efe66",
+    "type": "debug",
+    "z": "27cb224f8928f1ad",
+    "name": "debug 63",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "false",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 600,
+    "y": 660,
+    "wires": []
+  },
+  {
     "id": "04e28beb3155cb2e",
     "type": "exec",
     "z": "67973ee8.553c3",
@@ -1690,6 +1706,19 @@
     ]
   },
   {
+    "id": "06028a080df0cd62",
+    "type": "link out",
+    "z": "27cb224f8928f1ad",
+    "name": "link out 1",
+    "mode": "link",
+    "links": [
+      "c698c6e8.416b58"
+    ],
+    "x": 935,
+    "y": 480,
+    "wires": []
+  },
+  {
     "id": "06040792df62c94b",
     "type": "switch",
     "z": "013c27e6e1e7446d",
@@ -1913,7 +1942,7 @@
     "type": "function",
     "z": "1f780f8f.dbcd5",
     "name": "MUART, USB, BTbatt, Shunt",
-    "func": "/*\nUSB UART:\n0 = nothing\n1 = Daly BMS Bluetooth\n2 = VE.Direct\n3 = Webasto\n4 = China Diesel Heater\n5 = Autoterm 2D\n6 = Daly Monit\n7 = JBD Generic\n8 = Autoterm 4D\n9 = MaxxAir MaxxFan\n*/\nvar multiuart = global.get(\"multiuart1\");\nvar multiuart2 = global.get(\"multiuart2\");\nvar BLE = global.get(\"BLEdevice\");\nvar usb1 = parseInt(global.get(\"usb1uart\"));\nvar usb2 = parseInt(global.get(\"usb2uart\"));\nvar usb3 = parseInt(global.get(\"usb3uart\"));\nvar usb4 = parseInt(global.get(\"usb4uart\"));\nvar btbat = global.get(\"btbat\");\nvar btbat1 = 1;\n\nvar bms_info = {\"group\":{\"hide\":[\"Info_BMS_INFO\"]}};\nvar victron = {\"tabs\":{\"hide\":[\"Victron\"]}};\nlet maxxfan = {\"tabs\":{\"hide\":[\"MaxxFan\"]}};\nvar webasto = {\"group\":{\"hide\":[\"Heater_Info_Webasto\"]}};\nvar chinaheater = {\"group\":{\"hide\":[\"Heater_Info_China_Heater\"]}};\nvar autoterm = {\"group\":{\"hide\":[\"Heater_Info_Autoterm\"]}};\nvar vanpishunt = {\"group\":{\"hide\":[\"Info_VanPI_Shunt\"]}};\nvar victronshunt = {\"group\":{\"hide\":[\"Info_Victron_Shunt\"]}};\nvar dimmytemp = {\"group\":{\"hide\":[\"Info_Dimmy_Temperature\", \"Sensors_Dimmy_Temperature_Names\"]}};\n\nif (btbat == 0 || btbat == \"\" || btbat == undefined || btbat == \"turn off\" || btbat == \"turned off\" || btbat == \"Scan Bluetooth first\") {\n    btbat1 = 0;   \n}\n\n//USB-Ports + Bluetooth Batt/BMS\nif (usb1 == 0 && usb2 == 0 && usb3 == 0 && usb4 == 0) {\n    if(btbat == 0 || btbat == \"\" || btbat == undefined || btbat == \"turn off\" || btbat == \"turned off\" || btbat == \"Scan Bluetooth first\") {\n        bms_info = {\"group\":{\"hide\":[\"Info_BMS_INFO\"]}};\n    }\n    else {\n        bms_info = { \"group\": { \"show\": [\"Info_BMS_INFO\"], \"hide\": []}};\n    }\n}\n\nif(usb1==1 || usb1==6 || usb1 == 7 || usb2==1 || usb2==6 || usb2 == 7 || usb3==1 || usb3==6 || usb3 == 7 || usb4==1 || usb4==6 || usb4 == 7 || multiuart==1 || multiuart==6 || multiuart == 7 || BLE == 1 || multiuart2 == 1 || multiuart2 == 6 || multiuart2 == 7 || btbat1 == 1) {\n    bms_info = { \"group\": { \"show\": [\"Info_BMS_INFO\"], \"hide\": []}};\n}\nif(usb1==2 || usb2==2 || usb3==2 || usb4==2) {\n    victron = { \"tabs\": { \"show\": [\"Victron\"], \"hide\": []}};\n}\nif(usb1==3 || usb2==3 || usb3==3 || usb4==3) {\n    webasto = { \"group\": { \"show\": [\"Heater_Info_Webasto\"], \"hide\": []}};\n}\nif(usb1==4 || usb2==4 || usb3==4 || usb4==4) {\n    chinaheater = { \"group\": { \"show\": [\"Heater_Info_China_Heater\"], \"hide\": []}};\n}\nif (usb1 == 5 || usb2 == 5 || usb3 == 5 || usb4 == 5 || usb1 == 8 || usb2 == 8 || usb3 == 8 || usb4 == 8) {\n    autoterm = { \"group\": { \"show\": [\"Heater_Info_Autoterm\"], \"hide\": []}};\n}\n\n//MUART\nif(multiuart==2 || multiuart2==2) {\n    victron = { \"tabs\": { \"show\": [\"Victron\"], \"hide\": []}};\n}\n\n//Shunt\nif(global.get(\"pkwshuntactive\")==true) {\n    vanpishunt = { \"group\": { \"show\": [\"Info_VanPI_Shunt\"], \"hide\": []}};\n}\nif(global.get(\"BatteryDataDelivery\")==\"VICTRON\") {\n    victronshunt = { \"group\": { \"show\": [\"Info_Victron_Shunt\"], \"hide\": []}};\n}\n\n//Dimmy temp sensors\nif (global.get(\"dimmytemp\") == true) {\n    dimmytemp = { \"group\": { \"show\": [\"Info_Dimmy_Temperature\", \"Sensors_Dimmy_Temperature_Names\"], \"hide\": []}};\n}\n\n//MaxFan Tab\nif (usb1 == 9 || usb2 == 9 || usb3 == 9 || usb4 == 9) {\n    maxxfan = {\"tabs\":{\"show\":[\"MaxxFan\"], \"hide\":[]}};\n}\n\n//send variables to build ui\nmsg.payload = bms_info\nnode.send(msg)\nmsg.payload = victron\nnode.send(msg)\nmsg.payload = webasto\nnode.send(msg)\nmsg.payload = chinaheater\nnode.send(msg)\nmsg.payload = autoterm\nnode.send(msg)\nmsg.payload = vanpishunt\nnode.send(msg)\nmsg.payload = victronshunt\nnode.send(msg)\nmsg.payload = dimmytemp\nnode.send(msg)\nmsg.payload = maxxfan\nnode.send(msg)",
+    "func": "/*\nUSB UART:\n0 = nothing\n1 = Daly BMS Bluetooth\n2 = VE.Direct\n3 = Webasto\n4 = China Diesel Heater\n5 = Autoterm 2D\n6 = Daly Monit\n7 = JBD Generic\n8 = Autoterm 4D\n9 = MaxxAir MaxxFan\n*/\nvar multiuart = global.get(\"multiuart1\");\nvar multiuart2 = global.get(\"multiuart2\");\nvar BLE = global.get(\"BLEdevice\");\nvar usb1 = parseInt(global.get(\"usb1uart\"));\nvar usb2 = parseInt(global.get(\"usb2uart\"));\nvar usb3 = parseInt(global.get(\"usb3uart\"));\nvar usb4 = parseInt(global.get(\"usb4uart\"));\nvar btbat = global.get(\"btbat\");\nvar btbat1 = 1;\n\nvar bms_info = {\"group\":{\"hide\":[\"Info_BMS_INFO\"]}};\nvar victron = {\"tabs\":{\"hide\":[\"Victron\"]}};\nlet maxxfan = {\"tabs\":{\"hide\":[\"MaxxFan\"]}};\nvar webasto = {\"group\":{\"hide\":[\"Heater_Info_Webasto\"]}};\nvar chinaheater = {\"group\":{\"hide\":[\"Heater_Info_China_Heater\"]}};\nvar autoterm = {\"group\":{\"hide\":[\"Heater_Info_Autoterm\"]}};\nvar vanpishunt = {\"group\":{\"hide\":[\"Info_VanPI_Shunt\"]}};\nvar victronshunt = {\"group\":{\"hide\":[\"Info_Victron_Shunt\"]}};\nvar dimmytemp = {\"group\":{\"hide\":[\"Info_Dimmy_Temperature\", \"Sensors_Dimmy_Temperature_Names\"]}};\n\nif (btbat == 0 || btbat == \"\" || btbat == undefined || btbat == \"turn off\" || btbat == \"turned off\" || btbat == \"Scan Bluetooth first\") {\n    btbat1 = 0;   \n}\nbtbat1 = 1;\n\n//USB-Ports + Bluetooth Batt/BMS\nif (usb1 == 0 && usb2 == 0 && usb3 == 0 && usb4 == 0) {\n    if(btbat == 0 || btbat == \"\" || btbat== undefined || btbat == \"turn off\" || btbat == \"turned off\" || btbat == \"Scan Bluetooth first\") {\n        bms_info = {\"group\":{\"hide\":[\"Info_BMS_INFO\"]}};\n    }\n    else {\n        bms_info = { \"group\": { \"show\": [\"Info_BMS_INFO\"], \"hide\": []}};\n    }\n}\n\nif(usb1==1 || usb1==6 || usb1 == 7 || usb2==1 || usb2==6 || usb2 == 7 || usb3==1 || usb3==6 || usb3 == 7 || usb4==1 || usb4==6 || usb4 == 7 || multiuart==1 || multiuart==6 || multiuart == 7 || BLE == 1 || multiuart2 == 1 || multiuart2 == 6 || multiuart2 == 7 || btbat1 == 1) {\n    bms_info = { \"group\": { \"show\": [\"Info_BMS_INFO\"], \"hide\": []}};\n}\nif(usb1==2 || usb2==2 || usb3==2 || usb4==2) {\n    victron = { \"tabs\": { \"show\": [\"Victron\"], \"hide\": []}};\n}\nif(usb1==3 || usb2==3 || usb3==3 || usb4==3) {\n    webasto = { \"group\": { \"show\": [\"Heater_Info_Webasto\"], \"hide\": []}};\n}\nif(usb1==4 || usb2==4 || usb3==4 || usb4==4) {\n    chinaheater = { \"group\": { \"show\": [\"Heater_Info_China_Heater\"], \"hide\": []}};\n}\nif (usb1 == 5 || usb2 == 5 || usb3 == 5 || usb4 == 5 || usb1 == 8 || usb2 == 8 || usb3 == 8 || usb4 == 8) {\n    autoterm = { \"group\": { \"show\": [\"Heater_Info_Autoterm\"], \"hide\": []}};\n}\n\n//MUART\nif(multiuart==2 || multiuart2==2) {\n    victron = { \"tabs\": { \"show\": [\"Victron\"], \"hide\": []}};\n}\n\n//Shunt\nif(global.get(\"pkwshuntactive\")==true) {\n    vanpishunt = { \"group\": { \"show\": [\"Info_VanPI_Shunt\"], \"hide\": []}};\n}\nif(global.get(\"BatteryDataDelivery\")==\"VICTRON\") {\n    victronshunt = { \"group\": { \"show\": [\"Info_Victron_Shunt\"], \"hide\": []}};\n}\n\n//Dimmy temp sensors\nif (global.get(\"dimmytemp\") == true) {\n    dimmytemp = { \"group\": { \"show\": [\"Info_Dimmy_Temperature\", \"Sensors_Dimmy_Temperature_Names\"], \"hide\": []}};\n}\n\n//MaxFan Tab\nif (usb1 == 9 || usb2 == 9 || usb3 == 9 || usb4 == 9) {\n    maxxfan = {\"tabs\":{\"show\":[\"MaxxFan\"], \"hide\":[]}};\n}\n\n//send variables to build ui\nmsg.payload= bms_info\nnode.send(msg)\nmsg.payload = victron\nnode.send(msg)\nmsg.payload = webasto\nnode.send(msg)\nmsg.payload = chinaheater\nnode.send(msg)\nmsg.payload = autoterm\nnode.send(msg)\nmsg.payload = vanpishunt\nnode.send(msg)\nmsg.payload = victronshunt\nnode.send(msg)\nmsg.payload = dimmytemp\nnode.send(msg)\nmsg.payload = maxxfan\nnode.send(msg)",
     "outputs": 1,
     "noerr": 0,
     "initialize": "",
@@ -2232,6 +2261,35 @@
     "x": 615,
     "y": 620,
     "wires": []
+  },
+  {
+    "id": "0790ecbcc2e4b2dd",
+    "type": "inject",
+    "z": "a3810c0495b637d4",
+    "name": "",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "15",
+    "crontab": "",
+    "once": true,
+    "onceDelay": "5",
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 90,
+    "y": 460,
+    "wires": [
+      [
+        "0b359433dd2e0914"
+      ]
+    ]
   },
   {
     "id": "079867967e6f10db",
@@ -2996,6 +3054,25 @@
     ]
   },
   {
+    "id": "0a1391e9f9ab247b",
+    "type": "batch",
+    "z": "66e7f53c2a5440e2",
+    "name": "",
+    "mode": "interval",
+    "count": "3",
+    "overlap": 0,
+    "interval": "300",
+    "allowEmptySequence": false,
+    "topics": [],
+    "x": 190,
+    "y": 80,
+    "wires": [
+      [
+        "fe2bcba7f6821a65"
+      ]
+    ]
+  },
+  {
     "id": "0a25611d0d28288e",
     "type": "mqtt-broker",
     "name": "",
@@ -3297,6 +3374,23 @@
     ]
   },
   {
+    "id": "0b359433dd2e0914",
+    "type": "round robin",
+    "z": "a3810c0495b637d4",
+    "name": "",
+    "outputs": "2",
+    "x": 310,
+    "y": 460,
+    "wires": [
+      [
+        "52ac7c7d2c714aa1"
+      ],
+      [
+        "cbbe6da6497665e6"
+      ]
+    ]
+  },
+  {
     "id": "0b3dceafe882efaf",
     "type": "link out",
     "z": "d916bf99.e1981",
@@ -3329,7 +3423,6 @@
         "d4e1378e34f71834",
         "9f5d99a090b671fd",
         "3075aa43999ca314",
-        "196da47b40565b0c",
         "e38d0f381033c354"
       ]
     ]
@@ -4149,6 +4242,33 @@
     "wires": []
   },
   {
+    "id": "0da118de51f9ce30",
+    "type": "ui_gauge",
+    "z": "a3810c0495b637d4",
+    "name": "",
+    "group": "c202da164d32f31e",
+    "order": 1,
+    "width": "3",
+    "height": "3",
+    "gtype": "gage",
+    "title": "Solar Charge",
+    "label": "A",
+    "format": "{{value}}",
+    "min": 0,
+    "max": "30",
+    "colors": [
+      "#8ff0a4",
+      "#33d17a",
+      "#00b500"
+    ],
+    "seg1": "",
+    "seg2": "",
+    "className": "",
+    "x": 870,
+    "y": 1000,
+    "wires": []
+  },
+  {
     "id": "0da23b97496056a2",
     "type": "file",
     "z": "0e4ef1e0739bd351",
@@ -4482,6 +4602,27 @@
     "wires": [
       [
         "adf6707b60da6dc0"
+      ]
+    ]
+  },
+  {
+    "id": "0f01840943b5d852",
+    "type": "function",
+    "z": "e604dd9.4dd232",
+    "name": "",
+    "func": "if (msg.payload.hasOwnProperty(\"DS18B20\")) {\n    msg.payload.check = \"available\"\n    msg.dimmytemp1 = msg.payload.DS18B20.Temperature\n    global.set(\"dimmytemp1\", msg.dimmytemp1)\n    global.set(\"dimmytemp2\", \"\")\n    msg.sensorcount = 1\n} else {\n    msg.payload.check = \"not available\"\n    global.set(\"dimmytemp1\", \"\")\n    global.set(\"dimmytemp2\", \"\")\n    msg.sensorcount = 0\n}\n  \nmsg.dimmytemp1 = global.get(\"dimmytemp1\")\nmsg.dimmytemp2 = global.get(\"dimmytemp2\")\n\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 540,
+    "y": 600,
+    "wires": [
+      [
+        "18b9fb11d95404fb",
+        "e343fcb7a4978535",
+        "2160832dedc8a42f"
       ]
     ]
   },
@@ -5450,7 +5591,7 @@
     "type": "function",
     "z": "40d4ba5c28e4a6be",
     "name": "set global",
-    "func": "//battery\nglobal.set(\"BMSamps\",msg.payload.Imain);\nglobal.set(\"BMScap\",msg.payload.RemainAh);\nglobal.set(\"BMSmaxcap\", (msg.payload.NominalAh * msg.payload.Vmain).toFixed(2));\nglobal.set(\"BMSvolt\",msg.payload.Vmain)\nglobal.set(\"BMStemp\",msg.payload.TempC1);\nglobal.set(\"BMScell1\",msg.payload.Vcell1*1000);\nglobal.set(\"BMScell2\",msg.payload.Vcell2*1000);\nglobal.set(\"BMScell3\",msg.payload.Vcell3*1000);\nglobal.set(\"BMScell4\",msg.payload.Vcell4*1000);\nglobal.set(\"BMSsoc\",msg.payload.SoC);\n\nif (global.get(\"BatteryDataDelivery\") == \"1\") {\n    return null\n}\n\nvar BMSmaxvolt = global.get(\"BMSvolt\")\nvar BMSminvolt = global.get(\"BMSvolt\")\nvar BMSmaxcap = global.get(\"BMSmaxcap\")\n\nif (global.get(\"BMSmaxvolt\") == \"wait\" || global.get(\"BMSmaxvolthighest\") == \"wait\" || BMSmaxvolt > global.get(\"BMSmaxvolthighest\")) {\n    global.set(\"BMSmaxvolthighest\", BMSmaxvolt)\n    global.set(\"BMSmaxvolt\", BMSmaxvolt.toString())\n}\nif (global.get(\"BMSminvolt\") == \"wait\" || global.get(\"BMSminvoltlowest\") == \"wait\" || BMSminvolt < global.get(\"BMSminvoltlowest\")) {\n    global.set(\"BMSminvoltlowest\", BMSminvolt)\n    global.set(\"BMSminvolt\", BMSminvolt.toString())\n}\nif (global.get(\"BMSmaxcap\") == \"wait\" || global.get(\"BMSmaxcaphighest\") == \"wait\" || BMSmaxcap > global.get(\"BMSmaxcaphighest\")) {\n    global.set(\"BMSmaxcaphighest\", BMSmaxcap)\n    global.set(\"BMSmaxcap\", BMSmaxcap.toString())\n}\n\nvar power = msg.payload.Imain * msg.payload.Vmain;\npower = power.toFixed(1);\nglobal.set(\"BMSpower\",power);",
+    "func": "//battery\nglobal.set(\"BMSamps\", msg.payload.current);\nglobal.set(\"BMScap\", 0);\nglobal.set(\"BMSmaxcap\", (msg.payload.cap * msg.payload.volt).toFixed(2));\nglobal.set(\"BMSvolt\", msg.payload.volt)\nglobal.set(\"BMStemp\", msg.payload.temp);\nglobal.set(\"BMScell1\", 0);\nglobal.set(\"BMScell2\", 0);\nglobal.set(\"BMScell3\", 0);\nglobal.set(\"BMScell4\", 0);\nglobal.set(\"BMSsoc\", msg.payload.soc);\nglobal.set(\"BMScycles\", msg.payload.cycles);\n\nif (global.get(\"BatteryDataDelivery\") == \"1\") {\n    return null\n}\n\nvar BMSmaxvolt = global.get(\"BMSvolt\")\nvar BMSminvolt = global.get(\"BMSvolt\")\nvar BMSmaxcap = global.get(\"BMSmaxcap\")\n\nif (global.get(\"BMSmaxvolt\") == \"wait\" || global.get(\"BMSmaxvolthighest\") == \"wait\" || BMSmaxvolt > global.get(\"BMSmaxvolthighest\")) {\n    global.set(\"BMSmaxvolthighest\", BMSmaxvolt)\n    global.set(\"BMSmaxvolt\", BMSmaxvolt.toString())\n}\nif (global.get(\"BMSminvolt\") == \"wait\" || global.get(\"BMSminvoltlowest\") == \"wait\" || BMSminvolt < global.get(\"BMSminvoltlowest\")) {\n    global.set(\"BMSminvoltlowest\", BMSminvolt)\n    global.set(\"BMSminvolt\", BMSminvolt.toString())\n}\nif (global.get(\"BMSmaxcap\") == \"wait\" || global.get(\"BMSmaxcaphighest\") == \"wait\" || BMSmaxcap > global.get(\"BMSmaxcaphighest\")) {\n    global.set(\"BMSmaxcaphighest\", BMSmaxcap)\n    global.set(\"BMSmaxcap\", BMSmaxcap.toString())\n}\n\nvar power = msg.payload.current * msg.payload.volt;\npower = power.toFixed(1);\nglobal.set(\"BMSpower\", power);",
     "outputs": 1,
     "noerr": 0,
     "initialize": "",
@@ -7625,7 +7766,7 @@
     "type": "function",
     "z": "e2902b7e.e22d58",
     "name": "get current state",
-    "func": "var check = global.get(\"eight\");\nmsg.payload = check;  \nreturn msg;",
+    "func": "var check = global.get(\"eight\");\nmsg.payload = !check;  \nreturn msg;",
     "outputs": 1,
     "noerr": 0,
     "initialize": "",
@@ -8384,6 +8525,24 @@
     "wires": []
   },
   {
+    "id": "1a7831289902e96c",
+    "type": "mqtt out",
+    "z": "c60a5166bd6dac41",
+    "name": "",
+    "topic": "",
+    "qos": "",
+    "retain": "",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "0ddb07c65cbb68bc",
+    "x": 1510,
+    "y": 640,
+    "wires": []
+  },
+  {
     "id": "1a8794f31a3f9ddb",
     "type": "link in",
     "z": "67973ee8.553c3",
@@ -8405,7 +8564,7 @@
     "type": "function",
     "z": "e2902b7e.e22d58",
     "name": "get current state",
-    "func": "var check = global.get(\"two\");\nmsg.payload = check;  \nreturn msg;",
+    "func": "var check = global.get(\"two\");\nmsg.payload = !check;  \nreturn msg;",
     "outputs": 1,
     "noerr": 0,
     "initialize": "",
@@ -9618,6 +9777,25 @@
     ]
   },
   {
+    "id": "1dc257322a88207f",
+    "type": "function",
+    "z": "27cb224f8928f1ad",
+    "name": "hold 1",
+    "func": "msg.label = global.get(\"Ndimmer0\");\n\nlet current = global.get(\"dimmer0\");\n\nif (current) {\n    flow.set(\"lastVal\", current);\n    msg.payload = 0;\n} else {\n    let lastVal = flow.get(\"lastVal\");\n    msg.payload = lastVal || 100;\n}\n\nreturn msg",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 630,
+    "y": 560,
+    "wires": [
+      [
+        "a9dc4aac626887a8"
+      ]
+    ]
+  },
+  {
     "id": "1dc2bf9a36c9c85f",
     "type": "ui_dropdown",
     "z": "f75bc952.6d3f78",
@@ -10439,6 +10617,23 @@
     ]
   },
   {
+    "id": "203768e8b38de5f0",
+    "type": "function",
+    "z": "66e7f53c2a5440e2",
+    "name": "calc average",
+    "func": "const keys = Object.keys(msg.payload[0]);\n\nconst summed = msg.payload.reduce((prev, val) => {\n    keys.forEach(k => prev[k] += val[k]);\n    return prev;\n},\n    keys.reduce((prev, val) => { prev[val] = 0; return prev; }, {})\n);\n\nconst average = keys.reduce((prev, val) => { prev[val] = summed[val] / msg.payload.length; return prev; }, {});\n\nmsg.payload = average;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 530,
+    "y": 80,
+    "wires": [
+      []
+    ]
+  },
+  {
     "id": "204604583c498134",
     "type": "link out",
     "z": "71d2baa986138c38",
@@ -10588,6 +10783,22 @@
     "wires": [
       [
         "a969522383e403b3"
+      ]
+    ]
+  },
+  {
+    "id": "215f38f91ad149b5",
+    "type": "json",
+    "z": "c60a5166bd6dac41",
+    "name": "",
+    "property": "payload",
+    "action": "",
+    "pretty": false,
+    "x": 350,
+    "y": 1820,
+    "wires": [
+      [
+        "5a26c8c4353440be"
       ]
     ]
   },
@@ -11310,6 +11521,27 @@
     "wires": [
       [
         "15a044e2c38d465e"
+      ]
+    ]
+  },
+  {
+    "id": "235e09eeda184067",
+    "type": "mqtt in",
+    "z": "e604dd9.4dd232",
+    "name": "",
+    "topic": "tele/WLANTEMP2/SENSOR",
+    "qos": "2",
+    "datatype": "json",
+    "broker": "0ddb07c65cbb68bc",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 840,
+    "y": 60,
+    "wires": [
+      [
+        "98bd25adc04f7916"
       ]
     ]
   },
@@ -12482,6 +12714,14 @@
     "wires": []
   },
   {
+    "id": "27cb224f8928f1ad",
+    "type": "tab",
+    "label": "Zigbee",
+    "disabled": false,
+    "info": "",
+    "env": []
+  },
+  {
     "id": "27ccd5beae18ea0f",
     "type": "function",
     "z": "013c27e6e1e7446d",
@@ -12899,6 +13139,19 @@
     "info": "",
     "x": 940,
     "y": 280,
+    "wires": []
+  },
+  {
+    "id": "29525ba8275c48ac",
+    "type": "link out",
+    "z": "27cb224f8928f1ad",
+    "name": "link out 3",
+    "mode": "link",
+    "links": [
+      "7255f9f4.6304d8"
+    ],
+    "x": 935,
+    "y": 440,
     "wires": []
   },
   {
@@ -15826,6 +16079,27 @@
     ]
   },
   {
+    "id": "32c2a885c530c99e",
+    "type": "mqtt in",
+    "z": "e604dd9.4dd232",
+    "name": "",
+    "topic": "pkw/tele/PekawayMOTA/SENSOR",
+    "qos": "2",
+    "datatype": "auto",
+    "broker": "0ddb07c65cbb68bc",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 200,
+    "y": 600,
+    "wires": [
+      [
+        "f6388c23e3c1a409"
+      ]
+    ]
+  },
+  {
     "id": "32ccfc50.e148f4",
     "type": "link in",
     "z": "e10bdbef.f84828",
@@ -15871,6 +16145,30 @@
       [
         "ac2e89e2.650558"
       ]
+    ]
+  },
+  {
+    "id": "32db5fd008860b18",
+    "type": "exec",
+    "z": "a3810c0495b637d4",
+    "command": "",
+    "addpay": "payload",
+    "append": "",
+    "useSpawn": "false",
+    "timer": "",
+    "winHide": false,
+    "oldrc": false,
+    "name": "readBms",
+    "x": 740,
+    "y": 620,
+    "wires": [
+      [
+        "45efe1fa37d16176"
+      ],
+      [
+        "cdd8277d39fe103f"
+      ],
+      []
     ]
   },
   {
@@ -16184,6 +16482,42 @@
         "eeb6d6c21fd8acf7"
       ]
     ]
+  },
+  {
+    "id": "337dfc87bcec3131",
+    "type": "ui_worldmap",
+    "z": "592c2bf61e20fa21",
+    "group": "5b4c7589b8ae7d79",
+    "order": 6,
+    "width": 0,
+    "height": 0,
+    "name": "",
+    "lat": "",
+    "lon": "",
+    "zoom": "",
+    "layer": "OSMG",
+    "cluster": "",
+    "maxage": "",
+    "usermenu": "hide",
+    "layers": "hide",
+    "panit": "false",
+    "panlock": "false",
+    "zoomlock": "false",
+    "hiderightclick": "true",
+    "coords": "none",
+    "showgrid": "false",
+    "showruler": "false",
+    "allowFileDrop": "false",
+    "path": "/worldmap",
+    "overlist": "DR,CO,RA,DN,HM",
+    "maplist": "OSMG,OSMC,EsriC,EsriS,EsriT,EsriDG,UKOS",
+    "mapname": "",
+    "mapurl": "",
+    "mapopt": "",
+    "mapwms": false,
+    "x": 1080,
+    "y": 160,
+    "wires": []
   },
   {
     "id": "337e4ecc1841f869",
@@ -18404,6 +18738,23 @@
     ]
   },
   {
+    "id": "3837da0eef4b0496",
+    "type": "debug",
+    "z": "67973ee8.553c3",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 2610,
+    "y": 980,
+    "wires": []
+  },
+  {
     "id": "383d887ce755d812",
     "type": "split",
     "z": "c3e6360c8bbf5f2e",
@@ -19928,6 +20279,24 @@
     ]
   },
   {
+    "id": "3baf4481f68acdbd",
+    "type": "mqtt out",
+    "z": "a3810c0495b637d4",
+    "name": "",
+    "topic": "pkw/tele/mppt",
+    "qos": "",
+    "retain": "",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "0ddb07c65cbb68bc",
+    "x": 1740,
+    "y": 420,
+    "wires": []
+  },
+  {
     "id": "3bef611ac27c4ed4",
     "type": "file in",
     "z": "1f780f8f.dbcd5",
@@ -19945,6 +20314,22 @@
         "439f988a62781d9b"
       ]
     ]
+  },
+  {
+    "id": "3befd44890e7872c",
+    "type": "debug",
+    "z": "c60a5166bd6dac41",
+    "name": "debug 64",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "false",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 1100,
+    "y": 700,
+    "wires": []
   },
   {
     "id": "3bf82db623790dae",
@@ -20218,6 +20603,25 @@
     "wires": [
       [
         "3d9baaa8402dd8d8"
+      ]
+    ]
+  },
+  {
+    "id": "3ca55172555720c1",
+    "type": "function",
+    "z": "c60a5166bd6dac41",
+    "name": "restart",
+    "func": "msg.topic = \"cmnd/WifiTouch/Backlog\"\nmsg.payload = \"Restart 1\"\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1310,
+    "y": 640,
+    "wires": [
+      [
+        "1a7831289902e96c"
       ]
     ]
   },
@@ -21841,6 +22245,25 @@
     ]
   },
   {
+    "id": "416d86184db83af5",
+    "type": "mqtt in",
+    "z": "c60a5166bd6dac41",
+    "name": "",
+    "topic": "tele/WifiTouch/SENSOR",
+    "qos": "2",
+    "datatype": "auto",
+    "broker": "0ddb07c65cbb68bc",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 140,
+    "y": 1820,
+    "wires": [
+      []
+    ]
+  },
+  {
     "id": "41701c9d2e39737e",
     "type": "serial-port",
     "serialport": "/dev/ttyPKW2",
@@ -23365,6 +23788,23 @@
     ]
   },
   {
+    "id": "45efe1fa37d16176",
+    "type": "json",
+    "z": "a3810c0495b637d4",
+    "name": "",
+    "property": "payload",
+    "action": "",
+    "pretty": false,
+    "x": 910,
+    "y": 620,
+    "wires": [
+      [
+        "4b7cd26882479e20",
+        "bdd1707eb1d4be2d"
+      ]
+    ]
+  },
+  {
     "id": "45effa91.0d3944",
     "type": "file in",
     "z": "1f780f8f.dbcd5",
@@ -23406,7 +23846,7 @@
     "type": "function",
     "z": "e2902b7e.e22d58",
     "name": "get current state",
-    "func": "var check = global.get(\"seven\");\nmsg.payload = check;  \nreturn msg;",
+    "func": "var check = global.get(\"seven\");\nmsg.payload = !check;  \nreturn msg;",
     "outputs": 1,
     "noerr": 0,
     "initialize": "",
@@ -25492,6 +25932,23 @@
     ]
   },
   {
+    "id": "4b7cd26882479e20",
+    "type": "function",
+    "z": "a3810c0495b637d4",
+    "name": "set global",
+    "func": "//battery\nglobal.set(\"BMSamps\", parseFloat(msg.payload.current.toFixed(1)));\nglobal.set(\"BMSmaxcap\", (msg.payload.cap * msg.payload.volt).toFixed(2));\nglobal.set(\"BMSvolt\", msg.payload.volt)\nglobal.set(\"BMStemp\", msg.payload.temp);\nglobal.set(\"BMSsoc\", msg.payload.soc);\nglobal.set(\"BMScycles\", msg.payload.cycles);\n\nvar power = msg.payload.current * msg.payload.volt;\npower = power.toFixed(1);\nglobal.set(\"BMSpower\", power);",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1160,
+    "y": 620,
+    "wires": [
+      []
+    ]
+  },
+  {
     "id": "4b80260.58428dc",
     "type": "inject",
     "z": "b6cd7d08.34935",
@@ -25897,6 +26354,27 @@
     ]
   },
   {
+    "id": "4c6059c7b4f75486",
+    "type": "mqtt in",
+    "z": "e604dd9.4dd232",
+    "name": "",
+    "topic": "tele/tasmota_68F3FA/SENSOR",
+    "qos": "2",
+    "datatype": "json",
+    "broker": "0ddb07c65cbb68bc",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 850,
+    "y": 120,
+    "wires": [
+      [
+        "c55964d60f1cea82"
+      ]
+    ]
+  },
+  {
     "id": "4c69d086d3b33d75",
     "type": "function",
     "z": "013c27e6e1e7446d",
@@ -26068,6 +26546,23 @@
     "wires": [
       [
         "8baf068e4ca359dc"
+      ]
+    ]
+  },
+  {
+    "id": "4ce8d208decf2aeb",
+    "type": "json",
+    "z": "a3810c0495b637d4",
+    "name": "",
+    "property": "payload",
+    "action": "",
+    "pretty": false,
+    "x": 910,
+    "y": 360,
+    "wires": [
+      [
+        "9ff6af17eb4e46ae",
+        "b0fb5893f4972bd9"
       ]
     ]
   },
@@ -26463,7 +26958,7 @@
     "type": "function",
     "z": "e2902b7e.e22d58",
     "name": "get current state",
-    "func": "var check = global.get(\"five\");\nmsg.payload = check;  \nreturn msg;",
+    "func": "var check = global.get(\"five\");\nmsg.payload = !check;  \nreturn msg;",
     "outputs": 1,
     "noerr": 0,
     "initialize": "",
@@ -27496,6 +27991,36 @@
     ]
   },
   {
+    "id": "517b7cbd3a79ebcc",
+    "type": "inject",
+    "z": "a3810c0495b637d4",
+    "name": "",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "5",
+    "crontab": "",
+    "once": true,
+    "onceDelay": "12",
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 310,
+    "y": 940,
+    "wires": [
+      [
+        "7963db7c3e26358e",
+        "9779d520aa15fb16"
+      ]
+    ]
+  },
+  {
     "id": "51858671e39c9f96",
     "type": "link in",
     "z": "2ea8044e35389b3f",
@@ -27668,6 +28193,29 @@
     "wires": []
   },
   {
+    "id": "525a96f69794c841",
+    "type": "tcp in",
+    "z": "592c2bf61e20fa21",
+    "name": "",
+    "server": "server",
+    "host": "",
+    "port": "8500",
+    "datamode": "stream",
+    "datatype": "utf8",
+    "newline": "",
+    "topic": "",
+    "trim": false,
+    "base64": false,
+    "tls": "",
+    "x": 80,
+    "y": 380,
+    "wires": [
+      [
+        "a905ed50178a1bc3"
+      ]
+    ]
+  },
+  {
     "id": "5271d0baafdcf2a4",
     "type": "ui_group",
     "name": "MCP Input 4",
@@ -27742,6 +28290,25 @@
     "label": "Monit",
     "disabled": false,
     "info": ""
+  },
+  {
+    "id": "52ac7c7d2c714aa1",
+    "type": "function",
+    "z": "a3810c0495b637d4",
+    "name": "ectiveMPPT.py",
+    "func": "msg.payload = \"sudo python3 pekaway/ble_py/ectiveMPPT.py -d 00:15:A5:00:0D:AB\";\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 520,
+    "y": 360,
+    "wires": [
+      [
+        "baa0b05f66e3b7b0"
+      ]
+    ]
   },
   {
     "id": "52ae2f377a20459f",
@@ -29022,6 +29589,22 @@
     "wires": []
   },
   {
+    "id": "55efba0e5ca97d76",
+    "type": "debug",
+    "z": "c60a5166bd6dac41",
+    "name": "debug 65",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "false",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 920,
+    "y": 600,
+    "wires": []
+  },
+  {
     "id": "560261478d051af3",
     "type": "function",
     "z": "013c27e6e1e7446d",
@@ -29459,15 +30042,9 @@
     "x": 1310,
     "y": 260,
     "wires": [
-      [
-        "dc458ece.736dd"
-      ],
-      [
-        "eca28358.c946c"
-      ],
-      [
-        "a947df33.984df"
-      ],
+      [],
+      [],
+      [],
       [
         "abb157dc.fca178"
       ]
@@ -29614,6 +30191,31 @@
     "x": 1015,
     "y": 2020,
     "wires": []
+  },
+  {
+    "id": "578cd09025a311a6",
+    "type": "delay",
+    "z": "c60a5166bd6dac41",
+    "name": "",
+    "pauseType": "delay",
+    "timeout": "3",
+    "timeoutUnits": "seconds",
+    "rate": "1",
+    "nbRateUnits": "1",
+    "rateUnits": "second",
+    "randomFirst": "1",
+    "randomLast": "5",
+    "randomUnits": "seconds",
+    "drop": false,
+    "allowrate": false,
+    "outputs": 1,
+    "x": 1140,
+    "y": 640,
+    "wires": [
+      [
+        "3ca55172555720c1"
+      ]
+    ]
   },
   {
     "id": "5794b81b612420cb",
@@ -30143,6 +30745,14 @@
     ]
   },
   {
+    "id": "592c2bf61e20fa21",
+    "type": "tab",
+    "label": "NMEA Server",
+    "disabled": false,
+    "info": "",
+    "env": []
+  },
+  {
     "id": "592e6d4c2e6f23cb",
     "type": "ui_group",
     "name": "Battery",
@@ -30187,6 +30797,16 @@
         "067899b6b3f48126"
       ]
     ]
+  },
+  {
+    "id": "594a17019628bac5",
+    "type": "comment",
+    "z": "a3810c0495b637d4",
+    "name": "Request values from bt BMS",
+    "info": "",
+    "x": 340,
+    "y": 580,
+    "wires": []
   },
   {
     "id": "594bde381b531588",
@@ -30570,6 +31190,25 @@
     ]
   },
   {
+    "id": "5a26c8c4353440be",
+    "type": "function",
+    "z": "c60a5166bd6dac41",
+    "name": "set Temp ",
+    "func": "msg.payload=msg.payload.ANALOG.Temperature1;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 500,
+    "y": 1820,
+    "wires": [
+      [
+        "7923490ac0cdfd60"
+      ]
+    ]
+  },
+  {
     "id": "5a358113.ba58b",
     "type": "function",
     "z": "67973ee8.553c3",
@@ -30935,6 +31574,17 @@
         "690de17f.50198"
       ]
     ]
+  },
+  {
+    "id": "5b4c7589b8ae7d79",
+    "type": "ui_group",
+    "name": "Map",
+    "tab": "deee53a800de461d",
+    "order": 7,
+    "disp": true,
+    "width": "6",
+    "collapse": false,
+    "className": ""
   },
   {
     "id": "5b4cba8cb821d4b3",
@@ -32294,6 +32944,25 @@
     "wires": []
   },
   {
+    "id": "5f485a5c8d5bd255",
+    "type": "function",
+    "z": "e10bdbef.f84828",
+    "name": "get global",
+    "func": "msg.payload = Number(global.get(\"BMScycles\")).toFixed(1);\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1000,
+    "y": 460,
+    "wires": [
+      [
+        "7e3d5b76c6827493"
+      ]
+    ]
+  },
+  {
     "id": "5f5cba5b6976b0ca",
     "type": "function",
     "z": "84e1e28dc937c84a",
@@ -32666,7 +33335,8 @@
         "6f7a18ac7fdbbcd7",
         "01a2961b39108eae",
         "63e79ce3b17c8613",
-        "0c235bbb53d494e5"
+        "0c235bbb53d494e5",
+        "5f485a5c8d5bd255"
       ]
     ]
   },
@@ -33406,7 +34076,7 @@
     "type": "function",
     "z": "c3e6360c8bbf5f2e",
     "name": "get zigbee2mqtt conf",
-    "func": "var server = \"https://git.pekaway.de/Vincent/vanpi/-/raw/main/pi4/\"\n\nmsg.payload = \"cd ~/pekaway && curl \"+ server + \"configuration.yaml > /opt/zigbee2mqtt/data/configuration.yaml && sudo wget \"+ server + \"zigbee2mqtt.service && sudo mv zigbee2mqtt.service /etc/systemd/system/ && sudo systemctl daemon-reload\"\nreturn msg\n",
+    "func": "var server = \"https://raw.githubusercontent.com/TKone7/vanpi/rudy2/pi4/\"\n\nmsg.payload = \"cd ~/pekaway && curl \"+ server + \"configuration.yaml > /opt/zigbee2mqtt/data/configuration.yaml && sudo wget \"+ server + \"zigbee2mqtt.service && sudo mv zigbee2mqtt.service /etc/systemd/system/ && sudo systemctl daemon-reload\"\nreturn msg\n",
     "outputs": 1,
     "noerr": 0,
     "initialize": "",
@@ -34791,6 +35461,39 @@
     ]
   },
   {
+    "id": "66e7f53c2a5440e2",
+    "type": "subflow",
+    "name": "average of 5 minutes",
+    "info": "",
+    "category": "",
+    "in": [
+      {
+        "x": 60,
+        "y": 80,
+        "wires": [
+          {
+            "id": "0a1391e9f9ab247b"
+          }
+        ]
+      }
+    ],
+    "out": [
+      {
+        "x": 660,
+        "y": 80,
+        "wires": [
+          {
+            "id": "203768e8b38de5f0",
+            "port": 0
+          }
+        ]
+      }
+    ],
+    "env": [],
+    "meta": {},
+    "color": "#DDAA99"
+  },
+  {
     "id": "66eb2706.ca67a8",
     "type": "ui_text_input",
     "z": "67973ee8.553c3",
@@ -34968,6 +35671,16 @@
         "f41f8ae5aafb0aa3"
       ]
     ]
+  },
+  {
+    "id": "67bf1c9ba5857bab",
+    "type": "comment",
+    "z": "a3810c0495b637d4",
+    "name": "MPPT UI",
+    "info": "",
+    "x": 280,
+    "y": 900,
+    "wires": []
   },
   {
     "id": "67cd307caa72b711",
@@ -36769,7 +37482,7 @@
     "type": "function",
     "z": "c60a5166bd6dac41",
     "name": "check Ok/Cancel",
-    "func": "if (msg.payload == \"Cancel\"){\n    return null   \n}\nelse if (msg.payload == \"Go!\") {\n    msg.payload = \"rm ~/pekaway/VanPI_NSPANEL.tft & rm ~/pekaway/autoexec.be & cd ~/pekaway && wget -o /dev/null -N https://git.pekaway.de/Vincent/vanpi/-/raw/main/pi4/NSPanel/autoexec.be & mkdir -p ~/pekaway/userdata/NSPanel && cd ~/pekaway/userdata/NSPanel && wget -o /dev/null -N https://git.pekaway.de/Vincent/vanpi/-/raw/main/pi4/NSPanel/VanPI_NSPANEL.tft\"\n    return msg;\n}",
+    "func": "if (msg.payload == \"Cancel\"){\n    return null   \n}\nelse if (msg.payload == \"Go!\") {\n    msg.payload = \"rm ~/pekaway/VanPI_NSPANEL.tft & rm ~/pekaway/autoexec.be & cd ~/pekaway && wget -o /dev/null -N https://raw.githubusercontent.com/TKone7/vanpi/rudy2/pi4/NSPanel/autoexec.be & mkdir -p ~/pekaway/userdata/NSPanel && cd ~/pekaway/userdata/NSPanel && wget -o /dev/null -N https://raw.githubusercontent.com/TKone7/vanpi/rudy2/pi4/NSPanel/VanPI_NSPANEL.tft\"\n    return msg;\n}",
     "outputs": 1,
     "noerr": 0,
     "initialize": "",
@@ -38502,7 +39215,8 @@
       "74c07fa0bf9c5a2e",
       "c34b8236b33847f4",
       "3fe38c2d6edc0c84",
-      "0ec85dcb3608a2e8"
+      "0ec85dcb3608a2e8",
+      "29525ba8275c48ac"
     ],
     "x": 1015,
     "y": 740,
@@ -39133,6 +39847,31 @@
     "x": 200,
     "y": 320,
     "wires": []
+  },
+  {
+    "id": "73d594b03e30d8c0",
+    "type": "delay",
+    "z": "c60a5166bd6dac41",
+    "name": "",
+    "pauseType": "rate",
+    "timeout": "1",
+    "timeoutUnits": "seconds",
+    "rate": "1",
+    "nbRateUnits": "0.5",
+    "rateUnits": "second",
+    "randomFirst": "1",
+    "randomLast": "5",
+    "randomUnits": "seconds",
+    "drop": false,
+    "allowrate": false,
+    "outputs": 1,
+    "x": 800,
+    "y": 800,
+    "wires": [
+      [
+        "6c38c77ebb0162df"
+      ]
+    ]
   },
   {
     "id": "73e2b02281938ce9",
@@ -40073,7 +40812,7 @@
     "type": "function",
     "z": "e2902b7e.e22d58",
     "name": "get current state",
-    "func": "var check = global.get(\"four\");\nmsg.payload = check;  \nreturn msg;",
+    "func": "var check = global.get(\"four\");\nmsg.payload = !check;  \nreturn msg;",
     "outputs": 1,
     "noerr": 0,
     "initialize": "",
@@ -40130,22 +40869,21 @@
     "id": "75b87d8eae14806d",
     "type": "function",
     "z": "c60a5166bd6dac41",
-    "d": true,
     "name": "Wifitouch action buttons",
-    "func": "//HW-Button1 = all off\n//HW-Button2 = toggle dimmer0+1 either off or 60%\nif (flow.get(\"wifitouch_restart\") == true) {\n    return null\n}\n\nif (msg.payload.POWER1 == \"ON\" || msg.payload.POWER1 == \"OFF\") {\n    msg.url = \"http://127.0.0.1:1880/switchall/false\"\n    return [msg, null]\n}\nif (msg.payload.POWER2 == \"ON\" || msg.payload.POWER2 == \"OFF\") {\n    let channel1 = parseInt(global.get(\"dimmer0\"))\n    let channel2 = parseInt(global.get(\"dimmer1\"))\n    if (channel1 != 0 || channel2 != 0 ) {\n        msg.url = \"http://localhost:1880/dimmer/1/0\"\n        node.send([null, msg])\n        msg.url = \"http://localhost:1880/dimmer/2/0\"\n        return [null, msg]\n    }\n    else if (channel1 == 0 && channel2 == 0) {\n        msg.url = \"http://localhost:1880/dimmer/1/60\"\n        node.send([null, msg])\n        msg.url = \"http://localhost:1880/dimmer/2/60\"\n        return [null, msg]\n    }\n}",
+    "func": "//HW-Button1 = all off\n//HW-Button2 = toggle dimmer0+1 either off or 60%\nif (flow.get(\"wifitouch_restart\") == true) {\n    return null\n}\n\nif (msg.payload.POWER1 == \"ON\" || msg.payload.POWER1 == \"OFF\") {\n    msg.url = \"http://localhost:1880/dimmer/3/0\"\n    node.send([msg,null]);\n    msg.url = \"http://localhost:1880/dimmer/2/0\"\n    node.send([msg, null]);\n    msg.url = \"http://localhost:1880/dimmer/1/0\"\n    node.send([msg, null]);\n    msg.url = \"http://localhost:1880/dimmer/4/0\"\n    return [msg, null];\n}\nif (msg.payload.POWER2 == \"ON\" || msg.payload.POWER2 == \"OFF\") {\n    let channel1 = parseInt(global.get(\"dimmer0\"))\n    let channel2 = parseInt(global.get(\"dimmer1\"))\n    if (channel1 != 0 || channel2 != 0 ) {\n        msg.url = \"http://localhost:1880/dimmer/1/0\"\n        node.send([null, msg])\n        msg.url = \"http://localhost:1880/dimmer/2/0\"\n        return [null, msg]\n    }\n    else if (channel1 == 0 && channel2 == 0) {\n        msg.url = \"http://localhost:1880/dimmer/1/35\"\n        node.send([null, msg])\n        msg.url = \"http://localhost:1880/dimmer/2/35\"\n        return [null, msg]\n    }\n}",
     "outputs": 2,
     "noerr": 0,
     "initialize": "",
     "finalize": "",
     "libs": [],
     "x": 530,
-    "y": 740,
+    "y": 840,
     "wires": [
       [
-        "6c38c77ebb0162df"
+        "73d594b03e30d8c0"
       ],
       [
-        "4c27111a595daf88"
+        "81f27f3566cae6c8"
       ]
     ]
   },
@@ -40410,6 +41148,39 @@
     "wires": [
       [
         "29994d369344757c"
+      ]
+    ]
+  },
+  {
+    "id": "765175d26da84488",
+    "type": "switch",
+    "z": "592c2bf61e20fa21",
+    "name": "more regular when driving",
+    "property": "kmph",
+    "propertyType": "flow",
+    "rules": [
+      {
+        "t": "eq",
+        "v": "0",
+        "vt": "str"
+      },
+      {
+        "t": "gt",
+        "v": "0",
+        "vt": "str"
+      }
+    ],
+    "checkall": "true",
+    "repair": false,
+    "outputs": 2,
+    "x": 1050,
+    "y": 500,
+    "wires": [
+      [
+        "9aaff43e2a67e2e9"
+      ],
+      [
+        "be96f9257f9187d2"
       ]
     ]
   },
@@ -40723,7 +41494,7 @@
     "type": "function",
     "z": "e2902b7e.e22d58",
     "name": "get current state",
-    "func": "var check = global.get(\"six\");\nmsg.payload = check;  \nreturn msg; ",
+    "func": "var check = global.get(\"six\");\nmsg.payload = !check;  \nreturn msg; ",
     "outputs": 1,
     "noerr": 0,
     "initialize": "",
@@ -41190,7 +41961,7 @@
     ],
     "checkall": "true",
     "repair": false,
-    "outputs": 18,
+    "outputs": 20,
     "x": 410,
     "y": 380,
     "wires": [
@@ -41222,9 +41993,6 @@
         "b70d9411f96b354c"
       ],
       [
-        "81a661cdbda984d2"
-      ],
-      [
         "212a57e0167cb29b"
       ],
       [],
@@ -41243,6 +42011,15 @@
       ],
       [
         "7e4dd6723e584edd"
+      ],
+      [
+        "b310151e65cf9ee5"
+      ],
+      [
+        "a816faab6131d167"
+      ],
+      [
+        "9fb8deeab40e71e9"
       ]
     ]
   },
@@ -41570,6 +42347,25 @@
     ]
   },
   {
+    "id": "7923490ac0cdfd60",
+    "type": "function",
+    "z": "c60a5166bd6dac41",
+    "name": "set global temp1",
+    "func": "global.set(\"temp1\",msg.payload);\nreturn msg",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 680,
+    "y": 1820,
+    "wires": [
+      [
+        "a5fada863ebcb13c"
+      ]
+    ]
+  },
+  {
     "id": "7938723c.552f5c",
     "type": "link out",
     "z": "67973ee8.553c3",
@@ -41641,6 +42437,25 @@
       [
         "298b3e3f.9dd672",
         "399cfdd3.1ac542"
+      ]
+    ]
+  },
+  {
+    "id": "7963db7c3e26358e",
+    "type": "function",
+    "z": "a3810c0495b637d4",
+    "name": "get global MPPTsolarPower",
+    "func": "msg.payload = global.get(\"MPPTsolarPower\");\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 640,
+    "y": 940,
+    "wires": [
+      [
+        "e49d0ba6d6f9273d"
       ]
     ]
   },
@@ -42266,6 +43081,38 @@
     ]
   },
   {
+    "id": "7b2dddaee695c71e",
+    "type": "buffer-maker",
+    "z": "c60a5166bd6dac41",
+    "name": "",
+    "specification": "spec",
+    "specificationType": "ui",
+    "items": [
+      {
+        "name": "check",
+        "type": "string",
+        "length": 200,
+        "dataType": "msg",
+        "data": "payload"
+      }
+    ],
+    "swap1": "",
+    "swap2": "",
+    "swap3": "",
+    "swap1Type": "swap",
+    "swap2Type": "swap",
+    "swap3Type": "swap",
+    "msgProperty": "payload",
+    "msgPropertyType": "str",
+    "x": 850,
+    "y": 720,
+    "wires": [
+      [
+        "90320e2e4bf06b24"
+      ]
+    ]
+  },
+  {
     "id": "7b35692bbcc1d3a1",
     "type": "link out",
     "z": "e2902b7e.e22d58",
@@ -42294,6 +43141,25 @@
     "wires": [
       [
         "dc55b46a96abfed5"
+      ]
+    ]
+  },
+  {
+    "id": "7b487118.dfb06",
+    "type": "function",
+    "z": "1f780f8f.dbcd5",
+    "name": "hide/show wifi relays & set globals",
+    "func": "if(msg.payload == \"true\"){\n    msg.payload = true;\n    global.set(\"wifirelay\", true);   \n    msg.payload={\"group\":{\"show\":[\"Relais_WIFI\",\"Config_Wifi_Relay_Name\"]}};\n}\nif(msg.payload == \"false\"){\n    global.set(\"wifirelay\", false);\n    msg.payload={\"group\":{\"hide\":[\"Relais_WIFI\",\"Config_Wifi_Relay_Name\"]}};\n}\n\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1900,
+    "y": 380,
+    "wires": [
+      [
+        "21d02601345bcaa5"
       ]
     ]
   },
@@ -43032,6 +43898,25 @@
     ]
   },
   {
+    "id": "7d8906822297dcd0",
+    "type": "function",
+    "z": "a3810c0495b637d4",
+    "name": "prepare mppt stats",
+    "func": "msg = {\n   \"stats\": \"mppt\",\n   \"payload\": {\n       \"charge\": Math.round(msg.payload.batteryCurrent),\n       \"power\": Math.round(msg.payload.solarPanelPower),\n       \"voltage\": parseFloat(msg.payload.solarPanelVoltage.toFixed(1)),\n   }\n}\n\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1450,
+    "y": 420,
+    "wires": [
+      [
+        "3baf4481f68acdbd"
+      ]
+    ]
+  },
+  {
     "id": "7d8ce44f30bf0908",
     "type": "function",
     "z": "013c27e6e1e7446d",
@@ -43121,6 +44006,33 @@
         "a532ea7e.26e568"
       ]
     ]
+  },
+  {
+    "id": "7e3d5b76c6827493",
+    "type": "ui_gauge",
+    "z": "e10bdbef.f84828",
+    "name": "",
+    "group": "e60b8bd1.9669b8",
+    "order": 3,
+    "width": "3",
+    "height": "3",
+    "gtype": "donut",
+    "title": "Cycles",
+    "label": "",
+    "format": "{{value}}",
+    "min": "1",
+    "max": "5000",
+    "colors": [
+      "#00b500",
+      "#f8e45c",
+      "#ca3838"
+    ],
+    "seg1": "2000",
+    "seg2": "4000",
+    "className": "",
+    "x": 1170,
+    "y": 460,
+    "wires": []
   },
   {
     "id": "7e47024029cdbe7d",
@@ -43629,7 +44541,7 @@
     "type": "function",
     "z": "e604dd9.4dd232",
     "name": "substring",
-    "func": "if(msg.payload == \"\") {\n    global.set(\"temp1\",\"\")\n    global.set(\"temp2\",\"\")\n    global.set(\"temp3\",\"\")\n    global.set(\"temp4\",\"\")\n    return null\n}\n\nelse if(msg.payload == 0) {\n    return;\n}\n\nmsg.topic = Number(msg.payload.substring(0,1))\nmsg.payload = msg.payload.substring(5,11)\n\nmsg.payload = Number(msg.payload)\n\nreturn msg;",
+    "func": "if(msg.payload == \"\") {\n    global.set(\"temp1\",\"\")\n    return null\n}\n\nelse if(msg.payload == 0) {\n    return;\n}\n\nmsg.topic = Number(msg.payload.substring(0,1))\nmsg.payload = msg.payload.substring(5,11)\n\nmsg.payload = Number(msg.payload)\n\nreturn msg;",
     "outputs": 1,
     "noerr": 0,
     "initialize": "",
@@ -44148,6 +45060,55 @@
     ]
   },
   {
+    "id": "81726fe8d224944d",
+    "type": "switch",
+    "z": "27cb224f8928f1ad",
+    "name": "",
+    "property": "payload.action",
+    "propertyType": "msg",
+    "rules": [
+      {
+        "t": "regex",
+        "v": "dial_rotate_.*",
+        "vt": "str",
+        "case": false
+      },
+      {
+        "t": "regex",
+        "v": "button_.*_press_release",
+        "vt": "str",
+        "case": false
+      },
+      {
+        "t": "eq",
+        "v": "button_1_hold",
+        "vt": "str"
+      },
+      {
+        "t": "else"
+      }
+    ],
+    "checkall": "true",
+    "repair": false,
+    "outputs": 4,
+    "x": 370,
+    "y": 360,
+    "wires": [
+      [
+        "f2a4391cb71e98d3"
+      ],
+      [
+        "c14266e01f432e99"
+      ],
+      [
+        "1dc257322a88207f"
+      ],
+      [
+        "04d466d9667efe66"
+      ]
+    ]
+  },
+  {
     "id": "817df75c7ab35981",
     "type": "serial request",
     "z": "2ea8044e35389b3f",
@@ -44190,25 +45151,6 @@
     "x": 735,
     "y": 1460,
     "wires": []
-  },
-  {
-    "id": "81a661cdbda984d2",
-    "type": "function",
-    "z": "c60a5166bd6dac41",
-    "name": "load switch",
-    "func": "var van_name = (global.get(\"van_name\") != undefined) ? global.get(\"van_name\") : \"\";\nmsg.payload=\"--\" + van_name\nreturn msg;",
-    "outputs": 1,
-    "noerr": 0,
-    "initialize": "",
-    "finalize": "",
-    "libs": [],
-    "x": 630,
-    "y": 400,
-    "wires": [
-      [
-        "9a2c65739762090a"
-      ]
-    ]
   },
   {
     "id": "81b33265587dbf1b",
@@ -44296,6 +45238,31 @@
       [
         "e848ef58.d36be",
         "55becc0420716d9e"
+      ]
+    ]
+  },
+  {
+    "id": "81f27f3566cae6c8",
+    "type": "delay",
+    "z": "c60a5166bd6dac41",
+    "name": "",
+    "pauseType": "rate",
+    "timeout": "1000",
+    "timeoutUnits": "milliseconds",
+    "rate": "1",
+    "nbRateUnits": "0.5",
+    "rateUnits": "second",
+    "randomFirst": "1",
+    "randomLast": "5",
+    "randomUnits": "seconds",
+    "drop": false,
+    "allowrate": false,
+    "outputs": 1,
+    "x": 800,
+    "y": 860,
+    "wires": [
+      [
+        "4c27111a595daf88"
       ]
     ]
   },
@@ -46173,6 +47140,23 @@
       [
         "777f850d42c7aa9d"
       ]
+    ]
+  },
+  {
+    "id": "88d25745ca5c6e43",
+    "type": "function",
+    "z": "592c2bf61e20fa21",
+    "name": "set speed flow",
+    "func": "var speed = msg.payload.speedKmph\nflow.set('kmph', speed)\nreturn msg",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 760,
+    "y": 560,
+    "wires": [
+      []
     ]
   },
   {
@@ -48258,7 +49242,7 @@
     "type": "function",
     "z": "e2902b7e.e22d58",
     "name": "get current state",
-    "func": "var check = global.get(\"three\");\nmsg.payload = check;  \nreturn msg;",
+    "func": "var check = global.get(\"three\");\nmsg.payload = !check;  \nreturn msg;",
     "outputs": 1,
     "noerr": 0,
     "initialize": "",
@@ -49205,6 +50189,26 @@
       [
         "a3dd19b5badb07c9",
         "67a720a831b21b94"
+      ]
+    ]
+  },
+  {
+    "id": "92ca9e8edb48f2f3",
+    "type": "zigbee2mqtt-in",
+    "z": "27cb224f8928f1ad",
+    "name": "test",
+    "server": "e1cd326233f0d93e",
+    "friendly_name": "0x001788010d352db8 (8719514440937/8719514440999)",
+    "device_id": "0x001788010d352db8",
+    "state": "0",
+    "outputAtStartup": true,
+    "filterChanges": false,
+    "enableMultiple": false,
+    "x": 190,
+    "y": 280,
+    "wires": [
+      [
+        "81726fe8d224944d"
       ]
     ]
   },
@@ -50446,6 +51450,25 @@
     ]
   },
   {
+    "id": "9779d520aa15fb16",
+    "type": "function",
+    "z": "a3810c0495b637d4",
+    "name": "get global MPPTcharge",
+    "func": "msg.payload = global.get(\"MPPTcharge\");\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 630,
+    "y": 1000,
+    "wires": [
+      [
+        "0da118de51f9ce30"
+      ]
+    ]
+  },
+  {
     "id": "977a82ac99b9dc58",
     "type": "function",
     "z": "60d59772.e5b728",
@@ -50468,8 +51491,8 @@
     "id": "979d093027d95f0b",
     "type": "function",
     "z": "40d4ba5c28e4a6be",
-    "name": "liontron.py",
-    "func": "msg.payload = global.get(\"btbat\");\nif(msg.payload == undefined || msg.payload == \"turn off\" || msg.payload == 0 || msg.payload == \"turned off\" || msg.payload == \"Scan Bluetooth first\" || msg.payload == \"\") {\n    return [null, msg];\n}\nelse {\n    msg.payload = \"sudo python3 pekaway/ble_py/liontronBmsInfo.py -d \"+global.get(\"btbat\");\n    return [msg, msg];\n}",
+    "name": "ectiveBms.py",
+    "func": "msg.payload = global.get(\"btbat\");\nif(msg.payload == undefined || msg.payload == \"turn off\" || msg.payload == 0 || msg.payload == \"turned off\" || msg.payload == \"Scan Bluetooth first\" || msg.payload == \"\") {\n    return [null, msg];\n}\nelse {\n    msg.payload = \"sudo python3 pekaway/ble_py/ectiveBms.py -d \"+global.get(\"btbat\");\n    return [msg, msg];\n}",
     "outputs": 2,
     "noerr": 0,
     "initialize": "",
@@ -50631,7 +51654,7 @@
     "type": "function",
     "z": "c3e6360c8bbf5f2e",
     "name": "get updatescript and execute",
-    "func": "if (msg.payload == \"Cancel!\"){\n    return null   \n}\n\nelse if (msg.payload == \"Go!\") {\n    msg.payload = 'cd ~/pekaway && wget -O ~/pekaway/updatescript.sh https://git.pekaway.de/Vincent/vanpi/-/raw/main/pi4/updatescript.sh && chmod +x ~/pekaway/updatescript.sh && bash ~/pekaway/updatescript.sh'\n    return msg;\n}",
+    "func": "if (msg.payload == \"Cancel!\"){\n    return null   \n}\n\nelse if (msg.payload == \"Go!\") {\n    msg.payload = 'cd ~/pekaway && wget -O ~/pekaway/updatescript.sh https://raw.githubusercontent.com/TKone7/vanpi/rudy2/pi4/updatescript.sh && chmod +x ~/pekaway/updatescript.sh && bash ~/pekaway/updatescript.sh'\n    return msg;\n}",
     "outputs": 1,
     "noerr": 0,
     "initialize": "",
@@ -50661,6 +51684,28 @@
     "x": 1120,
     "y": 760,
     "wires": []
+  },
+  {
+    "id": "98bd25adc04f7916",
+    "type": "function",
+    "z": "e604dd9.4dd232",
+    "name": "split multiple readings",
+    "func": "let ret = [null, null]\nif ('DS18B20-1' in msg.payload) {\n    ret[0] = { payload: msg.payload['DS18B20-1'].Temperature }\n}\nif ('DS18B20-2' in msg.payload) {\n    ret[1] = { payload: msg.payload['DS18B20-2'].Temperature }\n}\nreturn ret;",
+    "outputs": 2,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1220,
+    "y": 60,
+    "wires": [
+      [
+        "dc458ece.736dd"
+      ],
+      [
+        "eca28358.c946c"
+      ]
+    ]
   },
   {
     "id": "98d0bf7f.5371d",
@@ -51373,6 +52418,31 @@
     ]
   },
   {
+    "id": "9aaff43e2a67e2e9",
+    "type": "delay",
+    "z": "592c2bf61e20fa21",
+    "name": "",
+    "pauseType": "rate",
+    "timeout": "5",
+    "timeoutUnits": "seconds",
+    "rate": "1",
+    "nbRateUnits": "5",
+    "rateUnits": "minute",
+    "randomFirst": "1",
+    "randomLast": "5",
+    "randomUnits": "seconds",
+    "drop": true,
+    "allowrate": false,
+    "outputs": 1,
+    "x": 1380,
+    "y": 460,
+    "wires": [
+      [
+        "be96f9257f9187d2"
+      ]
+    ]
+  },
+  {
     "id": "9ab0120df096d0fb",
     "type": "function",
     "z": "60d59772.e5b728",
@@ -51716,6 +52786,16 @@
         "09b757bd465bc802"
       ]
     ]
+  },
+  {
+    "id": "9be0a45522a9097f",
+    "type": "comment",
+    "z": "a3810c0495b637d4",
+    "name": "Request values from bt MPPT charger",
+    "info": "",
+    "x": 370,
+    "y": 320,
+    "wires": []
   },
   {
     "id": "9be31fe020628e66",
@@ -53426,6 +54506,26 @@
     "wires": []
   },
   {
+    "id": "9fb8deeab40e71e9",
+    "type": "function",
+    "z": "c60a5166bd6dac41",
+    "name": "get  temps",
+    "func": "let var1 = global.get(\"temp1\");\nlet var2 = global.get(\"temp2\");\nlet var3 = global.get(\"temp3\");\nlet var4 = global.get(\"temp4\");\n\nif(var1==\"\")\n    var1=\"--\";\n\nif (var2 == \"\")\n    var2 = \"--\";\n    \nif (var3 == \"\")\n    var3 = \"--\";\n\nif (var4 == \"\")\n    var4 = \"--\";\n\n\nmsg.payload = global.get(\"temp1\") + \"°C\" +\n    \"/\" + global.get(\"temp2\") + \"°C\" + \"/\" + global.get(\"temp3\") + \"°C\" + \"/\" + global.get(\"temp4\") + \"°C\";\n    \nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 640,
+    "y": 760,
+    "wires": [
+      [
+        "a0e4114325f6d7a4",
+        "3befd44890e7872c"
+      ]
+    ]
+  },
+  {
     "id": "9fbf716e57f53d4c",
     "type": "function",
     "z": "013c27e6e1e7446d",
@@ -53544,6 +54644,23 @@
       [
         "6b47e26eed9d0d78"
       ]
+    ]
+  },
+  {
+    "id": "9ff6af17eb4e46ae",
+    "type": "function",
+    "z": "a3810c0495b637d4",
+    "name": "set global",
+    "func": "//mppt\nglobal.set(\"MPPTcharge\", msg.payload.batteryCurrent);\nglobal.set(\"MPPTsolarPower\", msg.payload.solarPanelPower);\nglobal.set(\"MPPTsolarVoltage\", msg.payload.solarPanelVoltage);",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1160,
+    "y": 360,
+    "wires": [
+      []
     ]
   },
   {
@@ -53981,6 +55098,38 @@
     "wires": [
       [
         "85d8a510243ed37c"
+      ]
+    ]
+  },
+  {
+    "id": "a0e4114325f6d7a4",
+    "type": "buffer-maker",
+    "z": "c60a5166bd6dac41",
+    "name": "",
+    "specification": "spec",
+    "specificationType": "ui",
+    "items": [
+      {
+        "name": "check",
+        "type": "string",
+        "length": 50,
+        "dataType": "msg",
+        "data": "payload"
+      }
+    ],
+    "swap1": "",
+    "swap2": "",
+    "swap3": "",
+    "swap1Type": "swap",
+    "swap2Type": "swap",
+    "swap3Type": "swap",
+    "msgProperty": "payload",
+    "msgPropertyType": "str",
+    "x": 850,
+    "y": 760,
+    "wires": [
+      [
+        "90320e2e4bf06b24"
       ]
     ]
   },
@@ -54917,6 +56066,14 @@
     ]
   },
   {
+    "id": "a3810c0495b637d4",
+    "type": "tab",
+    "label": "Ective BLE",
+    "disabled": false,
+    "info": "",
+    "env": []
+  },
+  {
     "id": "a3bc533422d7b201",
     "type": "ui_text",
     "z": "b6cd7d08.34935",
@@ -55282,7 +56439,8 @@
       "91808d95f9b1141d",
       "dbb87fff6ea8f3e8",
       "f9c1cd909de58d36",
-      "d00a0a9ac74bb361"
+      "d00a0a9ac74bb361",
+      "a9dc4aac626887a8"
     ],
     "x": 605,
     "y": 520,
@@ -55735,6 +56893,19 @@
     ]
   },
   {
+    "id": "a5fada863ebcb13c",
+    "type": "link out",
+    "z": "c60a5166bd6dac41",
+    "name": "Mqtt out temp1",
+    "links": [
+      "f76cd45103a046b7",
+      "53fd8be3f52752ef"
+    ],
+    "x": 855,
+    "y": 1820,
+    "wires": []
+  },
+  {
     "id": "a60c5c0b224a058c",
     "type": "inject",
     "z": "60d59772.e5b728",
@@ -55777,6 +56948,22 @@
         "d369278b4d05c2b5"
       ]
     ]
+  },
+  {
+    "id": "a642314949cde694",
+    "type": "debug",
+    "z": "8a3d660f.83b628",
+    "name": "debug 61",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "false",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 1960,
+    "y": 1060,
+    "wires": []
   },
   {
     "id": "a64a509b42396044",
@@ -56477,6 +57664,28 @@
     ]
   },
   {
+    "id": "a816faab6131d167",
+    "type": "function",
+    "z": "c60a5166bd6dac41",
+    "name": "get  names",
+    "func": "msg.payload = global.get(\"None\") + \"/\" + global.get(\"Ntwo\") + \"/\" + global.get(\"Nthree\") + \"/\" \n+ global.get(\"Nfour\") + \"/\" + global.get(\"Nfive\") + \"/\" + global.get(\"Nsix\") \n    + \"/\" + global.get(\"Nseven\") + \"/\" + global.get(\"Neight\") + \"/\" + global.get(\"Ntemp1\") +\n    \"/\" + global.get(\"Ntemp2\") + \"/\" + global.get(\"Ntemp3\") + \"/\" + global.get(\"Ntemp4\") +\n    \"/\" + global.get(\"Ndimmer0\") + \"/\" + global.get(\"Ndimmer1\") + \"/\" + global.get(\"Ndimmer2\") + \"/\" + global.get(\"Ndimmer3\") \n    + \"/\" + global.get(\"Ndimmer4\") + \"/\" + global.get(\"Ndimmer5\") + \"/\" + global.get(\"Ndimmer6\") + \"/\" + global.get(\"NLevel1\") + \"/\" + global.get(\"NLevel2\"); \n\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 650,
+    "y": 720,
+    "wires": [
+      [
+        "7b2dddaee695c71e",
+        "3befd44890e7872c",
+        "578cd09025a311a6",
+        "55efba0e5ca97d76"
+      ]
+    ]
+  },
+  {
     "id": "a81a55299712638e",
     "type": "ui_button",
     "z": "b14c00f226d9b539",
@@ -56715,6 +57924,21 @@
     "wires": []
   },
   {
+    "id": "a905ed50178a1bc3",
+    "type": "nmea",
+    "z": "592c2bf61e20fa21",
+    "name": "",
+    "property": "payload",
+    "outputProperty": "payload",
+    "x": 310,
+    "y": 380,
+    "wires": [
+      [
+        "cec0f8bf0f70b971"
+      ]
+    ]
+  },
+  {
     "id": "a90f9a4da959d640",
     "type": "link out",
     "z": "013c27e6e1e7446d",
@@ -56929,6 +58153,19 @@
     "wires": [
       []
     ]
+  },
+  {
+    "id": "a9dc4aac626887a8",
+    "type": "link out",
+    "z": "27cb224f8928f1ad",
+    "name": "dimmer 0",
+    "mode": "link",
+    "links": [
+      "a4c0fd66546e7864"
+    ],
+    "x": 895,
+    "y": 320,
+    "wires": []
   },
   {
     "id": "a9e13e851566a2b1",
@@ -59066,6 +60303,19 @@
     ]
   },
   {
+    "id": "b0fb5893f4972bd9",
+    "type": "subflow:66e7f53c2a5440e2",
+    "z": "a3810c0495b637d4",
+    "name": "",
+    "x": 1200,
+    "y": 420,
+    "wires": [
+      [
+        "7d8906822297dcd0"
+      ]
+    ]
+  },
+  {
     "id": "b0feefb640a7f41d",
     "type": "function",
     "z": "08035fcf5428650d",
@@ -59690,6 +60940,25 @@
     "wires": [
       [
         "860f2ba8798845dd"
+      ]
+    ]
+  },
+  {
+    "id": "b310151e65cf9ee5",
+    "type": "function",
+    "z": "c60a5166bd6dac41",
+    "name": "new Date()",
+    "func": "var now = new Date().toLocaleString();\nnow = now.replace(/\\//g, \".\");\n\nmsg.payload = Number(global.get(\"heattempsensor\"));\n\nif (msg.payload != 1 && msg.payload != 2 && msg.payload != 3 && msg.payload != 4 && msg.payload != 5 && msg.payload != 6)\n    msg.payload = \"no sensor\"\n\nif (msg.payload == 1)\n    msg.payload = global.get(\"temp1\");\n\nif (msg.payload == 2)\n    msg.payload = global.get(\"temp2\");\n\nif (msg.payload == 3)\n    msg.payload = global.get(\"temp3\");\n\nif (msg.payload == 4)\n    msg.payload = global.get(\"temp4\");\n\nif (msg.payload == 5)\n    msg.global.get(\"dimmytemp1\")\n\nif (msg.payload == 6)\n    msg.global.get(\"dimmytemp2\")\n\n\nif (global.get(\"temp1\") == \"\" && global.get(\"temp2\") == \"\" && global.get(\"temp3\") == \"\" && global.get(\"temp4\") == \"\" && global.get(\"dimmytemp1\") == \"\" && global.get(\"dimmytemp2\") == \"\") {\n    msg.payload = \"--\"\n}\n\nmsg.payload=msg.payload.toFixed(1) + \"°c \" + now;\nreturn msg",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 650,
+    "y": 680,
+    "wires": [
+      [
+        "d243ee65b85d70ca"
       ]
     ]
   },
@@ -60522,6 +61791,41 @@
     ]
   },
   {
+    "id": "b5dd2c5b953a0e0f",
+    "type": "change",
+    "z": "592c2bf61e20fa21",
+    "name": "",
+    "rules": [
+      {
+        "t": "set",
+        "p": "payload.name",
+        "pt": "msg",
+        "to": "Rudy",
+        "tot": "str"
+      },
+      {
+        "t": "set",
+        "p": "topic",
+        "pt": "msg",
+        "to": "pkw/van/pos",
+        "tot": "str"
+      }
+    ],
+    "action": "",
+    "property": "",
+    "from": "",
+    "to": "",
+    "reg": false,
+    "x": 760,
+    "y": 320,
+    "wires": [
+      [
+        "337dfc87bcec3131",
+        "fcbea06a3c290007"
+      ]
+    ]
+  },
+  {
     "id": "b5deeec3b50476e6",
     "type": "function",
     "z": "b6cd7d08.34935",
@@ -60742,7 +62046,7 @@
     "type": "function",
     "z": "e2902b7e.e22d58",
     "name": "get current state",
-    "func": "var check = global.get(\"seven\");\nvar oldcheck = flow.get(\"bcmgpiocheck\"); \n\nif(oldcheck != check) {\n    flow.set(\"bcmgpiocheck\",check);\n    msg.payload = check;  \n    return msg;\n}\nelse {\n    flow.set(\"bcmgpiocheck\",check);\n}",
+    "func": "var check = global.get(\"seven\");\nvar oldcheck = flow.get(\"bcmgpiocheck\"); \n\nif(oldcheck != check) {\n    flow.set(\"bcmgpiocheck\",!check);\n    msg.payload = !check;  \n    return msg;\n}\nelse {\n    flow.set(\"bcmgpiocheck\",!check);\n}",
     "outputs": 1,
     "noerr": 0,
     "initialize": "",
@@ -61353,11 +62657,7 @@
     "x": 540,
     "y": 500,
     "wires": [
-      [
-        "e343fcb7a4978535",
-        "2160832dedc8a42f",
-        "18b9fb11d95404fb"
-      ]
+      []
     ]
   },
   {
@@ -61854,6 +63154,30 @@
     "x": 1015,
     "y": 500,
     "wires": []
+  },
+  {
+    "id": "baa0b05f66e3b7b0",
+    "type": "exec",
+    "z": "a3810c0495b637d4",
+    "command": "",
+    "addpay": "payload",
+    "append": "",
+    "useSpawn": "false",
+    "timer": "",
+    "winHide": false,
+    "oldrc": false,
+    "name": "readMPPT",
+    "x": 750,
+    "y": 360,
+    "wires": [
+      [
+        "4ce8d208decf2aeb"
+      ],
+      [
+        "cdd8277d39fe103f"
+      ],
+      []
+    ]
   },
   {
     "id": "bae1aa2b504067f3",
@@ -62750,6 +64074,19 @@
     ]
   },
   {
+    "id": "bdd1707eb1d4be2d",
+    "type": "subflow:66e7f53c2a5440e2",
+    "z": "a3810c0495b637d4",
+    "name": "",
+    "x": 1200,
+    "y": 680,
+    "wires": [
+      [
+        "d1e6223b7e5bc5a1"
+      ]
+    ]
+  },
+  {
     "id": "bddd91252725bd59",
     "type": "ui_button",
     "z": "b14c00f226d9b539",
@@ -62962,6 +64299,24 @@
         "4bb2a029a8d55a10"
       ]
     ]
+  },
+  {
+    "id": "be96f9257f9187d2",
+    "type": "mqtt out",
+    "z": "592c2bf61e20fa21",
+    "name": "",
+    "topic": "",
+    "qos": "",
+    "retain": "",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "0ddb07c65cbb68bc",
+    "x": 1790,
+    "y": 500,
+    "wires": []
   },
   {
     "id": "bea1b8adfd665b19",
@@ -63844,6 +65199,34 @@
     ]
   },
   {
+    "id": "c14266e01f432e99",
+    "type": "function",
+    "z": "27cb224f8928f1ad",
+    "name": "press release",
+    "func": "let action = msg.payload.action.split(\"_\");\nlet nr = parseInt(action[1]) - 1\n\nlet ret = [null, null, null, null]\nlet current;\n\nif (nr === 0) {\n    current = global.get(\"one\");\n} else if (nr === 1) {\n    current = global.get(\"two\");\n} else if (nr === 2) {\n    current = global.get(\"three\");\n} else if (nr === 3) {\n    current = global.get(\"four\");\n}\n\nret[nr] = { payload: !current };\nreturn ret;",
+    "outputs": 4,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 640,
+    "y": 440,
+    "wires": [
+      [
+        "ecccdbb221227c12"
+      ],
+      [
+        "29525ba8275c48ac"
+      ],
+      [
+        "06028a080df0cd62"
+      ],
+      [
+        "c39fbad0b6ba4af0"
+      ]
+    ]
+  },
+  {
     "id": "c158a2fdf8ebd56d",
     "type": "json",
     "z": "08035fcf5428650d",
@@ -64110,6 +65493,17 @@
     "wires": []
   },
   {
+    "id": "c202da164d32f31e",
+    "type": "ui_group",
+    "name": "MPPT",
+    "tab": "deee53a800de461d",
+    "order": 8,
+    "disp": true,
+    "width": "6",
+    "collapse": false,
+    "className": ""
+  },
+  {
     "id": "c20b3745a22ba276",
     "type": "ui_toast",
     "z": "c3e6360c8bbf5f2e",
@@ -64342,6 +65736,33 @@
     "x": 1015,
     "y": 540,
     "wires": []
+  },
+  {
+    "id": "c273e7f3c082b8db",
+    "type": "change",
+    "z": "592c2bf61e20fa21",
+    "name": "",
+    "rules": [
+      {
+        "t": "set",
+        "p": "topic",
+        "pt": "msg",
+        "to": "pkw/van/speed",
+        "tot": "str"
+      }
+    ],
+    "action": "",
+    "property": "",
+    "from": "",
+    "to": "",
+    "reg": false,
+    "x": 750,
+    "y": 500,
+    "wires": [
+      [
+        "765175d26da84488"
+      ]
+    ]
   },
   {
     "id": "c2ac75af186a138a",
@@ -64820,6 +66241,19 @@
     "wires": [
       []
     ]
+  },
+  {
+    "id": "c39fbad0b6ba4af0",
+    "type": "link out",
+    "z": "27cb224f8928f1ad",
+    "name": "link out 2",
+    "mode": "link",
+    "links": [
+      "f14867fc.930ab8"
+    ],
+    "x": 935,
+    "y": 520,
+    "wires": []
   },
   {
     "id": "c3c4f964.612a28",
@@ -65363,6 +66797,31 @@
     ]
   },
   {
+    "id": "c5343dd32fb7e69d",
+    "type": "delay",
+    "z": "592c2bf61e20fa21",
+    "name": "",
+    "pauseType": "rate",
+    "timeout": "5",
+    "timeoutUnits": "seconds",
+    "rate": "1",
+    "nbRateUnits": "5",
+    "rateUnits": "minute",
+    "randomFirst": "1",
+    "randomLast": "5",
+    "randomUnits": "seconds",
+    "drop": true,
+    "allowrate": false,
+    "outputs": 1,
+    "x": 1380,
+    "y": 320,
+    "wires": [
+      [
+        "be96f9257f9187d2"
+      ]
+    ]
+  },
+  {
     "id": "c5500d038d1ac322",
     "type": "ui_gauge",
     "z": "4d1927ff20ab983a",
@@ -65411,6 +66870,25 @@
       [
         "502428775bd45b55",
         "12e4e07c05e02679"
+      ]
+    ]
+  },
+  {
+    "id": "c55964d60f1cea82",
+    "type": "function",
+    "z": "e604dd9.4dd232",
+    "name": "read Temperature",
+    "func": "msg.payload = msg.payload.AM2301.Temperature;\n\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1210,
+    "y": 120,
+    "wires": [
+      [
+        "a947df33.984df"
       ]
     ]
   },
@@ -65744,7 +67222,8 @@
       "084b703eefb74342",
       "ecb6200b0e4a0766",
       "3fe38c2d6edc0c84",
-      "0ec85dcb3608a2e8"
+      "0ec85dcb3608a2e8",
+      "06028a080df0cd62"
     ],
     "x": 1015,
     "y": 820,
@@ -65905,6 +67384,24 @@
       [],
       []
     ]
+  },
+  {
+    "id": "c6fe74085a2ed6d6",
+    "type": "mqtt out",
+    "z": "a3810c0495b637d4",
+    "name": "",
+    "topic": "pkw/tele/bms",
+    "qos": "",
+    "retain": "",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "0ddb07c65cbb68bc",
+    "x": 1730,
+    "y": 680,
+    "wires": []
   },
   {
     "id": "c7040dac22c555ec",
@@ -66311,8 +67808,10 @@
     "tls": "",
     "persist": false,
     "proxy": "",
+    "insecureHTTPParser": true,
     "authType": "",
     "senderr": false,
+    "headers": [],
     "x": 650,
     "y": 280,
     "wires": [
@@ -67384,6 +68883,25 @@
     "wires": []
   },
   {
+    "id": "cbbe6da6497665e6",
+    "type": "function",
+    "z": "a3810c0495b637d4",
+    "name": "ectiveBms.py",
+    "func": "msg.payload = \"sudo python3 pekaway/ble_py/ectiveBms.py -d FC:45:C3:BD:ED:BF\";\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 510,
+    "y": 620,
+    "wires": [
+      [
+        "32db5fd008860b18"
+      ]
+    ]
+  },
+  {
     "id": "cbc9f26d97acc9ba",
     "type": "function",
     "z": "8a3d660f.83b628",
@@ -68054,6 +69572,23 @@
     ]
   },
   {
+    "id": "cdd8277d39fe103f",
+    "type": "debug",
+    "z": "a3810c0495b637d4",
+    "name": "debug 62",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 900,
+    "y": 520,
+    "wires": []
+  },
+  {
     "id": "cdf5c953b6db4517",
     "type": "switch",
     "z": "b8917b97d5ee0c66",
@@ -68423,6 +69958,40 @@
     "y": 400,
     "wires": [
       []
+    ]
+  },
+  {
+    "id": "cec0f8bf0f70b971",
+    "type": "switch",
+    "z": "592c2bf61e20fa21",
+    "name": "",
+    "property": "payload.sentence",
+    "propertyType": "msg",
+    "rules": [
+      {
+        "t": "eq",
+        "v": "GGA",
+        "vt": "str"
+      },
+      {
+        "t": "eq",
+        "v": "VTG",
+        "vt": "str"
+      }
+    ],
+    "checkall": "true",
+    "repair": false,
+    "outputs": 2,
+    "x": 530,
+    "y": 380,
+    "wires": [
+      [
+        "b5dd2c5b953a0e0f"
+      ],
+      [
+        "c273e7f3c082b8db",
+        "88d25745ca5c6e43"
+      ]
     ]
   },
   {
@@ -69690,6 +71259,25 @@
     ]
   },
   {
+    "id": "d1e6223b7e5bc5a1",
+    "type": "function",
+    "z": "a3810c0495b637d4",
+    "name": "prepare bms stats",
+    "func": "msg = {\n    \"stats\": \"battery\",\n    \"payload\": {\n        \"BMSamps\": Math.round(msg.payload.current),\n        \"BMSmaxcap\": Math.round(msg.payload.cap * msg.payload.volt),\n        \"BMSpower\": Math.round(msg.payload.current * msg.payload.volt),\n        \"BMSsoc\": Math.round(msg.payload.soc),\n        \"BMStemp\": parseFloat(msg.payload.temp.toFixed(1)),\n        \"BMSvolt\": parseFloat(msg.payload.volt.toFixed(1)),\n    }\n}\n\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1450,
+    "y": 680,
+    "wires": [
+      [
+        "c6fe74085a2ed6d6"
+      ]
+    ]
+  },
+  {
     "id": "d1ea76e7d88830e8",
     "type": "ui_toast",
     "z": "c3e6360c8bbf5f2e",
@@ -69788,6 +71376,38 @@
     "wires": [
       [
         "87a6e9a1.831058"
+      ]
+    ]
+  },
+  {
+    "id": "d243ee65b85d70ca",
+    "type": "buffer-maker",
+    "z": "c60a5166bd6dac41",
+    "name": "",
+    "specification": "spec",
+    "specificationType": "ui",
+    "items": [
+      {
+        "name": "check",
+        "type": "string",
+        "length": 25,
+        "dataType": "msg",
+        "data": "payload"
+      }
+    ],
+    "swap1": "",
+    "swap2": "",
+    "swap3": "",
+    "swap1Type": "swap",
+    "swap2Type": "swap",
+    "swap3Type": "swap",
+    "msgProperty": "payload",
+    "msgPropertyType": "str",
+    "x": 850,
+    "y": 680,
+    "wires": [
+      [
+        "90320e2e4bf06b24"
       ]
     ]
   },
@@ -70149,7 +71769,7 @@
     "type": "function",
     "z": "e2902b7e.e22d58",
     "name": "get current state",
-    "func": "var check = global.get(\"one\");\n\nmsg.payload = check;  \nreturn msg;",
+    "func": "var check = global.get(\"one\");\n\nmsg.payload = !check;  \nreturn msg;",
     "outputs": 1,
     "noerr": 0,
     "initialize": "",
@@ -74406,6 +76026,35 @@
     ]
   },
   {
+    "id": "e04d1a51779ff1cd",
+    "type": "inject",
+    "z": "8a3d660f.83b628",
+    "name": "",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": "0.1",
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 960,
+    "y": 1080,
+    "wires": [
+      [
+        "49b1f6147a376e0c"
+      ]
+    ]
+  },
+  {
     "id": "e075d7b422b496e1",
     "type": "function",
     "z": "f75bc952.6d3f78",
@@ -75029,6 +76678,19 @@
     "x": 2255,
     "y": 1520,
     "wires": []
+  },
+  {
+    "id": "e1cd326233f0d93e",
+    "type": "zigbee2mqtt-server",
+    "name": "localhost",
+    "host": "localhost",
+    "mqtt_port": "1883",
+    "mqtt_username": "",
+    "mqtt_password": "",
+    "mqtt_qos": "0",
+    "tls": "4230868a2749a2ba",
+    "usetls": false,
+    "base_topic": "zigbee2mqtt"
   },
   {
     "id": "e1d241a12e7cde2c",
@@ -75932,6 +77594,33 @@
         "dd0f73883adf319e"
       ]
     ]
+  },
+  {
+    "id": "e49d0ba6d6f9273d",
+    "type": "ui_gauge",
+    "z": "a3810c0495b637d4",
+    "name": "",
+    "group": "c202da164d32f31e",
+    "order": 1,
+    "width": "3",
+    "height": "3",
+    "gtype": "gage",
+    "title": "Solar Power",
+    "label": "W",
+    "format": "{{value}}",
+    "min": "0",
+    "max": "380",
+    "colors": [
+      "#e26f03",
+      "#e6e600",
+      "#14c838"
+    ],
+    "seg1": "50",
+    "seg2": "200",
+    "className": "",
+    "x": 890,
+    "y": 940,
+    "wires": []
   },
   {
     "id": "e4a287bfd075cc14",
@@ -77814,7 +79503,8 @@
       "35979598d2e22ffe",
       "f723e65523ef02ca",
       "3fe38c2d6edc0c84",
-      "0ec85dcb3608a2e8"
+      "0ec85dcb3608a2e8",
+      "ecccdbb221227c12"
     ],
     "x": 1015,
     "y": 660,
@@ -78679,6 +80369,19 @@
         "e3462dff3946238f"
       ]
     ]
+  },
+  {
+    "id": "ecccdbb221227c12",
+    "type": "link out",
+    "z": "27cb224f8928f1ad",
+    "name": "switch1",
+    "mode": "link",
+    "links": [
+      "e9ffa3ef.cde5d"
+    ],
+    "x": 935,
+    "y": 400,
+    "wires": []
   },
   {
     "id": "eccdad8e637d837a",
@@ -80193,7 +81896,8 @@
       "7b35692bbcc1d3a1",
       "9382dcd5bc8523ac",
       "3fe38c2d6edc0c84",
-      "0ec85dcb3608a2e8"
+      "0ec85dcb3608a2e8",
+      "c39fbad0b6ba4af0"
     ],
     "x": 1015,
     "y": 920,
@@ -80630,6 +82334,25 @@
     "wires": [
       [
         "597e67cf75901f91"
+      ]
+    ]
+  },
+  {
+    "id": "f2a4391cb71e98d3",
+    "type": "function",
+    "z": "27cb224f8928f1ad",
+    "name": "increase",
+    "func": "msg.label = global.get(\"Ndimmer0\");\n\nlet action = msg.payload.action.split(\"_\");\nlet speed = action.pop();\nlet direction = action.pop();\nlet current = global.get(\"dimmer0\");\n\nlet increment = speed === 'step' ? 1 : speed === 'slow' ?\n    5 : speed === 'fast' ? 20 : 0;\nincrement = direction === 'right' ? increment : -1 * increment;\nmsg.payload = current + increment\nmsg.payload = msg.payload > 100 ? 100 : msg.payload;\nmsg.payload = msg.payload < 0 ? 0 : msg.payload;\nreturn msg",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 620,
+    "y": 340,
+    "wires": [
+      [
+        "a9dc4aac626887a8"
       ]
     ]
   },
@@ -81833,6 +83556,22 @@
     "wires": [
       [
         "47e250fc.aff328"
+      ]
+    ]
+  },
+  {
+    "id": "f6388c23e3c1a409",
+    "type": "json",
+    "z": "e604dd9.4dd232",
+    "name": "",
+    "property": "payload",
+    "action": "",
+    "pretty": false,
+    "x": 410,
+    "y": 600,
+    "wires": [
+      [
+        "0f01840943b5d852"
       ]
     ]
   },
@@ -84108,6 +85847,39 @@
     ]
   },
   {
+    "id": "fcbea06a3c290007",
+    "type": "switch",
+    "z": "592c2bf61e20fa21",
+    "name": "more regular when driving",
+    "property": "kmph",
+    "propertyType": "flow",
+    "rules": [
+      {
+        "t": "eq",
+        "v": "0",
+        "vt": "str"
+      },
+      {
+        "t": "gt",
+        "v": "0",
+        "vt": "str"
+      }
+    ],
+    "checkall": "true",
+    "repair": false,
+    "outputs": 2,
+    "x": 1050,
+    "y": 320,
+    "wires": [
+      [
+        "c5343dd32fb7e69d"
+      ],
+      [
+        "be96f9257f9187d2"
+      ]
+    ]
+  },
+  {
     "id": "fcbece4c1acc03cd",
     "type": "function",
     "z": "67973ee8.553c3",
@@ -84605,6 +86377,34 @@
     "order": 5,
     "disabled": false,
     "hidden": false
+  },
+  {
+    "id": "fe2bcba7f6821a65",
+    "type": "join",
+    "z": "66e7f53c2a5440e2",
+    "name": "",
+    "mode": "custom",
+    "build": "array",
+    "property": "payload",
+    "propertyType": "msg",
+    "key": "topic",
+    "joiner": "\\n",
+    "joinerType": "str",
+    "accumulate": false,
+    "timeout": "3",
+    "count": "",
+    "reduceRight": false,
+    "reduceExp": "",
+    "reduceInit": "",
+    "reduceInitType": "",
+    "reduceFixup": "",
+    "x": 350,
+    "y": 80,
+    "wires": [
+      [
+        "203768e8b38de5f0"
+      ]
+    ]
   },
   {
     "id": "fe47d4ebd7e98b33",
